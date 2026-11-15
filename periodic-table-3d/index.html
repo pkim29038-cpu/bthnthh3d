@@ -25,10 +25,12 @@
 
     <section class="atlas-board-section" aria-label="Bảng tuần hoàn tương tác">
       <div class="atlas-board__heading">
-        <div><span class="atlas-eyebrow">01 / BẢNG TUẦN HOÀN</span><h2>Bảng tuần hoàn 118 nguyên tố</h2><p>Giữ chuột và kéo để xoay bảng; lăn chuột để phóng to. Nhấn vào bất kỳ ô nào để xem hồ sơ.</p></div>
+        <div><span class="atlas-eyebrow">01 / BẢNG TUẦN HOÀN</span><h2>Bảng tuần hoàn 118 nguyên tố</h2><p>Kéo để xoay bảng, cuộn hoặc bấm ＋/－ để phóng to và đọc rõ từng ô. Bấm vào nguyên tố để mở hồ sơ.</p></div>
         <div class="atlas-view-switch" role="group" aria-label="Chế độ bảng tuần hoàn">
           <button type="button" data-table-mode="3d" class="is-selected">Khối 3D</button>
           <button type="button" data-table-mode="2d">Mặt phẳng</button>
+          <button type="button" id="zoom-in" aria-label="Phóng to bảng tuần hoàn 3D" title="Phóng to bảng">＋</button>
+          <button type="button" id="zoom-out" aria-label="Thu nhỏ bảng tuần hoàn 3D" title="Thu nhỏ bảng">－</button>
           <button type="button" id="reset-table" aria-label="Đặt lại góc nhìn" title="Đặt lại góc nhìn">↺</button>
         </div>
       </div>
@@ -42,7 +44,7 @@
         <div id="table-webgl" class="atlas-viewport__canvas" role="img" aria-label="Mô hình bảng tuần hoàn hình hộp có thể kéo xoay. Nhấn nguyên tố để mở hồ sơ."></div>
         <div id="table-flat" class="atlas-viewport__flat" hidden></div>
         <div class="atlas-viewport__corner"><span class="status-dot"></span> <span id="viewport-status">MÔ HÌNH 3D / ĐANG HOẠT ĐỘNG</span></div>
-        <div class="atlas-viewport__hint" id="viewport-hint">KÉO XOAY · LĂN ĐỂ ZOOM · BẤM ĐỂ KHÁM PHÁ</div>
+        <div class="atlas-viewport__hint" id="viewport-hint">KÉO XOAY · ＋/－ PHÓNG TO · CHUỘT PHẢI ĐỂ DI CHUYỂN</div>
         <div id="element-tooltip" class="atlas-tooltip" hidden></div>
       </div>
       <div class="atlas-board__foot">

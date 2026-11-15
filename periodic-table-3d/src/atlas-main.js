@@ -19,13 +19,15 @@ let mode = '3d';
 let viewer = null;
 let query = '';
 let selectedState = 'all';
+let selectedCategory = 'all';
 const flat = $('#table-flat');
 const stage = $('#table-webgl');
 const tooltip = $('#element-tooltip');
 const counter = $('#result-count');
 
 const makeLink = (el) => locationFor(el);
-const matches = el => (selectedState === 'all' || factsFor(el).state === selectedState) &&
+const matches = el => (selectedCategory === 'all' || el.category === selectedCategory) &&
+  (selectedState === 'all' || factsFor(el).state === selectedState) &&
   (!query || [el.symbol, el.name, String(el.number)].some(t=>t.toLocaleLowerCase('vi').includes(query)));
 
 function placeFlat() {
@@ -67,8 +69,19 @@ const stateFilter = $('#state-filter');
 const familyCards=$('#atlas-family-cards');
 familyCards.innerHTML=Object.entries(categoryInfo).map(([key,meta])=>{
   const count=elements.filter(el=>el.category===key).length;
-  return '<article class="family-color-card" style="--family:'+PALETTE[key]+'" title="'+meta.description+'"><i class="family-color-card__swatch" aria-hidden="true"></i><div><strong>'+meta.name+'</strong><span>'+count+' nguyên tố</span></div></article>';
+  return '<button type="button" class="family-color-card" data-category="'+key+'" aria-pressed="false" style="--family:'+PALETTE[key]+'" title="Lọc '+meta.name+' — bấm lại để xem tất cả"><i class="family-color-card__swatch" aria-hidden="true"></i><div><strong>'+meta.name+'</strong><span>'+count+' nguyên tố</span></div></button>';
 }).join('');
+familyCards.addEventListener('click',(event)=>{
+  const button=event.target.closest('button[data-category]');
+  if(!button)return;
+  selectedCategory=selectedCategory===button.dataset.category?'all':button.dataset.category;
+  familyCards.querySelectorAll('button[data-category]').forEach(b=>{
+    const active=b.dataset.category===selectedCategory;
+    b.classList.toggle('is-active',active);
+    b.setAttribute('aria-pressed',String(active));
+  });
+  filter();
+});
 function filter() {
   let count=0, first=null;
   for(const el of elements) {
@@ -98,12 +111,19 @@ function setMode(next) {
   mode=next;
   for(const b of document.querySelectorAll('[data-table-mode]')){b.classList.toggle('is-selected',b.dataset.tableMode===next);b.setAttribute('aria-pressed',String(b.dataset.tableMode===next));}
   flat.hidden=next!=='2d';stage.hidden=next!=='3d';
+  flat.inert=next!=='2d';stage.inert=next!=='3d';
+  document.querySelector('#atlas-viewport').classList.toggle('is-flat',next==='2d');
+  tooltip.hidden=true;
   $('#reset-table').hidden=next!=='3d';
+  $('#zoom-in').hidden=next!=='3d';
+  $('#zoom-out').hidden=next!=='3d';
   $('#viewport-status').textContent=next==='3d'?'MÔ HÌNH KHỐI / CÓ THỂ XOAY':'MẶT PHẲNG / DỄ ĐỌC';
   $('#viewport-hint').textContent=next==='3d'?'KÉO XOAY · LĂN ĐỂ ZOOM · BẤM ĐỂ KHÁM PHÁ':'CUỘN NGANG ĐỂ XEM ĐỦ 18 NHÓM';
   if(next==='3d'){viewer?.resize();viewer?.renderOnce();}
 }
 $('#reset-table').addEventListener('click',()=>viewer?.reset());
+$('#zoom-in').addEventListener('click',()=>viewer?.zoomBy(.72));
+$('#zoom-out').addEventListener('click',()=>viewer?.zoomBy(1.38));
 
 function tint(hex,amount,target) {
   const c=new THREE.Color(hex),t=new THREE.Color(target);
@@ -133,9 +153,9 @@ function faceTexture(el, light = false) {
   ctx.fillStyle=secondary;ctx.font='bold 49px Arial, sans-serif';
   ctx.fillText(String(el.number).padStart(3,'0'),35,91);
   ctx.fillStyle=ink;
-  ctx.font='900 211px Arial, sans-serif';
+  ctx.font='900 246px Arial, sans-serif';
   ctx.fillText(el.symbol,30,329);
-  ctx.fillStyle=secondary;ctx.font='bold 39px Arial, sans-serif';
+  ctx.fillStyle=secondary;ctx.font='bold 43px Arial, sans-serif';
   const name=el.name.length>15?el.name.slice(0,14)+'…':el.name;
   ctx.fillText(name,36,408);
   ctx.lineWidth=2;ctx.strokeStyle=family;ctx.beginPath();ctx.moveTo(36,443);ctx.lineTo(475,443);ctx.stroke();
@@ -169,7 +189,7 @@ class PeriodicSculpture {
     container.appendChild(this.renderer.domElement);
     this.controls=new OrbitControls(this.camera,this.renderer.domElement);
     this.controls.enableDamping=true;this.controls.dampingFactor=.075;
-    this.controls.enablePan=false;this.controls.minDistance=16;this.controls.maxDistance=55;
+    this.controls.enablePan=true;this.controls.minDistance=6;this.controls.maxDistance=65;
     this.controls.autoRotate=false;
     this.group=new THREE.Group();this.scene.add(this.group);
     this.scene.add(new THREE.AmbientLight(0xffffff,2.2));
@@ -202,6 +222,13 @@ class PeriodicSculpture {
     this.controls.update();
     this.group.rotation.set(-.065,.035,0);
   }
+  zoomBy(factor){
+    const focus=this.controls.target;
+    const direction=this.camera.position.clone().sub(focus);
+    const distance=THREE.MathUtils.clamp(direction.length()*factor,this.controls.minDistance,this.controls.maxDistance);
+    this.camera.position.copy(focus).add(direction.normalize().multiplyScalar(distance));
+    this.controls.update();this.renderOnce();
+  }
   setPointer(event){
     const rect=this.renderer.domElement.getBoundingClientRect();
     this.pointer.x=((event.clientX-rect.left)/rect.width)*2-1;
@@ -215,7 +242,15 @@ class PeriodicSculpture {
     const el=hits.find(h=>h.object.userData.el)?.object.userData.el;
     if(el){
       tooltip.hidden=false;
-      tooltip.textContent=el.symbol+' · '+el.name+'  /  Z '+el.number;
+      if(this.hovered!==el.number){
+        tooltip.replaceChildren();
+        const symbol=document.createElement('strong');symbol.textContent=el.symbol;
+        const info=document.createElement('span');
+        const name=document.createElement('b');name.textContent=el.name;
+        const mass=document.createElement('small');
+        mass.textContent='Z '+el.number+' · '+(atomicMass[el.symbol]||'—')+' u';
+        info.append(name,mass);tooltip.append(symbol,info);
+      }
       const rect=this.container.getBoundingClientRect();
       tooltip.style.left=Math.max(8,Math.min(event.clientX-rect.left+14,rect.width-230))+'px';
       tooltip.style.top=Math.max(8,event.clientY-rect.top-31)+'px';
@@ -289,7 +324,7 @@ class PeriodicSculpture {
     this.renderer.setSize(rect.width,rect.height,false);
     this.camera.aspect=rect.width/rect.height;this.camera.updateProjectionMatrix();
     const required=Math.max(12.9/(2*Math.tan(Math.PI*39/360)),20.8/(this.camera.aspect*2*Math.tan(Math.PI*39/360)));
-    this.controls.minDistance=Math.max(16,required*.92);
+    this.controls.minDistance=6;
     this.controls.maxDistance=Math.max(45,required*2.4);
     if(this.camera.position.length()<required*1.12)this.camera.position.set(1.4,2.2,required*1.16);
     this.controls.update();

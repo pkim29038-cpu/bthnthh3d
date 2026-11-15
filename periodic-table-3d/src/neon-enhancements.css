@@ -297,3 +297,148 @@
 @media(max-width:690px){
   .collection-research__grid{grid-template-columns:1fr}
 }
+
+
+/* ===================== V3.1: LEGIBILITY / WORKING CONTROLS ===================== */
+/* One display mode at a time: author display rules can otherwise beat [hidden]. */
+[hidden], .atlas-viewport__flat[hidden], .atlas-viewport__canvas[hidden],
+.atlas-view-switch button[hidden], .atlas-tooltip[hidden] {display:none!important}
+:root, body, button, input, select {
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+}
+.atlas-hero h1{
+  font-family:"Be Vietnam Pro",system-ui,sans-serif;
+  font-size:clamp(40px,5.05vw,79px);
+  font-weight:900;
+  letter-spacing:-.034em;
+  line-height:1.23;
+  margin:14px 0 18px;
+  padding:0.12em 0 0.08em;
+  overflow:visible;
+}
+.atlas-hero h1 em{
+  display:inline-block;
+  line-height:1.25;
+  padding:0.05em 0.06em 0.08em 0;
+  letter-spacing:-.033em;
+  overflow:visible;
+  font-weight:900;
+}
+.atlas-board__heading h2 {
+  font-family:"Be Vietnam Pro",system-ui,sans-serif;
+  font-size:clamp(27px,3vw,41px);
+  line-height:1.29;
+  letter-spacing:-.035em;
+  padding:0.08em 0 0.1em;
+  font-weight:850;
+}
+.element-headline h1,.collection-intro h1,.chapter-intro h2{
+  font-family:"Be Vietnam Pro",system-ui,sans-serif;
+  line-height:1.3;
+  letter-spacing:-.035em;
+  padding-block:0.08em;
+}
+/* Category chips are actual filtering buttons; visible focus and selected state. */
+.family-color-card{
+  font:inherit;
+  text-align:left;
+  color:var(--ink);
+  cursor:pointer;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.family-color-card.is-active,.family-color-card[aria-pressed="true"]{
+  border:2px solid var(--family);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--family) 22%,transparent),
+             0 8px 27px color-mix(in srgb,var(--family) 27%,transparent);
+  background:linear-gradient(125deg,color-mix(in srgb,var(--family) 38%,var(--surface)),var(--surface) 88%);
+}
+.family-color-card:focus-visible{
+  outline:3px solid var(--family);outline-offset:3px;
+}
+/* 2D should be compact and readable, without stretching each cell to fill the row. */
+.atlas-flat-grid {
+  width:max-content;
+  min-width:0;
+  grid-template-columns:27px repeat(18,48px);
+  grid-template-rows:23px repeat(7,54px) 20px repeat(2,54px);
+  gap:4px;
+}
+.atlas-flat-tile{
+  border-radius:6px;
+  padding:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.atlas-flat-tile strong{
+  font-size:19px;line-height:1.06;letter-spacing:-.03em;
+  margin-top:1px;
+}
+.atlas-flat-atomic{font-size:9px}
+.atlas-flat-tile small{font-size:7px}
+.atlas-flat-mass{font-size:7px}
+.atlas-viewport__flat{
+  padding:49px max(14px,calc((100% - 973px)/2)) 16px;
+}
+.atlas-viewport.is-flat{height:660px;min-height:0}
+/* 3D gets extra vertical room, permitting a tighter zoom with all f rows present. */
+.atlas-viewport:not(.is-flat){height:clamp(600px,67vw,850px)}
+.atlas-view-switch button[id^="zoom-"]{
+  min-width:43px;padding:8px 13px;
+  font-size:19px;font-weight:800;color:var(--ink);
+  border-left:1px solid var(--line);
+}
+.atlas-view-switch button[id^="zoom-"]:hover {
+  color:var(--cyan);
+  background:rgba(73,161,255,.18);
+}
+.atlas-view-switch #reset-table{
+  font-size:22px;
+  min-width:43px;
+  color:var(--ink);
+}
+/* Enlarged hover detail for 3D tiles: text is readable even when zoomed out. */
+.atlas-tooltip{
+  min-width:220px;
+  max-width:285px;
+  display:flex;
+  gap:13px;align-items:center;
+  padding:12px 15px;
+  background:linear-gradient(135deg,rgba(23,39,75,.98),rgba(14,23,49,.99));
+  border:1px solid #65dbff;
+  border-radius:13px;
+  color:#fff;
+  box-shadow:0 16px 36px rgba(0,0,18,.50),0 0 24px rgba(80,205,255,.21);
+}
+.atlas-tooltip strong{
+  font-family:"Be Vietnam Pro",system-ui,sans-serif;
+  font-size:34px;font-weight:900;line-height:1.05;
+  color:#8ff0ff;
+  letter-spacing:-.055em;
+}
+.atlas-tooltip span{display:flex;flex-direction:column;gap:6px;min-width:0}
+.atlas-tooltip b{font:800 13px "Be Vietnam Pro",sans-serif;white-space:nowrap;color:#fff}
+.atlas-tooltip small{font:500 10px "DM Mono",monospace;color:#c0dbff;white-space:nowrap}
+:root[data-theme="light"] .atlas-tooltip{
+  background:linear-gradient(135deg,#fff,#e9f3ff);
+  color:#122748;box-shadow:0 14px 32px rgba(45,83,148,.25);
+}
+:root[data-theme="light"] .atlas-tooltip b{color:#14274b}
+:root[data-theme="light"] .atlas-tooltip small{color:#38517c}
+:root[data-theme="light"] .atlas-tooltip strong{color:#087dbe}
+@media(max-width:850px){
+  .atlas-flat-grid{
+    grid-template-columns:25px repeat(18,45px);
+    grid-template-rows:21px repeat(7,52px) 18px repeat(2,52px);
+    gap:3px;
+  }
+  .atlas-viewport:not(.is-flat){height:620px}
+  .atlas-viewport.is-flat{height:625px}
+}
+@media(max-width:630px){
+  .atlas-hero h1{font-size:clamp(34px,8.1vw,53px);line-height:1.24}
+  .atlas-hero h1 em{line-height:1.27}
+  .atlas-viewport:not(.is-flat){height:560px;min-height:0}
+  .atlas-viewport.is-flat{height:600px;min-height:0}
+  .atlas-viewport__flat{padding:56px 14px 18px}
+  .atlas-view-switch button[id^="zoom-"]{min-width:35px;padding:7px 8px}
+}

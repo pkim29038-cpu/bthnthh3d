@@ -30,6 +30,7 @@ export class MoleCube {
     this.element=element;
     this.amount=1;
     this.isPlaying=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.spinPhase=0;
     this.scene=new THREE.Scene();
     this.camera=new THREE.PerspectiveCamera(42,1,.1,100);
     this.camera.position.set(5,3.6,8.9);
@@ -90,9 +91,24 @@ export class MoleCube {
       new THREE.LineBasicMaterial({color:0x9d71ff,transparent:true,opacity:.28})
     );this.root.add(outline);
     const texture=this._labelTexture();
-    const mat=new THREE.MeshBasicMaterial({map:texture,transparent:true,opacity:.95,side:THREE.DoubleSide,toneMapped:false,depthWrite:false});
-    const front=new THREE.Mesh(new THREE.PlaneGeometry(2.92,2.92),mat);
-    front.position.z=1.555;this.root.add(front);
+    // Four readable upright labels: the visible face is always front-facing.
+    // FrontSide avoids the backwards text previously visible through the glass.
+    const mat=new THREE.MeshBasicMaterial({
+      map:texture,transparent:true,opacity:.98,side:THREE.FrontSide,
+      toneMapped:false,depthWrite:false,depthTest:true
+    });
+    const faces=[
+      [0,0,1.564,0],
+      [1.564,0,0,Math.PI/2],
+      [0,0,-1.564,Math.PI],
+      [-1.564,0,0,-Math.PI/2]
+    ];
+    for(const [x,y,z,yaw] of faces){
+      const surface=new THREE.Mesh(new THREE.PlaneGeometry(2.88,2.88),mat);
+      surface.position.set(x,y,z);
+      surface.rotation.y=yaw;
+      this.root.add(surface);
+    }
     // Tiny symbolic particles suspended in the virtual sample.
     const count=96,g=new THREE.SphereGeometry(.035,8,7);
     const m=new THREE.MeshBasicMaterial({color:0x88f4ff,transparent:true,opacity:.68});
@@ -123,7 +139,11 @@ export class MoleCube {
     requestAnimationFrame(()=>this.frame());
     if(document.hidden)return;
     const dt=Math.min(.045,this.clock.getDelta());
-    if(this.isPlaying){this.root.rotation.x+=dt*.23;this.root.rotation.y+=dt*.65;}
+    // Horizontal half-turn sweep (180° total), never a 360° tumble or an upside-down title.
+    if(this.isPlaying)this.spinPhase+=dt*.65;
+    this.root.rotation.x=0;
+    this.root.rotation.z=0;
+    this.root.rotation.y=.5+Math.sin(this.spinPhase)*Math.PI/2;
     this.controls.update();this.renderer.render(this.scene,this.camera);
   }
 }
