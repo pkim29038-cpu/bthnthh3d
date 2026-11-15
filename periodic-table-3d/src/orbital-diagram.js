@@ -1,6 +1,6 @@
 import {electronOrbitals, electronConfig} from './chemistry.js';
 
-const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;':'&quot;'}[c]));
+const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 export function boxesFor(orbital,count){
   const type=orbital.slice(1),capacity=type==='s'?1:type==='p'?3:type==='d'?5:7;
   const boxes=Array.from({length:capacity},()=>[]);
