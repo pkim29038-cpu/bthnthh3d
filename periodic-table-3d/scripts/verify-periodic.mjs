@@ -83,7 +83,7 @@ assert.ok(elementHTML.includes('id="mol-compare-element"'),'Mole comparison sele
 assert.ok(elementHTML.includes('id="element-knowledge"'),'Science expansion panels missing');
 assert.ok(file('src/electron-viz.js').includes('this.spinners.push'),'Electron paths must rotate independently');
 assert.ok(file('src/electron-viz.js').includes('spinner.group.rotation.z'),'Electron movement animation missing');
-assert.ok(file('src/mole-lab.js').includes('this.root.rotation.y+=dt'),'Mole cube must animate');
+assert.ok(file('src/mole-lab.js').includes('this.spinPhase+=dt') && file('src/mole-lab.js').includes('Math.sin(this.spinPhase)'), 'Mole cube must animate in a bounded horizontal half-turn');
 for (const js of ['atlas-main.js','element-atlas.js','collection-atlas.js']){
   const source=file('src/'+js);
   assert.ok(source.includes("import './neon-theme.css'"),js+' lacks neon theme');
