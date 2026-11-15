@@ -21,7 +21,7 @@ const mark=(text='N°')=>'<span class="explorer-mark">'+esc(text)+'</span>';
 const a=(href,text,cl='')=>'<a class="'+cl+'" href="'+href+'">'+text+'</a>';
 const shellBadges=e=>electronShells(e).map((v,i)=>'<span class="shell-count"><i>'+['K','L','M','N','O','P','Q'][i]+'</i><b>'+v+'</b></span>').join('');
 const detailCard=(e,i=0)=>{const cat=categoryInfo[e.category];return '<a class="roster-card" href="'+locationFor(e)+'" style="--atom-accent:'+cat.color+';animation-delay:'+Math.min(i*28,350)+'ms"><span class="roster-top"><b>'+String(e.number).padStart(3,'0')+'</b><span>↗</span></span><strong>'+e.symbol+'</strong><span class="roster-name">'+esc(e.name)+'</span><span class="roster-bottom">'+esc(atomicMass[e.symbol]||'—')+' u <i>·</i> '+esc(cat.name)+'</span></a>';};
-const header=()=>renderSiteNav(page==='element'?'table':page, {
+const header=()=>renderSiteNav(page, {
   group:page==='group'?groupNumber:element.group,
   period:page==='period'?periodNumber:element.period
 });
