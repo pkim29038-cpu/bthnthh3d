@@ -152,16 +152,16 @@ function faceTexture(el, light = false) {
   // High-contrast typography that is readable at an angle.
   const ink=light?'#101e3a':'#ffffff';
   const secondary=light?'#26476b':'#dbe8ff';
-  ctx.fillStyle=secondary;ctx.font='bold 49px Arial, sans-serif';
+  ctx.fillStyle=secondary;ctx.font='800 49px "Be Vietnam Pro", Arial, sans-serif';
   ctx.fillText(String(el.number).padStart(3,'0'),35,91);
   ctx.fillStyle=ink;
-  ctx.font='900 246px Arial, sans-serif';
+  ctx.font='900 242px "Be Vietnam Pro", Arial, sans-serif';
   ctx.fillText(el.symbol,30,329);
-  ctx.fillStyle=secondary;ctx.font='bold 43px Arial, sans-serif';
-  const name=el.name.length>15?el.name.slice(0,14)+'…':el.name;
-  ctx.fillText(name,36,408);
+  ctx.fillStyle=secondary;ctx.font='700 39px "Be Vietnam Pro", Arial, sans-serif';
+  const name=el.name;
+  ctx.fillText(name,36,408,448);
   ctx.lineWidth=2;ctx.strokeStyle=family;ctx.beginPath();ctx.moveTo(36,443);ctx.lineTo(475,443);ctx.stroke();
-  ctx.fillStyle=secondary;ctx.font='bold 31px ui-monospace,monospace';
+  ctx.fillStyle=secondary;ctx.font='700 31px "Be Vietnam Pro", Arial, sans-serif';
   ctx.fillText(String(atomicMass[el.symbol]||'—')+' u',36,498);
   const tex=new THREE.CanvasTexture(canvas);
   tex.colorSpace=THREE.SRGBColorSpace;
@@ -174,7 +174,7 @@ function axisTexture(value,light=true){
   const c=document.createElement('canvas');c.width=136;c.height=136;
   const ctx=c.getContext('2d');
   ctx.clearRect(0,0,136,136);
-  ctx.fillStyle=light?'#123761':'#dfeaff';ctx.font='bold 57px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle=light?'#123761':'#dfeaff';ctx.font='800 57px "Be Vietnam Pro", Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText(String(value),68,68);
   const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;return texture;
 }
@@ -359,3 +359,5 @@ filter();
 initMotion();
 
 initQuiz();
+
+if(document.fonts?.load){document.fonts.load('700 16px "Be Vietnam Pro"').then(()=>viewer?.build()).catch(()=>{});}
