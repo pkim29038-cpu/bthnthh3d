@@ -6,6 +6,7 @@ import {initMotion} from './motion.js';
 import './atlas.css';
 import './atlas-collection.css';
 import './neon-theme.css';
+import './neon-enhancements.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const group=document.body.dataset.page==='group';
