@@ -3,6 +3,7 @@ import {atomicMass,categoryInfo,groupNames,periodNotes,groupElements,periodEleme
 import {renderSiteNav} from './site-nav.js';
 import {initTheme} from './theme.js';
 import {initMotion} from './motion.js';
+import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './atlas-collection.css';
 import './neon-theme.css';
@@ -55,3 +56,5 @@ $('#collection-select').addEventListener('change',e=>{location.href='./'+(group?
 document.title=title+' — Atlas Nguyên Tố';
 
 initMotion();
+
+initQuiz();
