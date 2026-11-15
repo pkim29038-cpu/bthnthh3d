@@ -5,6 +5,7 @@ import { atomicMass, categoryInfo } from './chemistry.js';
 import { renderSiteNav } from './site-nav.js';
 import './style.css';
 import './site-nav.css';
+import './site-table.css';
 
 document.querySelector('#site-header').outerHTML = renderSiteNav('table');
 
