@@ -5,6 +5,8 @@ import {groupElements,periodElements,atomicMass,electronShells} from '../src/che
 import {renderSiteNav} from '../src/site-nav.js';
 import {boxesFor,validateOrbitalCount,drawOrbitalDiagram,electronDisplay} from '../src/orbital-diagram.js';
 import {materialInfo} from '../src/material-viz.js';
+import {AVOGADRO,molarWeight,massFromMoles,countParticles,sampleVolume,scientificCount} from '../src/mole-lab.js';
+import {categoryInfo,factsFor} from '../src/chemistry.js';
 const file=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 
 assert.equal(elements.length,118);
@@ -55,4 +57,39 @@ assert.ok(file('src/atlas-main.js').includes('new OrbitControls'),'3D table must
 assert.ok(file('element.html').includes('id="orbital-diagram"'));
 assert.ok(file('element.html').includes('id="atlas-material"'));
 assert.ok(file('src/theme.js').includes('localStorage'));
+
+assert.equal(Object.keys(categoryInfo).length,9,'Must visibly explain all 9 element families');
+assert.equal(AVOGADRO,6.02214076e23);
+const nickel=elements.find(e=>e.symbol==='Ni'),copper=elements.find(e=>e.symbol==='Cu');
+assert.equal(molarWeight(nickel),58.693);
+assert.equal(molarWeight(copper),63.546);
+assert.equal(massFromMoles(nickel,2),117.386);
+assert.equal(countParticles(1),AVOGADRO);
+assert.ok(Math.abs(sampleVolume(nickel,1)-(58.693/8.908))<1e-10);
+assert.ok(scientificCount(AVOGADRO).includes('10²³'));
+assert.equal(factsFor(elements.find(e=>e.symbol==='Hg')).state,'Lỏng');
+assert.equal(factsFor(elements.find(e=>e.symbol==='Br')).state,'Lỏng');
+assert.equal(factsFor(elements.find(e=>e.symbol==='He')).state,'Khí');
+assert.equal(factsFor(elements.find(e=>e.symbol==='Fe')).state,'Rắn');
+const indexHTML=file('index.html'),elementHTML=file('element.html');
+assert.ok(indexHTML.includes('id="atlas-family-cards"'),'Category cards must be visible and permanent');
+assert.ok(indexHTML.includes('id="state-filter"'),'State filter dropdown missing');
+assert.ok(!indexHTML.includes('id="category-filter"'),'Category filtering must not be a dropdown');
+assert.ok(file('src/atlas-main.js').includes('categoryInfo).map'),'3D families must share the category colors');
+assert.ok(file('src/atlas-main.js').includes('canvas.width=512'),'3D labels must be sharp');
+assert.ok(elementHTML.includes('id="mol-canvas"'),'Mole 3D cube is missing');
+assert.ok(elementHTML.includes('id="electron-play"'),'Electron motion playback control missing');
+assert.ok(elementHTML.includes('id="mol-compare-element"'),'Mole comparison selector missing');
+assert.ok(elementHTML.includes('id="element-knowledge"'),'Science expansion panels missing');
+assert.ok(file('src/electron-viz.js').includes('this.spinners.push'),'Electron paths must rotate independently');
+assert.ok(file('src/electron-viz.js').includes('spinner.group.rotation.z'),'Electron movement animation missing');
+assert.ok(file('src/mole-lab.js').includes('this.root.rotation.y+=dt'),'Mole cube must animate');
+for (const js of ['atlas-main.js','element-atlas.js','collection-atlas.js']){
+  const source=file('src/'+js);
+  assert.ok(source.includes("import './neon-theme.css'"),js+' lacks neon theme');
+  assert.ok(source.includes("import './neon-enhancements.css'"),js+' lacks enhanced neon theme');
+  assert.ok(source.includes('initMotion()'),js+' lacks motion director');
+}
+assert.ok(file('src/neon-theme.css').includes('prefers-reduced-motion'),'Reduced-motion alternative missing');
+
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
