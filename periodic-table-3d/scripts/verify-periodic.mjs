@@ -5,6 +5,8 @@ import {groupElements,periodElements,atomicMass,electronShells} from '../src/che
 import {renderSiteNav} from '../src/site-nav.js';
 import {boxesFor,validateOrbitalCount,drawOrbitalDiagram,electronDisplay} from '../src/orbital-diagram.js';
 import {materialInfo} from '../src/material-viz.js';
+import {generateQuizQuestion} from '../src/quiz.js';
+import {orbitalOptions,orbitalPoint} from '../src/orbital-cloud.js';
 import {AVOGADRO,molarWeight,massFromMoles,countParticles,sampleVolume,scientificCount} from '../src/mole-lab.js';
 import {categoryInfo,factsFor} from '../src/chemistry.js';
 const file=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
@@ -103,4 +105,35 @@ assert.ok(file('src/neon-enhancements.css').includes('repeat(18,48px)'),'2D tabl
 assert.ok(file('src/atlas.css').includes('Be Vietnam Pro'),'Vietnamese headline fonts must be bundled via stylesheet');
 assert.ok(file('src/mole-lab.js').includes('Math.sin(this.spinPhase)*Math.PI/2'),'Mole model must swing horizontally instead of spinning upside down');
 assert.ok(file('src/mole-lab.js').includes('side:THREE.FrontSide'),'3D mole labels must not display backwards');
+
+const allSitePages=['index','element','group','period'];
+for(const page of allSitePages){
+  const html=file(page+'.html');
+  assert.ok(html.includes("localStorage.getItem('atomic-atlas-theme')"),page+' should apply saved theme BEFORE module JS');
+}
+assert.ok(file('src/site-nav.js').includes('data-quiz-open'),'Header quiz launch is missing');
+for(const entry of ['atlas-main.js','element-atlas.js','collection-atlas.js']){
+  assert.ok(file('src/'+entry).includes('initQuiz()'),entry+' should activate quiz');
+  assert.ok(file('src/'+entry).includes("import './final-polish.css'"),entry+' should load final responsive layout');
+}
+for(let i=0;i<80;i++){
+  const q=generateQuizQuestion();
+  assert.ok(q.options.length===4,'Quiz should offer four choices');
+  assert.ok(new Set(q.options).size===4,'Quiz choices must be distinct');
+  assert.ok(q.options.includes(q.answer),'Quiz must have a correct answer');
+  assert.ok(q.prompt.length>8&&q.explanation.length>12);
+}
+assert.ok(orbitalOptions(elements.find(e=>e.symbol==='Li')).length>=2);
+assert.equal(orbitalPoint('s',()=>.5,0).length,3);
+assert.ok(file('element.html').includes('data-lab-mode="ar"'));
+assert.ok(file('element.html').includes('data-lab-mode="orbital"'));
+assert.ok(file('element.html').includes('id="lab-download"'));
+assert.ok(file('element.html').includes('id="orbital-cloud"'));
+assert.ok(file('src/atom-lab.js').includes("link.download='atlas-'"),'Save-PNG control must really download');
+assert.ok(file('src/atom-lab.js').includes('THREE')===false,'Viewer coordinator must share graphics modules');
+assert.ok(file('src/electron-viz.js').includes("THREE.MOUSE.PAN"),'WebAR desktop left drag should pan');
+assert.ok(file('src/electron-viz.js').includes('this.renderer.xr.enabled=true'),'Real WebXR mode should be ready');
+assert.ok(file('src/final-polish.css').includes('repeat(18,66px)'),'All 18 groups need legible flat cells');
+assert.ok(file('src/atlas-main.js').includes('Tất cả nguyên tố'),'Need reset-all category choice');
+assert.ok(file('src/atlas-main.js').includes('document.fonts.load'),'3D labels should redraw with Vietnamese fonts');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
