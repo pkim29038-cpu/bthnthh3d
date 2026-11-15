@@ -6,8 +6,10 @@ import {drawOrbitalDiagram,validateOrbitalCount,electronDisplay} from './orbital
 import {MaterialViz,materialInfo} from './material-viz.js';
 import {renderSiteNav} from './site-nav.js';
 import {initTheme} from './theme.js';
+import {initMotion} from './motion.js';
 import './atlas.css';
 import './atlas-detail.css';
+import './neon-theme.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const symbol=new URLSearchParams(location.search).get('symbol')||'Ni';
@@ -105,3 +107,5 @@ class AtomViewer {
 }
 try {new AtomViewer($('#atlas-atom'),el);} catch(e){console.warn('Atom 3D unavailable',e);$('#atlas-atom').replaceWith(document.createTextNode('Không thể tải WebGL. Cấu hình và sơ đồ orbital vẫn hoạt động.'));}
 try {new MaterialViz($('#atlas-material')).setElement(el);} catch(e){console.warn('Material 3D unavailable',e);$('#atlas-material').replaceWith(document.createTextNode('Không thể tải mẫu vật 3D. Vui lòng đọc phần mô tả.'));}
+
+initMotion();
