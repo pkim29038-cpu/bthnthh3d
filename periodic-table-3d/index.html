@@ -1,88 +1,64 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#07101e" />
-    <meta name="description" content="Bảng tuần hoàn các nguyên tố hóa học tương tác 3D bằng tiếng Việt." />
-    <title>Nguyên Tố — Bảng tuần hoàn 3D</title>
-  </head>
-  <body>
-    <div id="app">
-      <canvas id="ambient-canvas" aria-hidden="true"></canvas>
-      <div id="site-header"></div>
-
-      <main class="shell">
-        <section class="hero">
-          <div class="hero-copy">
-            <div class="eyebrow"><span></span> KHOA HỌC • TƯƠNG TÁC • KHÔNG GIAN 3D</div>
-            <h1>BẢNG TUẦN HOÀN<br/><em>NGUYÊN TỐ HÓA HỌC</em></h1>
-            <p>Khám phá cấu trúc vật chất — từ nguyên tử nhỏ nhất đến những nguyên tố siêu nặng được tổng hợp trong phòng thí nghiệm.</p>
-          </div>
-          <div class="hero-stat"><strong>118</strong><span>NGUYÊN TỐ ĐÃ ĐƯỢC<br/>XÁC NHẬN</span><i>✳</i></div>
-        </section>
-
-        <section class="workspace">
-          <div class="table-area">
-            <div class="toolbar">
-              <label class="search-wrap">
-                <span class="search-icon">⌕</span>
-                <input id="search" type="search" placeholder="Tìm tên, ký hiệu hoặc số hiệu nguyên tử..." autocomplete="off"/>
-                <kbd>⌘ K</kbd>
-              </label>
-              <div class="view-switch" role="group" aria-label="Chế độ hiển thị">
-                <button class="view-btn active" data-view="2d">2D</button>
-                <button class="view-btn" data-view="3d">3D <span class="spark">✦</span></button>
-              </div>
-            </div>
-            <div class="filters" id="filters" aria-label="Lọc theo nhóm nguyên tố"></div>
-            <div class="table-scroll">
-              <div class="periodic-grid" id="periodic-grid" aria-label="Bảng tuần hoàn"></div>
-            </div>
-            <p class="periodic-reading-guide"><strong>CÁCH ĐỌC BẢNG:</strong> Nhóm 1–18 theo cột dọc · Chu kỳ 1–7 theo hàng ngang · Hai dãy Lantan (57–71) và Actini (89–103) được đặt bên dưới. <span>Chọn số nhóm hoặc chu kỳ để mở trang riêng ↗</span></p>
-            <div class="legend" id="legend"></div>
-            <div class="table-foot"><span><i class="live-dot"></i> DỮ LIỆU SẴN SÀNG</span><span>CHỌN MỘT NGUYÊN TỐ ĐỂ KHÁM PHÁ <b>↗</b></span></div>
-          </div>
-
-          <aside class="detail-panel" id="detail-panel">
-            <div class="detail-topline"><span>HỒ SƠ NGUYÊN TỐ</span><span class="detail-index" id="detail-index">026 / 118</span></div>
-            <div class="element-heading">
-              <div class="element-symbol" id="detail-symbol">Fe</div>
-              <div class="element-names"><h2 id="detail-name">Sắt</h2><span id="detail-latin">Ferrum · Fe</span></div>
-            </div>
-            <div class="atom-stage">
-              <div class="atom-caption"><span>MÔ HÌNH NGUYÊN TỬ</span><span class="atom-live"><i></i> 3D TRỰC TIẾP</span></div>
-              <canvas id="atom-canvas" aria-label="Mô hình nguyên tử 3D"></canvas>
-              <div class="atom-bottom"><span id="atom-protons">26 PROTON</span><span id="atom-electrons">26 ELECTRON</span></div>
-            </div>
-            <div class="detail-metrics">
-              <div><small>SỐ HIỆU NGUYÊN TỬ</small><strong id="metric-number">26</strong></div>
-              <div><small>KHỐI LƯỢNG NGUYÊN TỬ</small><strong id="metric-mass">55.845</strong></div>
-              <div><small>NHÓM</small><strong id="metric-group">8</strong></div>
-              <div><small>CHU KỲ</small><strong id="metric-period">4</strong></div>
-            </div>
-            <div class="detail-section">
-              <div class="section-heading"><span>CẤU HÌNH ELECTRON</span><span class="micro-tag">SƠ ĐỒ LỚP</span></div>
-              <div class="shell-bars" id="shell-bars"></div>
-              <div class="electron-config" id="electron-config">[Ar] 3d⁶ 4s²</div>
-            </div>
-            <div class="detail-section properties">
-              <div class="section-heading"><span>ĐẶC TÍNH CƠ BẢN</span><span class="micro-tag">THUỘC TÍNH</span></div>
-              <div class="property-row"><span>Phân loại</span><b id="property-category">Kim loại chuyển tiếp</b></div>
-              <div class="property-row"><span>Trạng thái (25°C)</span><b id="property-state">Rắn</b></div>
-              <div class="property-row"><span>Độ âm điện</span><b id="property-electro">1.83</b></div>
-            </div>
-            <div class="detail-deep-links"><a id="detail-open-link" href="./element.html?symbol=Fe" class="deep-primary">Khám phá hồ sơ đầy đủ <b>↗</b></a><div><a id="group-link" href="./group.html?n=8">Xem nhóm ↗</a><a id="period-link" href="./period.html?n=4">Xem chu kỳ ↗</a></div></div>
-            <div class="detail-note" id="detail-note">Sắt là kim loại chuyển tiếp phổ biến, có vai trò quan trọng trong vật liệu xây dựng và sinh học.</div>
-          </aside>
-        </section>
-      </main>
-      <footer class="footer"><span>NGUYÊN TỐ <b>—</b> BẢNG TUẦN HOÀN TƯƠNG TÁC</span><span>THIẾT KẾ CHO VIỆC HỌC TẬP & KHÁM PHÁ <b>✦</b></span></footer>
-      <div class="toast" id="toast" role="status"></div>
-      <div class="modal-backdrop" id="help-modal" aria-hidden="true">
-        <div class="modal"><button class="modal-close" id="close-help">×</button><span class="eyebrow">HƯỚNG DẪN NHANH</span><h3>Khám phá bảng tuần hoàn</h3><p>Tìm nguyên tố bằng tên, ký hiệu hoặc số hiệu. Chọn bộ lọc màu để thu hẹp nhóm. Nhấn vào một ô để xem mô hình nguyên tử và thông tin chi tiết. Kéo mô hình 3D để xoay góc nhìn.</p><button class="primary-button" id="got-it">ĐÃ HIỂU</button></div>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#f5f2eb"/>
+  <meta name="description" content="Atlas Nguyên Tố: bảng tuần hoàn 118 nguyên tố trên một mô hình khối 3D có thể xoay, kèm hồ sơ hóa học và mô phỏng vật chất."/>
+  <title>Atlas Nguyên Tố — Bảng tuần hoàn 3D</title>
+</head>
+<body data-page="table">
+  <div id="site-header"></div>
+  <main class="atlas-shell">
+    <div class="atlas-hero">
+      <div class="atlas-hero__copy">
+        <span class="atlas-eyebrow"><span class="eyebrow-line"></span> ATLAS HÓA HỌC / BẢN ĐỒ VẬT CHẤT</span>
+        <h1>118 nguyên tố.<br/><em>Một thế giới vật chất.</em></h1>
+        <p>Khám phá bảng tuần hoàn như một khối vật thể có thể xoay trong không gian. Mỗi ô nằm ngay trên bề mặt mô hình, mỗi nguyên tố mở ra một hồ sơ chuyên sâu.</p>
+      </div>
+      <div class="atlas-hero__facts" aria-label="Thông tin bảng tuần hoàn">
+        <span><strong>118</strong>nguyên tố</span>
+        <span><strong>18</strong>nhóm</span>
+        <span><strong>07</strong>chu kỳ</span>
       </div>
     </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+    <section class="atlas-board-section" aria-label="Bảng tuần hoàn tương tác">
+      <div class="atlas-board__heading">
+        <div><span class="atlas-eyebrow">01 / BẢNG TUẦN HOÀN</span><h2>Không gian nguyên tố</h2><p>Giữ chuột và kéo để xoay bảng; lăn chuột để phóng to. Nhấn vào bất kỳ ô nào để xem hồ sơ.</p></div>
+        <div class="atlas-view-switch" role="group" aria-label="Chế độ bảng tuần hoàn">
+          <button type="button" data-table-mode="3d" class="is-selected">Khối 3D</button>
+          <button type="button" data-table-mode="2d">Mặt phẳng</button>
+          <button type="button" id="reset-table" aria-label="Đặt lại góc nhìn" title="Đặt lại góc nhìn">↺</button>
+        </div>
+      </div>
+      <div class="atlas-controls">
+        <label class="atlas-search"><span aria-hidden="true">⌕</span><input id="element-search" type="search" autocomplete="off" placeholder="Tên, ký hiệu hoặc số hiệu nguyên tử…" aria-label="Tìm nguyên tố"/><kbd>Ctrl K</kbd></label>
+        <label class="atlas-category-filter">Phân loại <select id="category-filter" aria-label="Lọc nhóm hóa học"><option value="all">Tất cả nguyên tố</option></select></label>
+        <span class="atlas-result-count" id="result-count" aria-live="polite">118 / 118</span>
+      </div>
+      <div class="atlas-viewport" id="atlas-viewport">
+        <div id="table-webgl" class="atlas-viewport__canvas" role="img" aria-label="Mô hình bảng tuần hoàn hình hộp có thể kéo xoay. Nhấn nguyên tố để mở hồ sơ."></div>
+        <div id="table-flat" class="atlas-viewport__flat" hidden></div>
+        <div class="atlas-viewport__corner"><span class="status-dot"></span> <span id="viewport-status">MÔ HÌNH 3D / ĐANG HOẠT ĐỘNG</span></div>
+        <div class="atlas-viewport__hint" id="viewport-hint">KÉO XOAY · LĂN ĐỂ ZOOM · BẤM ĐỂ KHÁM PHÁ</div>
+        <div id="element-tooltip" class="atlas-tooltip" hidden></div>
+      </div>
+      <div class="atlas-board__foot">
+        <span>Sơ đồ 18 cột · 7 hàng · hai dãy khối f đặt bên dưới.</span>
+        <span>Gợi ý: bấm vào một ô, không cần mở bảng tóm tắt.</span>
+      </div>
+    </section>
+
+    <section class="atlas-taxonomy">
+      <div><span class="atlas-eyebrow">02 / QUY ƯỚC</span><h2>Đọc bảng tuần hoàn</h2></div>
+      <div class="atlas-taxonomy__content">
+        <div class="atlas-note-grid"><article><b>01</b><strong>Nhóm</strong><p>Các cột đứng từ 1 đến 18, gom những nguyên tố có tính chất hóa học liên quan.</p></article><article><b>02</b><strong>Chu kỳ</strong><p>Các hàng ngang từ 1 đến 7; số thứ tự chu kỳ tương ứng mức năng lượng chính cao nhất thường được chiếm.</p></article><article><b>03</b><strong>Khối f</strong><p>Hai dãy Lantan và Actini nằm riêng dưới bảng để bảo toàn tỷ lệ trình bày.</p></article></div>
+        <div id="atlas-legend" class="atlas-legend" aria-label="Chú giải loại nguyên tố"></div>
+      </div>
+    </section>
+    <footer class="atlas-footer"><span>ATLAS / NGUYÊN TỐ · PHỤC VỤ HỌC TẬP</span><span>Mô hình và kết cấu vật chất mang tính minh họa, không phải ảnh chụp mẫu vật.</span></footer>
+  </main>
+  <script type="module" src="/src/atlas-main.js"></script>
+</body>
 </html>
