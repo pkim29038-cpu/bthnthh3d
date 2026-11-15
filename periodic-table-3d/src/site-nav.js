@@ -9,7 +9,7 @@ export function renderSiteNav(active = 'table', { group = 10, period = 4 } = {})
     ['period', './period.html?n=' + (Number(period) || 4), 'Chu kỳ']
   ];
   const links = items.map(([id, href, title]) =>
-    '<a class="site-nav__tab'+(active===id?' is-active':'')+'" href="'+href+'"'+
+    '<a class="site-nav__tab'+((active===id||(active==='element'&&id==='table'))?' is-active':'')+'" href="'+href+'"'+
     (active===id?' aria-current="page"':'')+'>'+title+'</a>'
   ).join('');
   return '<header class="site-nav"><div class="site-nav__inner">'+
