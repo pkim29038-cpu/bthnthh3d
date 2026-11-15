@@ -10,15 +10,7 @@
   <body>
     <div id="app">
       <canvas id="ambient-canvas" aria-hidden="true"></canvas>
-      <header class="topbar">
-        <a class="brand" href="#" aria-label="Nguyên Tố - Trang chủ">
-          <span class="brand-mark">N<span>°</span></span>
-          <span><b>NGUYÊN TỐ</b><small>KHÁM PHÁ VŨ TRỤ VẬT CHẤT</small></span>
-        </a>
-        <nav class="main-explore-nav" aria-label="Khám phá theo nhóm và chu kỳ"><a href="./group.html?n=1">18 nhóm ↗</a><a href="./period.html?n=1">7 chu kỳ ↗</a></nav>
-        <div class="top-meta"><span class="live-dot"></span> HỆ THỐNG NGUYÊN TỐ <b>01—118</b></div>
-        <button class="icon-button" id="help-button" aria-label="Thông tin"><span>i</span></button>
-      </header>
+      <div id="site-header"></div>
 
       <main class="shell">
         <section class="hero">
@@ -43,12 +35,11 @@
                 <button class="view-btn" data-view="3d">3D <span class="spark">✦</span></button>
               </div>
             </div>
-
-            <div class="collection-shortcuts"><span>KHÁM PHÁ THEO</span><div><a href="./group.html?n=10">Nhóm 01—18 <b>↗</b></a><a href="./period.html?n=4">Chu kỳ 01—07 <b>↗</b></a></div></div>
             <div class="filters" id="filters" aria-label="Lọc theo nhóm nguyên tố"></div>
             <div class="table-scroll">
               <div class="periodic-grid" id="periodic-grid" aria-label="Bảng tuần hoàn"></div>
             </div>
+            <p class="periodic-reading-guide"><strong>CÁCH ĐỌC BẢNG:</strong> Nhóm 1–18 theo cột dọc · Chu kỳ 1–7 theo hàng ngang · Hai dãy Lantan (57–71) và Actini (89–103) được đặt bên dưới. <span>Chọn số nhóm hoặc chu kỳ để mở trang riêng ↗</span></p>
             <div class="legend" id="legend"></div>
             <div class="table-foot"><span><i class="live-dot"></i> DỮ LIỆU SẴN SÀNG</span><span>CHỌN MỘT NGUYÊN TỐ ĐỂ KHÁM PHÁ <b>↗</b></span></div>
           </div>

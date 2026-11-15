@@ -1,19 +1,17 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { elements } from './elements.js';
+import { atomicMass, categoryInfo } from './chemistry.js';
+import { renderSiteNav } from './site-nav.js';
 import './style.css';
+import './site-nav.css';
+import './site-table.css';
 
-const categoryMeta = {
-  'kim-loai-kiem': ['Kim loại kiềm', '#ffb45f'],
-  'kiem-tho': ['Kim loại kiềm thổ', '#f6d36e'],
-  'kim-loai-chuyen-tiep': ['Kim loại chuyển tiếp', '#42c9ed'],
-  'kim-loai-hau-chuyen-tiep': ['Kim loại hậu chuyển tiếp', '#65d6a7'],
-  'a-kim': ['Á kim', '#b6a0ff'],
-  'phi-kim': ['Phi kim', '#80aaff'],
-  'khi-hiem': ['Khí hiếm', '#f28cc9'],
-  'lanthanide': ['Họ Lantan', '#e9a0d8'],
-  'actinide': ['Họ Actini', '#e58e9d']
-};
+document.querySelector('#site-header').outerHTML = renderSiteNav('table');
+
+const categoryMeta = Object.fromEntries(
+  Object.entries(categoryInfo).map(([key, item]) => [key, [item.name, item.color]])
+);
 const $ = (s) => document.querySelector(s);
 const grid = $('#periodic-grid');
 const search = $('#search');
@@ -30,14 +28,54 @@ function makeCard(el) {
   button.dataset.number = el.number;
   button.dataset.category = el.category;
   button.style.setProperty('--element-color', color);
-  button.style.gridColumn = el.column;
-  button.style.gridRow = el.row;
+  button.style.gridColumn = el.column + 1; // column 1 is the period axis
+  button.style.gridRow = el.row <= 7 ? el.row + 1 : el.row + 2; // row 9 is the f-block separator
   button.setAttribute('aria-label', `${el.name}, ${el.symbol}, số hiệu ${el.number}`);
-  button.innerHTML = `<span class="atomic-number">${el.number}</span><span class="element-symbol">${el.symbol}</span><span class="element-name">${el.name}</span>`;
+  button.innerHTML = `<span class="atomic-number">${el.number}</span><span class="element-symbol">${el.symbol}</span><span class="element-name">${el.name}</span><span class="atomic-weight">${atomicMass[el.symbol] || '—'}</span>`;
   button.addEventListener('click', () => selectElement(el));
   button.addEventListener('dblclick', () => { window.location.href = './element.html?symbol=' + encodeURIComponent(el.symbol); });
   return button;
 }
+
+/**
+ * Conventional 18-column × 7-period layout.
+ * Group numbers 1–18 and period numbers 1–7 are real links, not decorative tabs.
+ * The La–Lu and Ac–Lr series remain attached by explicit range placeholders.
+ */
+function drawTableAxes() {
+  const axis = (text, kind, col, row, href, title) => {
+    const node = document.createElement('a');
+    node.className = 'axis-label axis-' + kind;
+    node.href = href;
+    node.textContent = text;
+    node.title = title;
+    node.setAttribute('aria-label', title);
+    node.style.gridColumn = col;
+    node.style.gridRow = row;
+    grid.appendChild(node);
+  };
+  axis('N/C', 'corner', 1, 1, './index.html', 'Nhóm / chu kỳ');
+  for (let group = 1; group <= 18; group++) {
+    axis(String(group), 'group', group + 1, 1, './group.html?n=' + group, 'Xem nhóm ' + group);
+  }
+  for (let period = 1; period <= 7; period++) {
+    axis(String(period), 'period', 1, period + 1, './period.html?n=' + period, 'Xem chu kỳ ' + period);
+  }
+  axis('Ln', 'series', 1, 10, './period.html?n=6#roster', 'Dãy Lantan 57–71, chu kỳ 6');
+  axis('An', 'series', 1, 11, './period.html?n=7#roster', 'Dãy Actini 89–103, chu kỳ 7');
+  for (const [p, row, range, label] of [[6, 7, '57–71', 'LANTAN'], [7, 8, '89–103', 'ACTINI']]) {
+    const link = document.createElement('a');
+    link.className = 'f-block-reference';
+    link.href = './period.html?n=' + p + '#roster';
+    link.style.gridColumn = 4;
+    link.style.gridRow = row;
+    link.innerHTML = '<strong>' + range + '</strong><small>' + label + ' ↘</small>';
+    link.setAttribute('aria-label', 'Mở dãy ' + label + ' của chu kỳ ' + p);
+    grid.appendChild(link);
+  }
+}
+drawTableAxes();
+
 const cards = new Map();
 elements.forEach(el => {
   const card = makeCard(el);
@@ -151,7 +189,7 @@ function selectElement(el) {
   $('#detail-latin').textContent = `${el.name} · ${el.symbol}`;
   $('#metric-number').textContent = el.number;
   $('#metric-mass').textContent = mass[el.symbol] || '—';
-  $('#metric-group').textContent = el.category === 'lanthanide' ? '3*' : el.category === 'actinide' ? '3*' : el.group;
+  $('#metric-group').textContent = ['lanthanide','actinide'].includes(el.category) && !['La','Ac'].includes(el.symbol) ? '— (khối f)' : el.group;
   $('#metric-period').textContent = el.period;
   $('#property-category').textContent = label;
   $('#property-state').textContent = stateBySymbol[el.symbol] || (['khi-hiem','phi-kim'].includes(el.category) ? 'Khí / tùy điều kiện' : 'Rắn (thường gặp)');
@@ -163,7 +201,9 @@ function selectElement(el) {
   $('#electron-config').textContent = electronConfiguration(el);
   $('#detail-open-link').href = './element.html?symbol=' + encodeURIComponent(el.symbol);
   $('#period-link').href = './period.html?n=' + el.period;
-  $('#group-link').href = './group.html?n=' + el.group;
+  const isDetachedSeries = ['lanthanide','actinide'].includes(el.category) && !['La','Ac'].includes(el.symbol);
+  $('#group-link').href = isDetachedSeries ? './period.html?n=' + el.period + '#roster' : './group.html?n=' + el.group;
+  $('#group-link').textContent = isDetachedSeries ? 'Xem dãy ' + (el.category === 'lanthanide' ? 'Lantan' : 'Actini') + ' ↗' : 'Xem nhóm ' + el.group + ' ↗';
   $('#detail-note').textContent = `${el.name} (${el.symbol}) thuộc ${label.toLocaleLowerCase('vi')}. Mô hình minh họa cấu trúc electron theo số hiệu nguyên tử; dữ liệu cấu hình rút gọn được trình bày để hỗ trợ học tập.`;
   atomViz.setElement(el.number, color);
 }

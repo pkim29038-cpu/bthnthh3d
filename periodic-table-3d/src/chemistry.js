@@ -2,15 +2,15 @@ import { elements } from './elements.js';
 
 /** Educational data shared by element, group, and period views. */
 export const categoryInfo = {
-  'kim-loai-kiem': {name:'Kim loại kiềm',color:'#ecaa5b',description:'Kim loại nhóm 1, có một electron lớp ngoài cùng và thường hoạt động hóa học mạnh.'},
-  'kiem-tho': {name:'Kim loại kiềm thổ',color:'#e4c171',description:'Kim loại nhóm 2, thường có hai electron hóa trị và tạo ion mang điện tích +2.'},
-  'kim-loai-chuyen-tiep': {name:'Kim loại chuyển tiếp',color:'#5cbebd',description:'Nhóm kim loại khối d, nhiều nguyên tố có nhiều số oxi hóa và tạo hợp chất có màu.'},
-  'kim-loai-hau-chuyen-tiep': {name:'Kim loại hậu chuyển tiếp',color:'#87bba0',description:'Một tập hợp kim loại thuộc khối p với nhiều tính chất vật lý và hóa học khác nhau.'},
-  'a-kim': {name:'Á kim',color:'#a7a0d9',description:'Các nguyên tố nằm gần ranh giới kim loại–phi kim, nhiều chất có tính bán dẫn.'},
-  'phi-kim': {name:'Phi kim',color:'#8aaee9',description:'Những nguyên tố có tính chất đa dạng, thường tham gia liên kết cộng hóa trị.'},
-  'khi-hiem': {name:'Khí hiếm',color:'#d9a3ce',description:'Các khí ở nhóm 18, lớp electron ngoài cùng đã bão hòa đối với đa số nguyên tố.'},
-  'lanthanide': {name:'Họ Lantan',color:'#dc9abf',description:'Dãy nguyên tố khối f thuộc chu kỳ 6, có nhiều ứng dụng trong vật liệu công nghệ.'},
-  'actinide': {name:'Họ Actini',color:'#da998a',description:'Dãy nguyên tố khối f ở chu kỳ 7; các nguyên tố trong dãy đều có tính phóng xạ.'}
+  'kim-loai-kiem': {name:'Kim loại kiềm',color:'#ffb45f',description:'Kim loại nhóm 1, có một electron lớp ngoài cùng và thường hoạt động hóa học mạnh.'},
+  'kiem-tho': {name:'Kim loại kiềm thổ',color:'#f6d36e',description:'Kim loại nhóm 2, thường có hai electron hóa trị và tạo ion mang điện tích +2.'},
+  'kim-loai-chuyen-tiep': {name:'Kim loại chuyển tiếp',color:'#42c9ed',description:'Nhóm kim loại khối d, nhiều nguyên tố có nhiều số oxi hóa và tạo hợp chất có màu.'},
+  'kim-loai-hau-chuyen-tiep': {name:'Kim loại hậu chuyển tiếp',color:'#65d6a7',description:'Một tập hợp kim loại thuộc khối p với nhiều tính chất vật lý và hóa học khác nhau.'},
+  'a-kim': {name:'Á kim',color:'#b6a0ff',description:'Các nguyên tố nằm gần ranh giới kim loại–phi kim, nhiều chất có tính bán dẫn.'},
+  'phi-kim': {name:'Phi kim',color:'#80aaff',description:'Những nguyên tố có tính chất đa dạng, thường tham gia liên kết cộng hóa trị.'},
+  'khi-hiem': {name:'Khí hiếm',color:'#f28cc9',description:'Các khí ở nhóm 18, lớp electron ngoài cùng đã bão hòa đối với đa số nguyên tố.'},
+  'lanthanide': {name:'Họ Lantan',color:'#e9a0d8',description:'Dãy nguyên tố khối f thuộc chu kỳ 6, có nhiều ứng dụng trong vật liệu công nghệ.'},
+  'actinide': {name:'Họ Actini',color:'#e58e9d',description:'Dãy nguyên tố khối f ở chu kỳ 7; các nguyên tố trong dãy đều có tính phóng xạ.'}
 };
 export const atomicMass = {
   H:'1.008', He:'4.0026', Li:'6.94', Be:'9.0122', B:'10.81', C:'12.011', N:'14.007', O:'15.999', F:'18.998', Ne:'20.180',
@@ -85,5 +85,7 @@ export function locationFor(el){return './element.html?symbol='+encodeURICompone
 export function factsFor(el){
   const x=elementFacts[el.symbol]||{};
   const state=x.state||(['H','He','N','O','F','Ne','Cl','Ar','Kr','Xe','Rn'].includes(el.symbol)?'Khí':el.symbol==='Br'||el.symbol==='Hg'?'Lỏng':el.number>103?'Chưa xác định đầy đủ':'Rắn');
-  return {en:el.name,summary:el.name+' ('+el.symbol+') thuộc '+categoryInfo[el.category].name.toLocaleLowerCase('vi')+'; nằm tại nhóm '+el.group+', chu kỳ '+el.period+' trong bảng tuần hoàn.',uses:[],...x,state};
+  const fBlock=['lanthanide','actinide'].includes(el.category)&&!['La','Ac'].includes(el.symbol);
+  const placement=fBlock?'thuộc dãy f của chu kỳ '+el.period:'nằm tại nhóm '+el.group+', chu kỳ '+el.period;
+  return {en:el.name,summary:el.name+' ('+el.symbol+') thuộc '+categoryInfo[el.category].name.toLocaleLowerCase('vi')+'; '+placement+' trong bảng tuần hoàn.',uses:[],...x,state};
 }
