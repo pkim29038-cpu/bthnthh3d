@@ -140,10 +140,13 @@ assert.ok(file('src/atlas-main.js').includes('document.fonts.load'),'3D labels s
 const labCode=file('src/atom-lab.js');
 const vizCode=file('src/electron-viz.js');
 const designCSS=file('src/final-polish.css');
-assert.ok(labCode.includes("canvas.addEventListener('contextmenu'"),'Right-click PNG handling must be implemented directly on both canvases');
-assert.ok(labCode.includes("rightDrag.moved"),'Right dragging must not accidentally save a PNG');
-assert.ok(labCode.includes("if(mode!=='ar'"),'Do not download while panning inside WebAR');
-assert.ok(labCode.includes("event.shiftKey&&event.key==='F10'"),'Keyboard screenshot alternative is required');
+assert.ok(labCode.includes("canvas.addEventListener('contextmenu'"),'Both canvases need a native browser context menu');
+assert.ok(labCode.includes("rightDrag.moved"),'Right dragging must not accidentally open the save menu');
+assert.ok(labCode.includes("if(mode==='ar'||rightDrag?.moved)event.preventDefault()"),'Only WebAR and right-drag should suppress the native menu');
+assert.ok(labCode.includes("event.stopImmediatePropagation()"),'OrbitControls must not suppress the browser context menu');
+assert.ok(labCode.includes("{capture:true}"),'Capture contextmenu before OrbitControls bubble listener');
+assert.ok(!labCode.includes("event.preventDefault();exportScreenshot()"),'Right click must not automatically download PNG');
+assert.ok(labCode.includes("canvas.setAttribute('aria-keyshortcuts','Shift+F10')"),'Keyboard native context menu should remain available');
 assert.ok(vizCode.includes('this.controls.mouseButtons.LEFT=THREE.MOUSE.ROTATE'),'WebAR left drag must rotate');
 assert.ok(vizCode.includes('this.controls.mouseButtons.RIGHT=THREE.MOUSE.PAN'),'WebAR right drag must pan');
 assert.ok(designCSS.includes('.quiz-choices button')&&designCSS.includes('.quiz-actions'),'Quiz choices and next button must occupy separate normal-flow rows');
