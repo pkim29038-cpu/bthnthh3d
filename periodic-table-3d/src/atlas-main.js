@@ -191,9 +191,16 @@ class PeriodicSculpture {
     this.animate();
   }
   reset(){
-    this.camera.position.set(1.4,2.2,29);
-    this.controls.target.set(0,-.2,0);
-    this.controls.update();this.group.rotation.set(-.08,.08,0);
+    const rect=this.container.getBoundingClientRect();
+    const aspect=(rect.width>0&&rect.height>0)?rect.width/rect.height:this.camera.aspect;
+    // Fit the actual 18-column board tightly while keeping both f-block rows visible.
+    const tan=Math.tan(THREE.MathUtils.degToRad(this.camera.fov/2));
+    const required=Math.max(13.05/(2*tan),20.9/(2*tan*aspect));
+    const distance=required*1.17;
+    this.camera.position.set(.6,1.4,distance);
+    this.controls.target.set(0,-.15,0);
+    this.controls.update();
+    this.group.rotation.set(-.065,.035,0);
   }
   setPointer(event){
     const rect=this.renderer.domElement.getBoundingClientRect();
