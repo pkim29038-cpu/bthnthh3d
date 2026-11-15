@@ -59,3 +59,33 @@ Trang nguyên tố gồm: thông tin định danh, các thuộc tính nền tả
 ### Cập nhật tính năng
 
 Dữ liệu mới thuộc `src/chemistry.js`; mã trang nằm tại `src/explorer.js`; style riêng tại `src/explorer.css`. Thông tin chi tiết chỉ cần cập nhật ở `elementFacts` và `reactionExamples`, không trộn vào mã giao diện.
+
+
+## Atlas Nguyên Tố v2 — giao diện editorial, mô hình 3D dạng vật thể
+
+**Dự án hiện tại dùng entry points mới**:
+
+| URL | Mã điều khiển | Mô tả |
+|---|---|---|
+| `/` | `src/atlas-main.js` | Bảng tuần hoàn 3D dạng tấm bảng, các ô nổi với chữ trực tiếp trên CanvasTexture; chọn ô mở hồ sơ; fallback 2D. |
+| `/element.html?symbol=Fe` | `src/element-atlas.js` | Hồ sơ theo 3 chương: tổng quan; cấu hình electron, orbital ↑↓ và nguyên tử 3D; mẫu vật 3D và tính chất. |
+| `/group.html?n=10` | `src/collection-atlas.js` | Danh mục các nguyên tố trong nhóm. |
+| `/period.html?n=4` | `src/collection-atlas.js` | Danh mục các nguyên tố trong chu kỳ. |
+
+**Module chính**: `site-nav.js` (một thanh điều hướng); `theme.js` (sáng/tối ghi nhớ trên mọi trang); `orbital-diagram.js` (Hund/Pauli); `material-viz.js` (mô hình hình thái đặc trưng), `atlas.css`, `atlas-detail.css`, `atlas-collection.css`.
+
+`src/main.js` và `src/explorer.js` còn trong repository để tham khảo lịch sử nhưng không còn là entry point đang dùng. Không sửa các file cũ nếu muốn thay đổi giao diện v2.
+
+```sh
+cd periodic-table-3d
+npm ci
+npm test
+npm run dev
+npm run build
+```
+
+Các mô hình vật chất chỉ là minh họa diễn giải. Một số nguyên tố hiếm/siêu nặng không có mẫu vật đủ để xác định hình dạng ngoài đời; không tạo minh họa giả định như thể có dữ liệu quan sát.
+
+**Hướng dẫn đầy đủ cho AI coder và maintainer:** [AI_HANDOFF_BRIEF.md](docs/AI_HANDOFF_BRIEF.md).
+
+> Khi deploy Vercel: **Root Directory** là `periodic-table-3d`, framework Vite, build `npm run build`, output `dist`. Không commit `node_modules/`.
