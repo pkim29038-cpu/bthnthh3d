@@ -11,8 +11,9 @@ export class ElectronViz {
     this.scene=new THREE.Scene();
     this.camera=new THREE.PerspectiveCamera(42,1,.1,120);
     this.camera.position.set(0.4,1.5,13.0);
-    this.renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));
+    this.renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance',preserveDrawingBuffer:true});
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    this.renderer.xr.enabled=true;
     this.renderer.outputColorSpace=THREE.SRGBColorSpace;
     this.scene.add(new THREE.AmbientLight(0xffffff,1.55));
     const key=new THREE.PointLight(0x7ae8ff,80,30);key.position.set(4,6,7);this.scene.add(key);
@@ -20,14 +21,23 @@ export class ElectronViz {
     this.root=new THREE.Group();this.scene.add(this.root);
     this.controls=new OrbitControls(this.camera,canvas);
     this.controls.enableDamping=true;this.controls.enablePan=false;
-    this.controls.minDistance=7;this.controls.maxDistance=19;
+    this.controls.minDistance=5;this.controls.maxDistance=22;
     this.controls.autoRotate=true;this.controls.autoRotateSpeed=.26;
     this.spinners=[];
     this._build(element);
     this.clock=new THREE.Clock();
     this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(canvas.parentElement);
-    this.resize();this.tick();
-    window.addEventListener('pagehide',()=>{this.observer.disconnect();this.controls.dispose();this.renderer.dispose();},{once:true});
+    this.resize();
+    this.renderer.setAnimationLoop(()=>this.tick());
+    this.renderer.xr.addEventListener('sessionstart',()=>{
+      this.controls.enabled=false;
+      this.root.position.set(0,1.35,-1.7);this.root.scale.setScalar(.22);
+    });
+    this.renderer.xr.addEventListener('sessionend',()=>{
+      this.controls.enabled=true;
+      this.root.position.set(0,0,0);this.root.scale.setScalar(1);
+    });
+    window.addEventListener('pagehide',()=>{this.observer.disconnect();this.renderer.setAnimationLoop(null);this.controls.dispose();this.renderer.dispose();},{once:true});
   }
   _build(element){
     const n=Math.min(55,element.number);
@@ -40,7 +50,7 @@ export class ElectronViz {
       ball.position.set(Math.cos(theta)*Math.sin(p)*r,Math.sin(theta)*Math.sin(p)*r,Math.cos(p)*r);
       this.root.add(ball);
     }
-    const electronGeo=new THREE.SphereGeometry(.07,12,10);
+    const electronGeo=new THREE.SphereGeometry(.083,18,14);
     const electronMatA=new THREE.MeshBasicMaterial({color:0x6ef5ff});
     const electronMatB=new THREE.MeshBasicMaterial({color:0xc4a0ff});
     const levels=electronShells(element);
@@ -48,7 +58,7 @@ export class ElectronViz {
       const rad=1.35+i*.57;
       // Different tilted orbital planes, each with its own electron spinner.
       const plane=new THREE.Group();plane.rotation.set(i*.29+.25,.31+i*.36,.18+i*.21);this.root.add(plane);
-      const orbit=new THREE.Mesh(new THREE.TorusGeometry(rad,.013,6,130),
+      const orbit=new THREE.Mesh(new THREE.TorusGeometry(rad,.012,8,192),
         new THREE.MeshBasicMaterial({color:i%2?0x8d9dff:0x67c8ff,transparent:true,opacity:.57}));
       plane.add(orbit);
       const moving=new THREE.Group();plane.add(moving);
@@ -64,6 +74,17 @@ export class ElectronViz {
       new THREE.MeshBasicMaterial({color:0x6285ff,transparent:true,opacity:.045,depthWrite:false}));
     this.root.add(aura);
   }
+  setMode(mode){
+    this.controls.mouseButtons.LEFT=mode==='ar'?THREE.MOUSE.PAN:THREE.MOUSE.ROTATE;
+    this.controls.mouseButtons.RIGHT=mode==='ar'?THREE.MOUSE.ROTATE:THREE.MOUSE.PAN;
+    this.controls.touches.ONE=mode==='ar'?THREE.TOUCH.PAN:THREE.TOUCH.ROTATE;
+    this.controls.enablePan=mode==='ar';
+    this.controls.enableRotate=true;
+    this.controls.enableZoom=true;
+    this.controls.update();
+  }
+  reset(){this.controls.reset();this.root.rotation.set(0,0,0);}
+  renderOnce(){this.renderer.render(this.scene,this.camera);}
   setPlaying(yes){
     this.playing=Boolean(yes);
     this.controls.autoRotate=this.playing;
@@ -76,17 +97,16 @@ export class ElectronViz {
     // Keep all electron shells in view even for the heaviest elements.
     const required=maxRad/(Math.tan(THREE.MathUtils.degToRad(this.camera.fov)/2)*.72);
     const distance=Math.max(11,required);
-    this.camera.position.set(.3,1.2,distance);
+    this.camera.position.set(.3,1.2,distance);this.camera.lookAt(0,0,0);
     this.controls.minDistance=Math.max(7,distance*.64);
     this.controls.maxDistance=Math.max(17,distance*1.7);
     this.controls.update();
   }
   tick(){
-    requestAnimationFrame(()=>this.tick());
     const dt=Math.min(.04,this.clock.getDelta());
     if(document.hidden)return;
     if(this.playing)for(const spinner of this.spinners)spinner.group.rotation.z+=spinner.speed*dt;
-    this.controls.update();
+    if(!this.renderer.xr.isPresenting)this.controls.update();
     this.renderer.render(this.scene,this.camera);
   }
 }
