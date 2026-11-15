@@ -35,6 +35,7 @@ function makeCard(el) {
   button.setAttribute('aria-label', `${el.name}, ${el.symbol}, số hiệu ${el.number}`);
   button.innerHTML = `<span class="atomic-number">${el.number}</span><span class="element-symbol">${el.symbol}</span><span class="element-name">${el.name}</span>`;
   button.addEventListener('click', () => selectElement(el));
+  button.addEventListener('dblclick', () => { window.location.href = './element.html?symbol=' + encodeURIComponent(el.symbol); });
   return button;
 }
 const cards = new Map();
@@ -160,6 +161,9 @@ function selectElement(el) {
   const shells = shellDistribution(el.number, el.symbol);
   $('#shell-bars').innerHTML = shells.map((count, i) => `<div class="shell-pill"><span>LỚP ${i+1}</span><b>${count}</b></div>`).join('');
   $('#electron-config').textContent = electronConfiguration(el);
+  $('#detail-open-link').href = './element.html?symbol=' + encodeURIComponent(el.symbol);
+  $('#period-link').href = './period.html?n=' + el.period;
+  $('#group-link').href = './group.html?n=' + el.group;
   $('#detail-note').textContent = `${el.name} (${el.symbol}) thuộc ${label.toLocaleLowerCase('vi')}. Mô hình minh họa cấu trúc electron theo số hiệu nguyên tử; dữ liệu cấu hình rút gọn được trình bày để hỗ trợ học tập.`;
   atomViz.setElement(el.number, color);
 }
