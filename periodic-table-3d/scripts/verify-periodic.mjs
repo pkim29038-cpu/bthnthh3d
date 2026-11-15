@@ -92,4 +92,15 @@ for (const js of ['atlas-main.js','element-atlas.js','collection-atlas.js']){
 }
 assert.ok(file('src/neon-theme.css').includes('prefers-reduced-motion'),'Reduced-motion alternative missing');
 
+
+assert.ok(file('src/atlas-main.js').includes('familyCards.addEventListener'),'Category legend buttons must filter in both modes');
+assert.ok(file('src/atlas-main.js').includes('selectedCategory ==='),'Category predicate must be applied');
+assert.ok(file('src/atlas-main.js').includes('flat.inert=') && file('src/atlas-main.js').includes('stage.inert='),'2D/3D accessibility isolation missing');
+assert.ok(file('index.html').includes('id="zoom-in"') && file('index.html').includes('id="zoom-out"'),'3D zoom controls missing');
+assert.ok(file('src/atlas-main.js').includes('zoomBy(factor)'),'Board zoom should be real');
+assert.ok(file('src/neon-enhancements.css').includes('.atlas-viewport__flat[hidden]'),'Hidden 2D and 3D surfaces must never overlap');
+assert.ok(file('src/neon-enhancements.css').includes('repeat(18,48px)'),'2D table must have compact fixed cells');
+assert.ok(file('src/atlas.css').includes('Be Vietnam Pro'),'Vietnamese headline fonts must be bundled via stylesheet');
+assert.ok(file('src/mole-lab.js').includes('Math.sin(this.spinPhase)*Math.PI/2'),'Mole model must swing horizontally instead of spinning upside down');
+assert.ok(file('src/mole-lab.js').includes('side:THREE.FrontSide'),'3D mole labels must not display backwards');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
