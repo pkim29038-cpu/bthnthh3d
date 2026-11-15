@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07101e" />
+    <meta name="description" content="Bảng tuần hoàn các nguyên tố hóa học tương tác 3D bằng tiếng Việt." />
+    <title>Nguyên Tố — Bảng tuần hoàn 3D</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Nguyên Tố - Trang chủ">
+          <span class="brand-mark">N<span>°</span></span>
+          <span><b>NGUYÊN TỐ</b><small>KHÁM PHÁ VŨ TRỤ VẬT CHẤT</small></span>
+        </a>
+        <div class="top-meta"><span class="live-dot"></span> HỆ THỐNG NGUYÊN TỐ <b>01—118</b></div>
+        <button class="icon-button" id="help-button" aria-label="Thông tin"><span>i</span></button>
+      </header>
+
+      <main class="shell">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span></span> KHOA HỌC • TƯƠNG TÁC • KHÔNG GIAN 3D</div>
+            <h1>BẢNG TUẦN HOÀN<br/><em>NGUYÊN TỐ HÓA HỌC</em></h1>
+            <p>Khám phá cấu trúc vật chất — từ nguyên tử nhỏ nhất đến những nguyên tố siêu nặng được tổng hợp trong phòng thí nghiệm.</p>
+          </div>
+          <div class="hero-stat"><strong>118</strong><span>NGUYÊN TỐ ĐÃ ĐƯỢC<br/>XÁC NHẬN</span><i>✳</i></div>
+        </section>
+
+        <section class="workspace">
+          <div class="table-area">
+            <div class="toolbar">
+              <label class="search-wrap">
+                <span class="search-icon">⌕</span>
+                <input id="search" type="search" placeholder="Tìm tên, ký hiệu hoặc số hiệu nguyên tử..." autocomplete="off"/>
+                <kbd>⌘ K</kbd>
+              </label>
+              <div class="view-switch" role="group" aria-label="Chế độ hiển thị">
+                <button class="view-btn active" data-view="2d">2D</button>
+                <button class="view-btn" data-view="3d">3D <span class="spark">✦</span></button>
+              </div>
+            </div>
+
+            <div class="filters" id="filters" aria-label="Lọc theo nhóm nguyên tố"></div>
+            <div class="table-scroll">
+              <div class="periodic-grid" id="periodic-grid" aria-label="Bảng tuần hoàn"></div>
+            </div>
+            <div class="legend" id="legend"></div>
+            <div class="table-foot"><span><i class="live-dot"></i> DỮ LIỆU SẴN SÀNG</span><span>CHỌN MỘT NGUYÊN TỐ ĐỂ KHÁM PHÁ <b>↗</b></span></div>
+          </div>
+
+          <aside class="detail-panel" id="detail-panel">
+            <div class="detail-topline"><span>HỒ SƠ NGUYÊN TỐ</span><span class="detail-index" id="detail-index">026 / 118</span></div>
+            <div class="element-heading">
+              <div class="element-symbol" id="detail-symbol">Fe</div>
+              <div class="element-names"><h2 id="detail-name">Sắt</h2><span id="detail-latin">Ferrum · Fe</span></div>
+            </div>
+            <div class="atom-stage">
+              <div class="atom-caption"><span>MÔ HÌNH NGUYÊN TỬ</span><span class="atom-live"><i></i> 3D TRỰC TIẾP</span></div>
+              <canvas id="atom-canvas" aria-label="Mô hình nguyên tử 3D"></canvas>
+              <div class="atom-bottom"><span id="atom-protons">26 PROTON</span><span id="atom-electrons">26 ELECTRON</span></div>
+            </div>
+            <div class="detail-metrics">
+              <div><small>SỐ HIỆU NGUYÊN TỬ</small><strong id="metric-number">26</strong></div>
+              <div><small>KHỐI LƯỢNG NGUYÊN TỬ</small><strong id="metric-mass">55.845</strong></div>
+              <div><small>NHÓM</small><strong id="metric-group">8</strong></div>
+              <div><small>CHU KỲ</small><strong id="metric-period">4</strong></div>
+            </div>
+            <div class="detail-section">
+              <div class="section-heading"><span>CẤU HÌNH ELECTRON</span><span class="micro-tag">SƠ ĐỒ LỚP</span></div>
+              <div class="shell-bars" id="shell-bars"></div>
+              <div class="electron-config" id="electron-config">[Ar] 3d⁶ 4s²</div>
+            </div>
+            <div class="detail-section properties">
+              <div class="section-heading"><span>ĐẶC TÍNH CƠ BẢN</span><span class="micro-tag">THUỘC TÍNH</span></div>
+              <div class="property-row"><span>Phân loại</span><b id="property-category">Kim loại chuyển tiếp</b></div>
+              <div class="property-row"><span>Trạng thái (25°C)</span><b id="property-state">Rắn</b></div>
+              <div class="property-row"><span>Độ âm điện</span><b id="property-electro">1.83</b></div>
+            </div>
+            <div class="detail-note" id="detail-note">Sắt là kim loại chuyển tiếp phổ biến, có vai trò quan trọng trong vật liệu xây dựng và sinh học.</div>
+          </aside>
+        </section>
+      </main>
+      <footer class="footer"><span>NGUYÊN TỐ <b>—</b> BẢNG TUẦN HOÀN TƯƠNG TÁC</span><span>THIẾT KẾ CHO VIỆC HỌC TẬP & KHÁM PHÁ <b>✦</b></span></footer>
+      <div class="toast" id="toast" role="status"></div>
+      <div class="modal-backdrop" id="help-modal" aria-hidden="true">
+        <div class="modal"><button class="modal-close" id="close-help">×</button><span class="eyebrow">HƯỚNG DẪN NHANH</span><h3>Khám phá bảng tuần hoàn</h3><p>Tìm nguyên tố bằng tên, ký hiệu hoặc số hiệu. Chọn bộ lọc màu để thu hẹp nhóm. Nhấn vào một ô để xem mô hình nguyên tử và thông tin chi tiết. Kéo mô hình 3D để xoay góc nhìn.</p><button class="primary-button" id="got-it">ĐÃ HIỂU</button></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

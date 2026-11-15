@@ -1,0 +1,19 @@
+BẢN CẬP NHẬT WEBSITE BẢNG TUẦN HOÀN 3D
+
+Các thay đổi:
+- Giảm tốc độ electron: chuyển động theo thời gian thực (radian/giây), không phụ thuộc FPS.
+- Giảm tốc độ tự xoay góc nhìn mô hình nguyên tử.
+- Thêm hiệu ứng chữ nổi 3D cho tiêu đề, ký hiệu nguyên tố và ký hiệu ở bảng chi tiết.
+- Tinh chỉnh hiệu ứng hover, ánh sáng lướt trên nút chế độ xem và phản hồi khi bấm.
+- Giữ nguyên dữ liệu 118 nguyên tố, tìm kiếm, bộ lọc và cấu trúc trang hiện tại.
+
+CÁCH CẬP NHẬT:
+1. Giải nén file ZIP.
+2. Mở thư mục dự án đang dùng trong VS Code.
+3. Sao lưu thư mục src cũ (đổi tên thành src-backup).
+4. Chép thư mục src trong ZIP này vào dự án, thay thế thư mục src cũ.
+5. Không chép đè package.json và không cần xóa node_modules.
+6. Trong Terminal, chạy: npm run dev
+7. Tải lại trang bằng Ctrl + F5.
+
+Nếu Terminal báo máy chủ đang chạy, để nguyên Terminal và chỉ tải lại trình duyệt.
