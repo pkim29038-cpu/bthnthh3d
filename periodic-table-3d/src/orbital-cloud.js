@@ -28,6 +28,8 @@ export function orbitalPoint(type,rand,index){
 export class OrbitalCloud{
   constructor(canvas,element){
     this.canvas=canvas;this.element=element;this.scene=new THREE.Scene();
+    // Native canvas Save Image includes a solid lab backdrop instead of transparency.
+    this.scene.background=new THREE.Color(0x08152e);
     this.camera=new THREE.PerspectiveCamera(42,1,.1,100);this.camera.position.set(0,0,9);
     this.renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance',preserveDrawingBuffer:true});
     this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.setPixelRatio(Math.min(devicePixelRatio,2));
