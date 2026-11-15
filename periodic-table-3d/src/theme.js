@@ -8,11 +8,11 @@ export function getTheme() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') return stored;
   } catch (_) {}
-  return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'dark'; // Default to the vivid neon night palette; retain explicit saved choices.
 }
 export function setTheme(mode) {
   document.documentElement.dataset.theme = mode;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#11171b' : '#f5f2eb');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#080c1d' : '#eef4ff');
   try { localStorage.setItem(STORAGE_KEY, mode); } catch (_) {}
   document.querySelectorAll('[data-theme-toggle]').forEach(button => {
     button.setAttribute('aria-label', mode === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối');

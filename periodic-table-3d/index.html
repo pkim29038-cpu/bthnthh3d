@@ -12,9 +12,9 @@
   <main class="atlas-shell">
     <div class="atlas-hero">
       <div class="atlas-hero__copy">
-        <span class="atlas-eyebrow"><span class="eyebrow-line"></span> ATLAS HÓA HỌC / BẢN ĐỒ VẬT CHẤT</span>
-        <h1>118 nguyên tố.<br/><em>Một thế giới vật chất.</em></h1>
-        <p>Khám phá bảng tuần hoàn như một khối vật thể có thể xoay trong không gian. Mỗi ô nằm ngay trên bề mặt mô hình, mỗi nguyên tố mở ra một hồ sơ chuyên sâu.</p>
+        <span class="atlas-eyebrow"><span class="eyebrow-line"></span> PHÒNG THÍ NGHIỆM 3D / BẢNG TUẦN HOÀN TƯƠNG TÁC</span>
+        <h1>KHÁM PHÁ<br/><em>BẢNG TUẦN HOÀN 3D</em></h1>
+        <p>118 nguyên tố với 9 nhóm phân loại nổi bật bằng màu sắc, bảng mô hình 3D có thể xoay và hồ sơ chi tiết: orbital, mô phỏng vật chất, 1 mol, phản ứng và ứng dụng.</p>
       </div>
       <div class="atlas-hero__facts" aria-label="Thông tin bảng tuần hoàn">
         <span><strong>118</strong>nguyên tố</span>
@@ -25,7 +25,7 @@
 
     <section class="atlas-board-section" aria-label="Bảng tuần hoàn tương tác">
       <div class="atlas-board__heading">
-        <div><span class="atlas-eyebrow">01 / BẢNG TUẦN HOÀN</span><h2>Không gian nguyên tố</h2><p>Giữ chuột và kéo để xoay bảng; lăn chuột để phóng to. Nhấn vào bất kỳ ô nào để xem hồ sơ.</p></div>
+        <div><span class="atlas-eyebrow">01 / BẢNG TUẦN HOÀN</span><h2>Bảng tuần hoàn 118 nguyên tố</h2><p>Giữ chuột và kéo để xoay bảng; lăn chuột để phóng to. Nhấn vào bất kỳ ô nào để xem hồ sơ.</p></div>
         <div class="atlas-view-switch" role="group" aria-label="Chế độ bảng tuần hoàn">
           <button type="button" data-table-mode="3d" class="is-selected">Khối 3D</button>
           <button type="button" data-table-mode="2d">Mặt phẳng</button>
@@ -34,9 +34,10 @@
       </div>
       <div class="atlas-controls">
         <label class="atlas-search"><span aria-hidden="true">⌕</span><input id="element-search" type="search" autocomplete="off" placeholder="Tên, ký hiệu hoặc số hiệu nguyên tử…" aria-label="Tìm nguyên tố"/><kbd>Ctrl K</kbd></label>
-        <label class="atlas-category-filter">Phân loại <select id="category-filter" aria-label="Lọc nhóm hóa học"><option value="all">Tất cả nguyên tố</option></select></label>
+        <label class="atlas-state-filter">Trạng thái <select id="state-filter" aria-label="Lọc nguyên tố theo trạng thái vật chất"><option value="all">Tất cả trạng thái</option><option value="Rắn">● Rắn</option><option value="Lỏng">● Lỏng</option><option value="Khí">● Khí</option><option value="Chưa xác định đầy đủ">? Chưa xác định</option></select></label>
         <span class="atlas-result-count" id="result-count" aria-live="polite">118 / 118</span>
       </div>
+      <div class="atlas-family-cards" id="atlas-family-cards" aria-label="Chú giải phân loại nguyên tố theo màu"></div>
       <div class="atlas-viewport" id="atlas-viewport">
         <div id="table-webgl" class="atlas-viewport__canvas" role="img" aria-label="Mô hình bảng tuần hoàn hình hộp có thể kéo xoay. Nhấn nguyên tố để mở hồ sơ."></div>
         <div id="table-flat" class="atlas-viewport__flat" hidden></div>
@@ -54,7 +55,7 @@
       <div><span class="atlas-eyebrow">02 / QUY ƯỚC</span><h2>Đọc bảng tuần hoàn</h2></div>
       <div class="atlas-taxonomy__content">
         <div class="atlas-note-grid"><article><b>01</b><strong>Nhóm</strong><p>Các cột đứng từ 1 đến 18, gom những nguyên tố có tính chất hóa học liên quan.</p></article><article><b>02</b><strong>Chu kỳ</strong><p>Các hàng ngang từ 1 đến 7; số thứ tự chu kỳ tương ứng mức năng lượng chính cao nhất thường được chiếm.</p></article><article><b>03</b><strong>Khối f</strong><p>Hai dãy Lantan và Actini nằm riêng dưới bảng để bảo toàn tỷ lệ trình bày.</p></article></div>
-        <div id="atlas-legend" class="atlas-legend" aria-label="Chú giải loại nguyên tố"></div>
+        <p class="atlas-family-explain">Màu của mỗi ô biểu thị <strong>phân loại hóa học</strong>. Bộ chọn phía trên chỉ dùng để lọc theo <strong>rắn, lỏng, khí</strong> — không thay đổi vị trí các nguyên tố.</p>
       </div>
     </section>
     <footer class="atlas-footer"><span>ATLAS / NGUYÊN TỐ · PHỤC VỤ HỌC TẬP</span><span>Mô hình và kết cấu vật chất mang tính minh họa, không phải ảnh chụp mẫu vật.</span></footer>
