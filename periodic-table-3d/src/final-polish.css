@@ -475,3 +475,76 @@ button,select,input{font-weight:650}
   outline:2px solid #7eeaff;
   outline-offset:-5px;
 }
+
+
+/* Brand and number-marker polish — consistent logo, no line through Z. */
+.atlas-nav__glyph{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 43px;
+  width:43px!important;
+  height:43px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border:0!important;
+  border-radius:11px!important;
+  background:transparent!important;
+  box-shadow:0 0 0 1px rgba(75,208,255,.33),0 7px 21px rgba(47,114,233,.22)!important;
+}
+.atlas-nav__glyph img.atlas-nav__logo-image{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%;
+  object-fit:contain;
+  display:block;
+  border-radius:11px;
+  background:linear-gradient(130deg,#09b9f7,#1b66d9,#5945d2);
+}
+.atlas-nav__logo:hover .atlas-nav__glyph{
+  box-shadow:0 0 0 1px rgba(112,228,255,.7),0 0 25px rgba(58,166,255,.36)!important;
+}
+.element-intro__marker{
+  border-left:0!important;
+  border-right:0!important;
+  border-top:0!important;
+  border-bottom:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  outline:none!important;
+  min-width:0;
+  padding:20px 0 18px!important;
+  gap:8px;
+  align-self:center!important;
+}
+.element-intro__marker::before,.element-intro__marker::after{content:none!important;display:none!important}
+.element-intro__marker>span{
+  display:block!important;
+  width:100%;
+  font-size:11px!important;
+  font-weight:800!important;
+  letter-spacing:.065em!important;
+  line-height:1.8!important;
+  margin:0!important;
+}
+.element-intro__marker>strong{
+  display:block!important;
+  font-size:clamp(78px,9.4vw,145px)!important;
+  line-height:1.22!important;
+  letter-spacing:-.055em!important;
+  text-align:right!important;
+  margin:0!important;
+  padding:0!important;
+  white-space:nowrap!important;
+  transform:none!important;
+  position:static!important;
+}
+.element-intro__marker>p{
+  line-height:1.8!important;
+  margin:0!important;
+  letter-spacing:.055em!important;
+}
+@media(max-width:760px){
+  .atlas-nav__glyph{flex-basis:38px;width:38px!important;height:38px!important}
+  .element-intro__marker{display:none!important}
+}

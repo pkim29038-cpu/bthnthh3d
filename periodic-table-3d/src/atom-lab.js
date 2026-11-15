@@ -117,9 +117,16 @@ export function initAtomLab(element){
     });
     canvas.addEventListener('pointercancel',()=>{rightDrag=null;});
     canvas.addEventListener('contextmenu',event=>{
-      if(mode==='ar'||rightDrag?.moved)event.preventDefault();
-      // Crucial: do not call preventDefault for an ordinary right click.
-      // Stop Three.js OrbitControls from suppressing the native menu.
+      const nativeImageMenu=(mode==='bohr'||mode==='orbital')&&!rightDrag?.moved;
+      if(nativeImageMenu){
+        // Draw the current frame before Chrome/Edge serializes this WebGL canvas.
+        // Do not replace the browser menu with a forced automatic download.
+        (mode==='orbital'?cloud:viewer)?.renderOnce();
+      }else{
+        event.preventDefault(); // WebAR right-drag pans without opening a menu.
+      }
+      // OrbitControls prevents the native menu in its bubble-phase listener.
+      // Our capture listener stops that handler, but never cancels a right-click.
       event.stopImmediatePropagation();
       rightDrag=null;
     },{capture:true});

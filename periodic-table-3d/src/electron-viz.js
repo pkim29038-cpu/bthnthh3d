@@ -9,6 +9,8 @@ export class ElectronViz {
     this.element=element;
     this.playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.scene=new THREE.Scene();
+    // Include the dark laboratory background in browser 'Save image as…' PNGs.
+    this.scene.background=new THREE.Color(0x08152e);
     this.camera=new THREE.PerspectiveCamera(42,1,.1,120);
     this.camera.position.set(0.4,1.5,13.0);
     this.renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance',preserveDrawingBuffer:true});
@@ -30,10 +32,12 @@ export class ElectronViz {
     this.resize();
     this.renderer.setAnimationLoop(()=>this.tick());
     this.renderer.xr.addEventListener('sessionstart',()=>{
+      this.scene.background=null; // transparent for the real camera feed
       this.controls.enabled=false;
       this.root.position.set(0,1.35,-1.7);this.root.scale.setScalar(.22);
     });
     this.renderer.xr.addEventListener('sessionend',()=>{
+      this.scene.background=new THREE.Color(0x08152e);
       this.controls.enabled=true;
       this.root.position.set(0,0,0);this.root.scale.setScalar(1);
     });

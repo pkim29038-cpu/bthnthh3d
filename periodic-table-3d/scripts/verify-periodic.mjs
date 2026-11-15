@@ -142,7 +142,7 @@ const vizCode=file('src/electron-viz.js');
 const designCSS=file('src/final-polish.css');
 assert.ok(labCode.includes("canvas.addEventListener('contextmenu'"),'Both canvases need a native browser context menu');
 assert.ok(labCode.includes("rightDrag.moved"),'Right dragging must not accidentally open the save menu');
-assert.ok(labCode.includes("if(mode==='ar'||rightDrag?.moved)event.preventDefault()"),'Only WebAR and right-drag should suppress the native menu');
+assert.ok(labCode.includes("if(nativeImageMenu)") && labCode.includes('event.preventDefault(); // WebAR right-drag'),'Ordinary Bohr/orbital right-click must preserve the native menu while WebAR blocks it');
 assert.ok(labCode.includes("event.stopImmediatePropagation()"),'OrbitControls must not suppress the browser context menu');
 assert.ok(labCode.includes("{capture:true}"),'Capture contextmenu before OrbitControls bubble listener');
 assert.ok(!labCode.includes("event.preventDefault();exportScreenshot()"),'Right click must not automatically download PNG');
@@ -152,4 +152,12 @@ assert.ok(vizCode.includes('this.controls.mouseButtons.RIGHT=THREE.MOUSE.PAN'),'
 assert.ok(designCSS.includes('.quiz-choices button')&&designCSS.includes('.quiz-actions'),'Quiz choices and next button must occupy separate normal-flow rows');
 assert.ok(designCSS.includes('.collection-index strong'),'Collection number must have a dedicated line');
 assert.ok(designCSS.includes('.element-quick-fact strong'),'Quick-fact label and number must not overlap');
+assert.ok(file('src/site-nav.js').includes('class="atlas-nav__logo-image"'),'Header must render the user-provided atomic logo');
+for(const page of ['index','element','group','period']){
+  assert.ok(file(page+'.html').includes('atomic-atlas-logo.svg'),'Favicon should match the logo on '+page);
+}
+assert.ok(file('src/final-polish.css').includes('border-left:0!important'),'Atomic-number marker divider must no longer overlap the large number');
+assert.ok(file('src/atom-lab.js').includes('nativeImageMenu'),'Native Save image as must not trigger forced download');
+assert.ok(file('src/electron-viz.js').includes('this.scene.background=new THREE.Color(0x08152e)'),'Bohr export should have a visible background');
+assert.ok(file('src/orbital-cloud.js').includes('this.scene.background=new THREE.Color(0x08152e)'),'Orbital export should have a visible background');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
