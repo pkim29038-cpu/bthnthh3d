@@ -33,3 +33,6 @@
   .site-nav__tab { padding:11px 8px; font-size:11px; }
   .site-nav__tab.is-active { padding:10px 7px; }
 }
+
+.site-nav__mark{display:flex;align-items:flex-start;justify-content:center;padding-top:8px;}
+.site-nav__mark span{margin:1px 0 0 2px;align-self:flex-start;}
