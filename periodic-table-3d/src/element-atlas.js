@@ -1,11 +1,11 @@
-import * as THREE from 'three';
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {elements} from './elements.js';
 import {atomicMass,categoryInfo,electronShells,electronConfig,factsFor,reactionExamples,locationFor} from './chemistry.js';
 import {drawOrbitalDiagram,validateOrbitalCount,electronDisplay} from './orbital-diagram.js';
 import {MaterialViz,materialInfo} from './material-viz.js';
 import {renderSiteNav} from './site-nav.js';
 import {initTheme} from './theme.js';
+import {initElectronViz} from './electron-viz.js';
+import {initMoleLab} from './mole-lab.js';
 import {initMotion} from './motion.js';
 import './atlas.css';
 import './atlas-detail.css';
@@ -58,9 +58,17 @@ const props=[
  ['Phát hiện',facts.discovery]
 ].filter(([,v],i)=>i===0||Boolean(v));
 $('#property-list').innerHTML=props.map(([k,v])=>'<div class="science-property"><dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd></div>').join('');
+const info=[
+  ['Phân loại',categoryInfo[el.category].description],
+  ['Cấu trúc hạt','Nguyên tử trung hòa của '+el.name+' có '+el.number+' proton trong hạt nhân và '+el.number+' electron xung quanh. Số neutron phụ thuộc đồng vị cụ thể.'],
+  ['Vị trí trong bảng','Thuộc chu kỳ '+el.period+', có '+shells.length+' lớp electron đang được sử dụng. '+(isF?'Nguyên tố thuộc dãy f được đặt riêng dưới bảng tuần hoàn.':'Thuộc nhóm '+el.group+' của bảng tuần hoàn.')],
+  ['Lớp electron ngoài cùng','Trong cách phân bố electron đang dùng, lớp ngoài cùng có '+shells.at(-1)+' electron. Với kim loại chuyển tiếp và các nguyên tố nặng, không nên đồng nhất số này với mọi hóa trị.']
+];
+$('#element-knowledge').innerHTML=info.map(([title,text])=>'<article class="knowledge-item"><strong>'+esc(title)+'</strong><p>'+esc(text)+'</p></article>').join('');
 $('#element-uses').innerHTML=(facts.uses&&facts.uses.length)?'<ul class="science-uses">'+facts.uses.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p class="science-empty">Chưa có ứng dụng riêng đã được biên soạn cho nguyên tố này.</p>';
 if(reaction){
-  $('#element-reaction').innerHTML='<div class="science-reaction"><span class="science-label">PHƯƠNG TRÌNH VÍ DỤ (LÝ THUYẾT)</span><strong>'+esc(reaction.equation)+'</strong><p>'+esc(reaction.note)+'</p></div>';
+  $('#element-reaction').innerHTML='<div class="science-reaction"><span class="science-label">PHƯƠNG TRÌNH VÍ DỤ (LÝ THUYẾT)</span><div class="reaction-animated"><div class="reaction-beaker" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div><strong>'+esc(reaction.equation)+'</strong><p>'+esc(reaction.note)+'</p></div></div>'+
+    (reaction.oxidation&&reaction.reduction?'<div class="redox-equations"><div><small>QUÁ TRÌNH OXI HÓA</small><b>'+esc(reaction.oxidation)+'</b></div><div><small>QUÁ TRÌNH KHỬ</small><b>'+esc(reaction.reduction)+'</b></div></div>':'')+'</div>';
 }
 for(const [id,e,caption,arrow] of [['element-previous',previous,'NGUYÊN TỐ TRƯỚC','←'],['element-next',next,'NGUYÊN TỐ TIẾP','→']]){
   const node=$('#'+id);node.href=locationFor(e);
@@ -69,43 +77,11 @@ for(const [id,e,caption,arrow] of [['element-previous',previous,'NGUYÊN TỐ TR
 document.title=el.name+' ('+el.symbol+') — Atlas Nguyên Tố';
 if(!validateOrbitalCount(el))console.warn('Cần kiểm tra cấu hình electron:',el.symbol);
 
-class AtomViewer {
-  constructor(canvas,el){
-    this.canvas=canvas;this.scene=new THREE.Scene();this.camera=new THREE.PerspectiveCamera(43,1,.1,100);
-    this.camera.position.set(0,1.2,11.8);
-    this.renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.55));this.renderer.outputColorSpace=THREE.SRGBColorSpace;
-    this.scene.add(new THREE.AmbientLight(0xffffff,1.6));
-    const key=new THREE.PointLight(0xffead3,35);key.position.set(3,4,7);this.scene.add(key);
-    this.root=new THREE.Group();this.scene.add(this.root);
-    this.controls=new OrbitControls(this.camera,canvas);
-    this.controls.enablePan=false;this.controls.enableDamping=true;this.controls.autoRotate=true;this.controls.autoRotateSpeed=.42;
-    this.controls.minDistance=7;this.controls.maxDistance=19;
-    const total=Math.min(el.number,42);
-    for(let i=0;i<total;i++){
-      const phi=i*2.399963,t=Math.acos(1-2*(i+.5)/total),r=.3+.42*Math.sqrt(i/total);
-      const ball=new THREE.Mesh(new THREE.SphereGeometry(.14,9,9),new THREE.MeshStandardMaterial({color:i%2?0x788693:0xc28b78,roughness:.47}));
-      ball.position.set(Math.sin(t)*Math.cos(phi)*r,Math.sin(t)*Math.sin(phi)*r,Math.cos(t)*r);this.root.add(ball);
-    }
-    electronShells(el).forEach((n,i)=>{
-      const r=1.4+i*.51;
-      const orbit=new THREE.Group();orbit.rotation.set(i*.4,.3+i*.27,.2+i*.13);this.root.add(orbit);
-      const line=new THREE.Mesh(new THREE.TorusGeometry(r,.009,5,90),new THREE.MeshBasicMaterial({color:0x9da4a5,transparent:true,opacity:.65}));
-      orbit.add(line);
-      for(let j=0;j<n;j++){
-        const t=j*2*Math.PI/n;
-        const dot=new THREE.Mesh(new THREE.SphereGeometry(.053,9,8),new THREE.MeshBasicMaterial({color:0xe4e0d7}));
-        dot.position.set(Math.cos(t)*r,Math.sin(t)*r,0);orbit.add(dot);
-      }
-    });
-    this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(canvas.parentElement);
-    this.resize();this.draw();
-    window.addEventListener('pagehide',()=>{this.observer.disconnect();this.controls.dispose();this.renderer.dispose();},{once:true});
-  }
-  resize(){const r=this.canvas.getBoundingClientRect();if(!r.width||!r.height)return;this.renderer.setSize(r.width,r.height,false);this.camera.aspect=r.width/r.height;this.camera.updateProjectionMatrix();}
-  draw(){requestAnimationFrame(()=>this.draw());if(document.hidden)return;this.controls.update();this.renderer.render(this.scene,this.camera);}
+initElectronViz($('#atlas-atom'),el);
+initMoleLab(el);
+try {new MaterialViz($('#atlas-material')).setElement(el);} catch(e) {
+  console.warn('Material 3D unavailable',e);
+  $('#atlas-material').replaceWith(document.createTextNode('Không thể tải mẫu vật 3D. Vui lòng đọc phần mô tả.'));
 }
-try {new AtomViewer($('#atlas-atom'),el);} catch(e){console.warn('Atom 3D unavailable',e);$('#atlas-atom').replaceWith(document.createTextNode('Không thể tải WebGL. Cấu hình và sơ đồ orbital vẫn hoạt động.'));}
-try {new MaterialViz($('#atlas-material')).setElement(el);} catch(e){console.warn('Material 3D unavailable',e);$('#atlas-material').replaceWith(document.createTextNode('Không thể tải mẫu vật 3D. Vui lòng đọc phần mô tả.'));}
 
 initMotion();
