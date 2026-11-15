@@ -41,6 +41,10 @@ function placeFlat() {
     node.style.gridColumn = col;
     node.style.gridRow = row;
     node.textContent = label;
+    if(kind==='range'){
+      node.title=label==='57–71'?'Dãy Lantan: số hiệu 57 đến 71':'Dãy Actini: số hiệu 89 đến 103';
+      node.setAttribute('aria-label',node.title);
+    }
     if(link)node.href = link;
     grid.appendChild(node);
   };
@@ -170,6 +174,33 @@ function faceTexture(el, light = false) {
   tex.magFilter=THREE.LinearFilter;
   return tex;
 }
+// Range markers need their own wide, high-resolution texture.
+// A 57px font on the old 136px square atlas clipped "57–71" and "89–103".
+function rangeTexture(text,light=true){
+  const canvas=document.createElement('canvas');
+  canvas.width=512;canvas.height=512;
+  const ctx=canvas.getContext('2d');
+  const isLanthanide=text==='57–71';
+  const accent=isLanthanide?'#df89ff':'#ff91be';
+  const background=ctx.createLinearGradient(0,0,512,512);
+  background.addColorStop(0,light?'#e3d3fb':'#282044');
+  background.addColorStop(1,light?'#faf2ff':'#121a36');
+  ctx.fillStyle=background;
+  ctx.fillRect(0,0,512,512);
+  ctx.strokeStyle=accent;ctx.lineWidth=17;ctx.strokeRect(9,9,494,494);
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle=light?'#37416e':'#f5edff';
+  ctx.font='900 148px "Be Vietnam Pro", Arial, sans-serif';
+  ctx.fillText(text,256,249,458);
+  ctx.fillStyle=light?'#664c93':accent;
+  ctx.font='800 63px "Be Vietnam Pro", Arial, sans-serif';
+  ctx.fillText(isLanthanide?'LANTAN':'ACTINI',256,395,446);
+  const texture=new THREE.CanvasTexture(canvas);
+  texture.colorSpace=THREE.SRGBColorSpace;
+  texture.anisotropy=8;
+  texture.minFilter=THREE.LinearMipmapLinearFilter;
+  return texture;
+}
 function axisTexture(value,light=true){
   const c=document.createElement('canvas');c.width=136;c.height=136;
   const ctx=c.getContext('2d');
@@ -298,8 +329,8 @@ class PeriodicSculpture {
     const y=4.24-(row-1)*1.04;
     const panel=new THREE.Mesh(new THREE.BoxGeometry(.91,.9,.22),new THREE.MeshStandardMaterial({color:doc.dataset.theme==='dark'?0x454043:0xdcd0c7,roughness:.82}));
     panel.position.set(x,y,.13);this.group.add(panel);
-    const texture=axisTexture(text,doc.dataset.theme!=='dark');this.textures.push(texture);
-    const face=new THREE.Mesh(new THREE.PlaneGeometry(.82,.72),new THREE.MeshBasicMaterial({map:texture,transparent:true,toneMapped:false}));
+    const texture=rangeTexture(text,doc.dataset.theme!=='dark');this.textures.push(texture);
+    const face=new THREE.Mesh(new THREE.PlaneGeometry(.84,.76),new THREE.MeshBasicMaterial({map:texture,transparent:true,toneMapped:false}));
     face.position.set(x,y,.26);this.group.add(face);
   }
   build(){

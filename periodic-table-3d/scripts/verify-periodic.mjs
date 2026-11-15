@@ -160,4 +160,12 @@ assert.ok(file('src/final-polish.css').includes('border-left:0!important'),'Atom
 assert.ok(file('src/atom-lab.js').includes('nativeImageMenu'),'Native Save image as must not trigger forced download');
 assert.ok(file('src/electron-viz.js').includes('this.scene.background=new THREE.Color(0x08152e)'),'Bohr export should have a visible background');
 assert.ok(file('src/orbital-cloud.js').includes('this.scene.background=new THREE.Color(0x08152e)'),'Orbital export should have a visible background');
+// Regression: f-block range labels must not clip the last digit in WebGL or 2D.
+const rangeJS=file('src/atlas-main.js');
+assert.ok(rangeJS.includes("this.addRange('57–71',6)") && rangeJS.includes("this.addRange('89–103',7)"),'Both lanthanide / actinide placeholders must be rendered');
+assert.ok(rangeJS.includes('function rangeTexture('),'The long labels require a dedicated high resolution texture');
+assert.ok(rangeJS.includes('canvas.width=512;canvas.height=512'),'Range label texture must be high resolution');
+assert.ok(rangeJS.includes('ctx.fillText(text,256,249,458)'),'Range labels must scale to fit within the placeholder');
+assert.ok(rangeJS.includes('const texture=rangeTexture(text,'),'3D placeholder must use fitted texture, not generic axis label');
+assert.ok(file('src/final-polish.css').includes('.atlas-flat-range{'),'2D placeholder must get a legible style');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');

@@ -548,3 +548,19 @@ button,select,input{font-weight:650}
   .atlas-nav__glyph{flex-basis:38px;width:38px!important;height:38px!important}
   .element-intro__marker{display:none!important}
 }
+
+/* Both f-block placeholder ranges must remain fully legible in the 2D table. */
+.atlas-flat-range{
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  padding:2px!important;
+  white-space:nowrap!important;
+  overflow:visible;
+  font:800 12px/1.15 "Be Vietnam Pro",system-ui,sans-serif!important;
+  letter-spacing:-.045em;
+  border:1px dashed var(--violet);
+  border-radius:7px;
+  background:color-mix(in srgb,var(--violet) 12%,var(--surface));
+}
