@@ -1,0 +1,246 @@
+
+/* Atomic Explorer · midnight navy theme.
+   Same palette as the original periodic-table homepage. */
+:root{
+  color-scheme:dark;
+  --ink:#07101e;
+  --paper:#07101e;
+  --cream:#0d1b2f;
+  --line:rgba(136,177,226,.18);
+  --muted:#91a4c3;
+  --bright:#59d9ff;
+  --teal:#65d6c5;
+  color:#eaf2ff;
+  background:#07101e;
+}
+html{background:#07101e}
+body{background:#07101e;color:#eaf2ff}
+#explorer-app{
+  color:#eaf2ff;
+  background:
+    radial-gradient(ellipse at 6% -2%,rgba(33,101,162,.21),transparent 34%),
+    radial-gradient(ellipse at 92% 26%,rgba(72,61,137,.14),transparent 34%),
+    #07101e;
+}
+#explorer-app .explorer-main{color:#eaf2ff;max-width:1720px;padding:0 clamp(18px,3.6vw,62px) 75px}
+#explorer-app a:focus-visible,#explorer-app button:focus-visible,#explorer-app select:focus-visible{outline:2px solid #59d9ff;outline-offset:2px}
+#explorer-app .explorer-breadcrumb{color:#8297b8;padding:21px 0 27px}
+#explorer-app .explorer-breadcrumb a{color:#8ab1d2}
+#explorer-app .explorer-breadcrumb a:hover{color:#63d9fa}
+#explorer-app .explorer-breadcrumb span:last-child{color:#dbeafa}
+#explorer-app .panel-label{color:#7cafd0;letter-spacing:.14em}
+#explorer-app .section-heading-wide h2,#explorer-app .collection-switcher h2,#explorer-app .roster-heading h2{color:#f2f8ff}
+#explorer-app .section-heading-wide p,#explorer-app .roster-heading p{color:#8da0bd}
+#explorer-app .section-index{background:#173951;border:1px solid #3c8095;color:#7cdeff}
+#explorer-app .eyeline{color:#80bddb}
+#explorer-app .eyeline-line{background:#5cd8ff}
+#explorer-app .element-hero,
+#explorer-app .key-data,
+#explorer-app .atom-section,
+#explorer-app .matter-section,
+#explorer-app .reaction-section,
+#explorer-app .uses-section,
+#explorer-app .collection-switcher{border-color:rgba(136,177,226,.18)}
+
+/* Element identity */
+#explorer-app .hero-stamp{color:#80b7d4}
+#explorer-app .stamp-square{border-color:#59d9ff}
+#explorer-app .element-major-symbol{color:#c7f3ff;text-shadow:5px 8px 0 #295d7540}
+#explorer-app .major-atomic-number{color:#63c6eb}
+#explorer-app .element-title-text h1{color:#f5f9ff}
+#explorer-app .name-overline{color:#83a7c7}
+#explorer-app .element-english{color:#93accd}
+#explorer-app .element-english span{color:#546d92}
+#explorer-app .hero-description{color:#9aafcc}
+#explorer-app .element-tag-row>*{
+  color:#bfe0f2;
+  background:linear-gradient(145deg,#102842,#0b1b30);
+  border:1px solid rgba(124,175,223,.26);
+}
+#explorer-app .element-tag-row a span{color:#63deeb}
+#explorer-app .element-tag-row a:hover{border-color:#59d9ff;background:#123d54;color:white}
+#explorer-app .hero-bottom-nav{color:#7488a8}
+#explorer-app .hero-bottom-nav a{color:#c4f5ff;background:#173044;border:1px solid #355c76}
+#explorer-app .hero-bottom-nav a:hover{background:#175075}
+#explorer-app .identity-card{
+  background:
+    radial-gradient(ellipse at 65% 38%,rgba(79,195,217,.18),transparent 45%),
+    linear-gradient(148deg,#12344c,#0a192c 68%);
+  border:1px solid rgba(104,192,226,.32);
+  box-shadow:inset 0 1px 0 #ffffff10,0 24px 50px #0004;
+}
+#explorer-app .identity-top{color:#8fb9d6}
+#explorer-app .identity-middle>span{color:var(--identity-color);text-shadow:0 7px 45px color-mix(in srgb,var(--identity-color) 35%,transparent)}
+#explorer-app .identity-bottom{border-color:#a9d7f52b}
+#explorer-app .identity-bottom small{color:#90acc8}
+#explorer-app .identity-bottom b span{color:#7896b5}
+
+/* Measurements & properties */
+#explorer-app .key-data-heading h2{color:#e7f4ff}
+#explorer-app .key-data-heading h2 i{color:#65d7f9}
+#explorer-app .metric{
+  background:linear-gradient(155deg,rgba(18,39,65,.98),rgba(9,21,38,.96));
+  border:1px solid rgba(136,177,226,.18);
+  box-shadow:inset 0 1px 0 #ffffff09;
+}
+#explorer-app .metric>span{color:#789ac0}
+#explorer-app .metric strong{color:#f1f9ff}
+#explorer-app .metric small{color:#8a9fbd}
+
+/* 3D laboratory */
+#explorer-app .atomic-config{
+  background:linear-gradient(160deg,#11253d,#0a1c31);
+  border:1px solid rgba(121,168,216,.24);
+}
+#explorer-app .atomic-config strong{color:#d5f3ff}
+#explorer-app .shell-count{background:#173653;border:1px solid #31577a88}
+#explorer-app .shell-count i{color:#89b3d5}
+#explorer-app .shell-count b{color:#bceeff}
+#explorer-app .atom-explainer p{color:#97acca}
+#explorer-app .atom-explainer b{color:#d7eaff}
+#explorer-app .tiny-dot{background:#68ddc3}
+#explorer-app .atom-lab{
+  background:radial-gradient(ellipse at 50% 45%,#164459,#0b233d 55%,#061527 88%);
+  border:1px solid #517fa74a;
+  box-shadow:0 18px 55px #0004,inset 0 1px 0 #c4f0ff13;
+}
+#explorer-app .lab-top,#explorer-app .lab-bottom{border-color:#a2d4ff1a}
+#explorer-app .lab-mode{background:#071728;border-color:#47607d66}
+#explorer-app .lab-mode button{color:#a3bbd7}
+#explorer-app .lab-mode button:hover,#explorer-app .lab-mode button.active{color:#051d2b;background:linear-gradient(120deg,#62e0d1,#67b8ff)}
+#explorer-app .canvas-annotation{color:#e2f9ff}
+#explorer-app .canvas-annotation span{color:#85acbf}
+#explorer-app .canvas-guide{color:#7f9eba}
+#explorer-app .lab-bottom button{color:#cbeafa;background:#122e45;border-color:#5b87a952}
+#explorer-app .lab-bottom button:hover{background:#1a4764}
+
+/* Mole and element comparison */
+#explorer-app .mole-feature,
+#explorer-app .compare-feature,
+#explorer-app .reaction-copy,
+#explorer-app .use-card{
+  background:linear-gradient(150deg,#11243d,#091a2d);
+  border:1px solid rgba(136,177,226,.20);
+  box-shadow:inset 0 1px 0 #ffffff08;
+}
+#explorer-app .mole-number{color:#eaf6ff}
+#explorer-app .mole-number span{color:#8da5c3}
+#explorer-app .mole-number strong{color:#68e7e0}
+#explorer-app .mole-feature>p{color:#9baec9}
+#explorer-app .mole-tokens span{color:#8ed5e4;background:#132f46;border:1px solid #386d8670}
+#explorer-app .cube{background:linear-gradient(135deg,#40c8d458,#167ca27a);border-color:#62c9e3;box-shadow:8px 7px 0 #256b7850}
+#explorer-app .cube span{color:#cefaff}
+#explorer-app .compare-top select{
+  background:#071a2c;
+  color:#e3f4ff;
+  border:1px solid #436b8a;
+}
+#explorer-app .compare-top select option{background:#10243a;color:#ebf5ff}
+#explorer-app .compare-masses>div>span{color:#8ba7c8}
+#explorer-app .compare-masses strong{color:#71e5d9}
+#explorer-app .compare-masses strong small{color:#96b4c9}
+#explorer-app .mass-track{background:#26415c}
+#explorer-app .mass-track i{background:linear-gradient(90deg,#1c8fbb,#65dfe1)}
+#explorer-app .compare-conclusion{color:#95b2cd;border-color:#34547075}
+
+/* Reactions */
+#explorer-app .reaction-illustration{background:radial-gradient(circle at center,#144b61,#07182e 73%);border:1px solid #407c9869}
+#explorer-app .beaker-liquid{background:linear-gradient(#3bbdc45e,#2188b976);border-color:#9cf4f2}
+#explorer-app .reaction-copy h3{color:#edf9ff}
+#explorer-app .reaction-equation{
+  background:#071a30;color:#84eeec;
+  border:1px solid #2c607b;
+}
+#explorer-app .half-reactions>div{background:#0b2037;border:1px solid #31557360}
+#explorer-app .half-reactions small{color:#72b9e7}
+#explorer-app .half-reactions strong{color:#d0effa}
+#explorer-app .reaction-copy p{color:#91abc5}
+#explorer-app .action-outline{background:#102a41;border:1px solid #476b89;color:#8bd7f1}
+#explorer-app .action-outline:hover{background:#184361}
+#explorer-app .reaction-empty{background:#102039;border:1px solid #375975}
+#explorer-app .reaction-empty>span{color:#63def5}
+#explorer-app .reaction-empty h3{color:#edf9ff}
+#explorer-app .reaction-empty p{color:#8ca9c4}
+#explorer-app .reaction-empty a{color:#6bdbf2}
+
+/* Applications & bottom links */
+#explorer-app .use-card>span{color:#80adc9}
+#explorer-app .use-icon{color:#81f0ef;background:#123f56;border:1px solid #396f88}
+#explorer-app .use-card h3{color:#e9f7ff}
+#explorer-app .use-arrow{color:#64ddeb}
+#explorer-app .uses-empty{background:#102039;border:1px solid #416a865e;color:#9aaec4}
+#explorer-app .bottom-explore{
+  background:radial-gradient(ellipse at 90% 10%,#214b7355,transparent 45%),linear-gradient(110deg,#132b48,#081c30);
+  border:1px solid #42627d89;box-shadow:0 20px 40px #0002;
+}
+#explorer-app .bottom-explore .panel-label{color:#8dbbd2}
+#explorer-app .bottom-explore h2 i{color:#81e3fb}
+#explorer-app .bottom-action{border-color:#6b98bf5b;color:#d6ecff}
+#explorer-app .bottom-action:hover{background:#2b557a54}
+#explorer-app .bottom-action.accent{background:linear-gradient(90deg,#63dfd5,#7daaf8);border:0;color:#092032}
+
+/* Group and period explorer, same navy surface and taxonomy colors. */
+#explorer-app .collection-hero-main{
+  background:radial-gradient(circle at 84% 20%,#205577a6,transparent 35%),linear-gradient(135deg,#163651,#0c2136 76%);
+  border:1px solid rgba(103,165,221,.30);
+  box-shadow:0 18px 50px #0002;
+}
+#explorer-app .collection-hero-main:after{border-color:#70b9de33;box-shadow:0 0 0 43px #67b5d01c,0 0 0 105px #65c3ec0a}
+#explorer-app .collection-hero h1{color:#f1f9ff}
+#explorer-app .collection-hero h1 em{color:#7eddf9}
+#explorer-app .collection-hero h1 span{color:#d9f5ff}
+#explorer-app .collection-hero h1 .title-period{color:#64dce4}
+#explorer-app .collection-hero-main>p{color:#a9c0d7}
+#explorer-app .subtle-link{color:#caedfa;border-color:#57a9c5}
+#explorer-app .subtle-link:hover{color:#6ee3f8}
+#explorer-app .collection-feature{
+  background:radial-gradient(circle at 70% 30%,#205372,#0b192f 66%);
+  border:1px solid #5685a35e;
+}
+#explorer-app .collection-feature:before{border-color:#9bcaff15}
+#explorer-app .large-serial{color:#91ddfa;text-shadow:0 12px 42px #45b6d541}
+#explorer-app .feature-caption{color:#9cbbd6}
+#explorer-app .feature-bottom{border-color:#c8eafa27}
+#explorer-app .feature-bottom span{color:#a1b8ce}
+#explorer-app .collection-switcher{color:#eaf6ff}
+#explorer-app .number-tabs a{
+  background:#0f253c;color:#98b4d4;border:1px solid #355675;
+}
+#explorer-app .number-tabs a:hover{color:#d8f6ff;border-color:#5bd2f0;background:#17415b}
+#explorer-app .number-tabs a.current{
+  background:linear-gradient(135deg,#27668b,#194365);border-color:#6acdeb;color:#f4fbff;
+  box-shadow:0 0 15px #43adf420;
+}
+#explorer-app .count-pill{color:#a8dff0;border-color:#41708b;background:#0e253b}
+#explorer-app .roster-card{
+  background:linear-gradient(155deg,#142943,#0a1a2e);
+  border:1px solid #4767876e;
+  box-shadow:inset 0 3px 0 var(--atom-accent),inset 0 1px 0 #ffffff08;
+}
+#explorer-app .roster-card:hover{border-color:var(--atom-accent);box-shadow:inset 0 3px 0 var(--atom-accent),0 13px 25px #0005}
+#explorer-app .roster-top{color:#8ca9c8}
+#explorer-app .roster-top span{color:#89ddeb}
+#explorer-app .roster-card>strong{color:var(--atom-accent)}
+#explorer-app .roster-name{color:#dceafd}
+#explorer-app .roster-bottom{color:#94a8c4}
+#explorer-app .collection-explain{
+  background:linear-gradient(110deg,#122b45,#0b2036);
+  border:1px solid #40668060;
+}
+#explorer-app .abstract-orbit{color:#5accf2}
+#explorer-app .collection-explain h2{color:#eaf7ff}
+#explorer-app .collection-explain p{color:#a0b6ce}
+#explorer-app .explorer-footer{max-width:1596px;border-color:#34517184;color:#7289a8}
+#explorer-app .explorer-footer b{color:#5bcbee}
+#explorer-app .explorer-footer a{color:#8bd9ee}
+#explorer-app .explorer-footer a:hover{color:white}
+
+@media(max-width:620px){
+  #explorer-app .explorer-main{padding:0 16px 45px}
+  #explorer-app .collection-hero-main{padding:30px 24px}
+  #explorer-app .element-major-symbol{font-size:90px}
+  #explorer-app .identity-card{min-height:250px}
+  #explorer-app .metric{min-height:105px}
+  #explorer-app .compare-top select{max-width:170px}
+  #explorer-app .explorer-footer{padding:23px 16px}
+}
