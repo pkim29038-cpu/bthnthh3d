@@ -52,9 +52,9 @@ export function initAtomLab(element){
     download.hidden=ar;
     caption.textContent=orbital?'ORBITAL / ĐÁM MÂY XÁC SUẤT':ar?'WebAR / KÉO ĐỂ DI CHUYỂN':'BOHR / CHUYỂN ĐỘNG ELECTRON';
     description.textContent=orbital?
-      'Chọn phân lớp bên dưới. Chuột trái xoay, cuộn phóng to, nhấp chuột phải tải PNG. Hình minh họa mật độ, không phải nghiệm lượng tử chính xác.':
+      'Chọn phân lớp bên dưới. Chuột trái xoay, cuộn phóng to; nhấp chuột phải và chọn “Save image as…” để lưu ảnh. Hình minh họa mật độ, không phải nghiệm lượng tử chính xác.':
       ar?'Chuột trái kéo để xoay; giữ chuột phải và kéo để di chuyển. Cuộn để thu phóng. Thiết bị hỗ trợ WebXR có thể bật AR qua camera.':
-      'Chuột trái kéo để xoay; cuộn để thu phóng. Nhấp chuột phải để tải ảnh PNG. Electron chuyển động riêng theo từng lớp.';
+      'Chuột trái kéo để xoay; cuộn để thu phóng. Nhấp chuột phải và chọn “Save image as…” để tự chọn nơi lưu ảnh. Electron chuyển động riêng theo từng lớp.';
     viewer?.setMode(ar?'ar':'bohr');
     if(orbital){
       if(!cloud){
@@ -98,17 +98,14 @@ export function initAtomLab(element){
       description.textContent='Không thể xuất ảnh ở chế độ này. Hãy thử khi mô hình 3D đã tải xong.';
     }
   };
-  // A stationary right-click downloads. A right-button drag does NOT download.
-  // Desktop WebAR uses right-drag to pan and left-drag to rotate instead.
+  // Allow the BROWSER'S native context menu ("Save image as…") to open.
+  // OrbitControls calls preventDefault() on contextmenu in its own bubble listener,
+  // so intercept in capture phase and stop propagation WITHOUT preventing default.
+  // For WebAR right drag is reserved for panning; don't show the menu there.
   for(const canvas of [bohrCanvas,orbitalCanvas]){
-    // Keyboard users can trigger the same action with Shift+F10.
     canvas.tabIndex=0;
     canvas.setAttribute('aria-keyshortcuts','Shift+F10');
-    canvas.addEventListener('keydown',event=>{
-      if(event.shiftKey&&event.key==='F10'&&mode!=='ar'){
-        event.preventDefault();exportScreenshot();
-      }
-    });
+    canvas.setAttribute('title','Nhấp chuột phải → Save image as… để lưu ảnh');
     let rightDrag=null;
     canvas.addEventListener('pointerdown',event=>{
       if(event.pointerType==='mouse'&&event.button===2)
@@ -120,11 +117,12 @@ export function initAtomLab(element){
     });
     canvas.addEventListener('pointercancel',()=>{rightDrag=null;});
     canvas.addEventListener('contextmenu',event=>{
-      // OrbitControls also suppresses the browser menu; download only on a click.
-      event.preventDefault();
-      if(mode!=='ar'&&!rightDrag?.moved&&event.isTrusted)exportScreenshot();
+      if(mode==='ar'||rightDrag?.moved)event.preventDefault();
+      // Crucial: do not call preventDefault for an ordinary right click.
+      // Stop Three.js OrbitControls from suppressing the native menu.
+      event.stopImmediatePropagation();
       rightDrag=null;
-    });
+    },{capture:true});
   }
   // On touchscreens where right-click is not available, keep the fallback button.
   download.addEventListener('click',exportScreenshot);
