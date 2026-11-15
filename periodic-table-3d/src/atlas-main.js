@@ -274,13 +274,14 @@ class PeriodicSculpture {
     this.controls.update();this.renderer.render(this.scene,this.camera);
   }
 }
+let webglAvailable=false;
 try {
   viewer=new PeriodicSculpture(stage);
+  webglAvailable=true;
   $('#viewport-status').textContent='MÔ HÌNH KHỐI / CÓ THỂ XOAY';
 } catch(error) {
   console.warn('WebGL unavailable. Showing accessible flat table.',error);
-  setMode('2d');document.querySelector('[data-table-mode="3d"]').disabled=true;
+  document.querySelector('[data-table-mode="3d"]').disabled=true;
 }
-if(matchMedia('(max-width: 630px)').matches)setMode('2d');
-else setMode('3d');
+setMode(!webglAvailable||matchMedia('(max-width: 630px)').matches?'2d':'3d');
 filter();
