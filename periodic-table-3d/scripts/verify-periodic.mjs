@@ -36,7 +36,7 @@ assert.ok(materialInfo(elements.find(e=>e.symbol==='Og')).speculative);
 for(const current of ['table','group','period']){
  const nav=renderSiteNav(current);
  assert.equal((nav.match(/<nav /g)||[]).length,1);
- assert.equal((nav.match(/class="atlas-nav__tab/g)||[]).length,3);
+ assert.equal((nav.match(/<a class="atlas-nav__tab/g)||[]).length,3);
  assert.equal((nav.match(/data-theme-toggle/g)||[]).length,1);
 }
 for(const page of ['index','element','group','period']){
