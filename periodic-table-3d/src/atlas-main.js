@@ -294,7 +294,7 @@ class PeriodicSculpture {
     this.controls.update();
     // Independent click/hover tile lift; gentle entrance animation.
     for(const tile of this.tiles||[]){
-      const target=tile.group.userData.baseZ+(this.hovered===tile.el.number?.25:0);
+      const target=tile.group.userData.baseZ+(this.hovered===tile.el.number ? 0.25 : 0);
       tile.group.position.z+=(target-tile.group.position.z)*.13;
     }
     this.renderer.render(this.scene,this.camera);
