@@ -34,15 +34,37 @@ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme
     <div class="chapter-intro"><span class="atlas-eyebrow">01 / CẤU TRÚC NGUYÊN TỬ</span><h2>Electron và orbital</h2><p>Bắt đầu từ cấu hình electron, rồi quan sát các ô orbital theo quy tắc điền electron.</p></div>
     <div class="chapter-main">
       <div class="electron-config-section"><span class="science-label">CẤU HÌNH ELECTRON · MINH HỌA TRẠNG THÁI CƠ BẢN</span><p class="electron-config-text" id="electron-config"></p><div class="electron-shell-row" id="electron-shells"></div></div>
-      <div class="electron-visual-grid">
-        <div class="orbital-sheet"><div class="science-section-title"><h3>Sơ đồ orbital</h3><span>↑ SPIN THUẬN · ↓ SPIN NGƯỢC</span></div>
-          <div id="orbital-diagram"></div>
-          <p class="chapter-disclaimer">Một ô đại diện một orbital. Electron chiếm các ô khác nhau trước khi ghép đôi (quy tắc Hund); tối đa hai electron spin đối nhau mỗi orbital. Một số nguyên tố nặng có ngoại lệ phức tạp cần kiểm chứng riêng.</p>
+      <div class="atom-lab" id="atom-lab">
+        <div class="atom-lab__toolbar">
+          <div class="atom-lab__modes" role="tablist" aria-label="Chọn mô hình nguyên tử">
+            <button type="button" data-lab-mode="bohr" role="tab" aria-selected="true" class="is-active">Mô hình nguyên tử / Bohr</button>
+            <button type="button" data-lab-mode="ar" role="tab" aria-selected="false">WebAR · Di chuyển</button>
+            <button type="button" data-lab-mode="orbital" role="tab" aria-selected="false">Orbital · Đám mây</button>
+          </div>
+          <div class="atom-lab__tools">
+            <button type="button" id="electron-play" aria-label="Tạm dừng chuyển động electron">Tạm dừng ⏸</button>
+            <button type="button" id="lab-reset" aria-label="Đặt lại góc nhìn">Đặt lại ↺</button>
+            <button type="button" id="lab-download" aria-label="Tải ảnh mô hình PNG">Tải ảnh PNG ↓</button>
+          </div>
         </div>
-        <div class="atom-visual"><div class="science-section-title"><h3>Mô hình nguyên tử 3D</h3><div class="atom-motion-controls"><span>BOHR / CHUYỂN ĐỘNG ELECTRON</span><button id="electron-play" type="button">Tạm dừng ⏸</button></div></div>
-          <div class="science-canvas-wrap"><canvas id="atlas-atom" aria-label="Nguyên tử 3D dạng Bohr kéo xoay được"></canvas><span class="science-canvas-hint">KÉO XOAY · CUỘN PHÓNG TO</span></div>
-          <p class="chapter-disclaimer">Mô hình Bohr giúp hình dung lớp electron, không mô tả quỹ đạo thật theo cơ học lượng tử.</p>
+        <div class="atom-lab__stage">
+          <div class="atom-lab__viewport">
+            <canvas id="atlas-atom" aria-label="Nguyên tử 3D dạng Bohr có thể kéo xoay và di chuyển"></canvas>
+            <canvas id="orbital-cloud" aria-label="Đám mây orbital electron 3D tương tác" hidden></canvas>
+          </div>
+          <div class="atom-lab__label">
+            <span id="lab-symbol">Ni</span>
+            <span id="lab-caption">MÔ HÌNH BOHR · CÁC LỚP ELECTRON</span>
+          </div>
+          <div class="orbital-picker" id="orbital-pickers" aria-label="Chọn phân lớp orbital" hidden></div>
+          <div class="atom-lab__ar-control" id="lab-webxr" hidden></div>
+          <p class="atom-lab__hint" id="lab-mode-description" aria-live="polite">Kéo chuột để xoay, cuộn để phóng to. Electron tự chuyển động quanh hạt nhân.</p>
         </div>
+      </div>
+      <div class="orbital-sheet orbital-sheet--wide">
+        <div class="science-section-title"><h3>Sơ đồ orbital: ô và mũi tên spin</h3><span>↑ SPIN THUẬN · ↓ SPIN NGƯỢC</span></div>
+        <div id="orbital-diagram"></div>
+        <p class="chapter-disclaimer">Các ô mô tả sự sắp xếp electron theo Hund và Pauli. Hình Bohr là minh họa lớp electron; đám mây orbital là hình học xác suất mang tính giáo dục, không phải ảnh quan sát electron.</p>
       </div>
     </div>
   </section>
