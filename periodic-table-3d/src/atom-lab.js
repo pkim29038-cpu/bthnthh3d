@@ -101,6 +101,14 @@ export function initAtomLab(element){
   // A stationary right-click downloads. A right-button drag does NOT download.
   // Desktop WebAR uses right-drag to pan and left-drag to rotate instead.
   for(const canvas of [bohrCanvas,orbitalCanvas]){
+    // Keyboard users can trigger the same action with Shift+F10.
+    canvas.tabIndex=0;
+    canvas.setAttribute('aria-keyshortcuts','Shift+F10');
+    canvas.addEventListener('keydown',event=>{
+      if(event.shiftKey&&event.key==='F10'&&mode!=='ar'){
+        event.preventDefault();exportScreenshot();
+      }
+    });
     let rightDrag=null;
     canvas.addEventListener('pointerdown',event=>{
       if(event.pointerType==='mouse'&&event.button===2)
