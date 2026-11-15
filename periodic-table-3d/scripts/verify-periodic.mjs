@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {elements} from '../src/elements.js';
 import {groupElements,periodElements,atomicMass,electronShells} from '../src/chemistry.js';
 import {renderSiteNav} from '../src/site-nav.js';
-import {boxesFor,validateOrbitalCount,drawOrbitalDiagram} from '../src/orbital-diagram.js';
+import {boxesFor,validateOrbitalCount,drawOrbitalDiagram,electronDisplay} from '../src/orbital-diagram.js';
 import {materialInfo} from '../src/material-viz.js';
 const file=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 
@@ -23,6 +23,9 @@ assert.deepEqual(boxesFor('2p',3),[['↑'],['↑'],['↑']]);
 assert.deepEqual(boxesFor('2p',4),[['↑','↓'],['↑'],['↑']]);
 assert.deepEqual(boxesFor('3d',6),[['↑','↓'],['↑'],['↑'],['↑'],['↑']]);
 assert.ok(drawOrbitalDiagram(elements.find(e=>e.symbol==='Be')).includes('orbital-spin-box'));
+assert.equal(electronDisplay(elements.find(e=>e.symbol==='Be')),'1s² 2s²');
+assert.equal(electronDisplay(elements.find(e=>e.symbol==='Ni')),'[Ar] 3d⁸ 4s²');
+assert.equal(electronDisplay(elements.find(e=>e.symbol==='Fe')),'[Ar] 3d⁶ 4s²');
 
 assert.equal(materialInfo(elements.find(e=>e.symbol==='Fe')).kind,'i-beam');
 assert.equal(materialInfo(elements.find(e=>e.symbol==='Cu')).kind,'coil');
