@@ -79,7 +79,7 @@ export function groupElements(n){
 }
 export function periodElements(n){return elements.filter(e=>e.period===n).sort((a,b)=>a.number-b.number);}
 export function numericMass(el){
-  const m=atomicMass[el.symbol];return /^\\d/.test(String(m))?Number(m):null;
+  const m=atomicMass[el.symbol];return /^\d/.test(String(m))?Number(m):null;
 }
 export function locationFor(el){return './element.html?symbol='+encodeURIComponent(el.symbol);}
 export function factsFor(el){
