@@ -75,9 +75,11 @@ export class ElectronViz {
     this.root.add(aura);
   }
   setMode(mode){
-    this.controls.mouseButtons.LEFT=mode==='ar'?THREE.MOUSE.PAN:THREE.MOUSE.ROTATE;
-    this.controls.mouseButtons.RIGHT=mode==='ar'?THREE.MOUSE.ROTATE:THREE.MOUSE.PAN;
-    this.controls.touches.ONE=mode==='ar'?THREE.TOUCH.PAN:THREE.TOUCH.ROTATE;
+    // Consistent desktop controls: LEFT rotates, RIGHT drags the model.
+    this.controls.mouseButtons.LEFT=THREE.MOUSE.ROTATE;
+    this.controls.mouseButtons.RIGHT=THREE.MOUSE.PAN;
+    this.controls.touches.ONE=THREE.TOUCH.ROTATE;
+    this.controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
     this.controls.enablePan=mode==='ar';
     this.controls.enableRotate=true;
     this.controls.enableZoom=true;

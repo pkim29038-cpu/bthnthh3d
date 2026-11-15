@@ -252,3 +252,226 @@ button,select,input{font-weight:650}
   .atom-lab__stage{height:440px;min-height:440px}
 }
 @media(prefers-reduced-motion:reduce){.atlas-family-cards,.family-color-card{animation:none!important}}
+
+
+/* FIX V3.2 — prevent text/counter/quiz controls from overlapping at every viewport. */
+/* Quiz uses normal document flow; no control can sit on top of an answer. */
+.atlas-quiz-dialog{
+  display:none;
+  box-sizing:border-box;
+  min-width:0;
+  width:min(560px,calc(100vw - 28px));
+  max-width:560px;
+  max-height:calc(100dvh - 28px);
+  padding:clamp(18px,3vw,28px);
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+.atlas-quiz-dialog[open]{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
+}
+.atlas-quiz-dialog .quiz-header,
+.atlas-quiz-dialog .quiz-progress,
+.atlas-quiz-dialog .quiz-prompt,
+.atlas-quiz-dialog .quiz-choices,
+.atlas-quiz-dialog .quiz-feedback,
+.atlas-quiz-dialog .quiz-actions,
+.atlas-quiz-dialog .quiz-footnote{
+  position:static!important;
+  float:none!important;
+  transform:none!important;
+  flex:none;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.atlas-quiz-dialog .quiz-progress{
+  margin:24px 0 12px;
+  line-height:1.6;
+}
+.atlas-quiz-dialog .quiz-prompt{
+  margin:0 0 20px!important;
+  line-height:1.65;
+  overflow-wrap:anywhere;
+}
+.atlas-quiz-dialog .quiz-choices{
+  display:grid;
+  gap:12px;
+  margin:0 0 18px!important;
+  align-items:stretch;
+}
+.atlas-quiz-dialog .quiz-choices button{
+  position:relative!important;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  min-height:60px;
+  margin:0!important;
+  padding:13px 14px!important;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  text-align:center;
+}
+.atlas-quiz-dialog .quiz-feedback{
+  margin:0 0 18px!important;
+  padding:12px 0;
+  min-height:0!important;
+  line-height:1.85;
+}
+.atlas-quiz-dialog .quiz-feedback[hidden]{
+  display:none!important;
+  visibility:hidden!important;
+}
+.atlas-quiz-dialog .quiz-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+  margin:0!important;
+  padding:0;
+  min-height:52px;
+}
+.atlas-quiz-dialog #quiz-next{
+  position:static!important;
+  flex:0 0 auto;
+  max-width:100%;
+  min-height:47px;
+  margin-left:auto;
+  padding:11px 16px;
+  line-height:1.55;
+}
+.atlas-quiz-dialog .quiz-footnote{margin:20px 0 0!important}
+@media(max-width:700px){
+  .atlas-quiz-dialog .quiz-choices{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .atlas-quiz-dialog .quiz-choices button{min-height:54px;font-size:12px}
+}
+@media(max-width:380px){
+  .atlas-quiz-dialog .quiz-choices{grid-template-columns:1fr}
+}
+
+/* Group / period index: number and its caption each occupy a real grid row. */
+.collection-intro{align-items:start;min-width:0}
+.collection-index{
+  box-sizing:border-box;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr);
+  align-content:start;
+  justify-items:start;
+  row-gap:12px;
+  padding:20px 18px 25px;
+  width:100%;
+  min-width:0;
+  min-height:244px;
+  overflow:visible;
+}
+.collection-index>span,
+.collection-index>small,
+.collection-index strong{
+  position:static!important;
+  display:block;
+  float:none!important;
+  transform:none!important;
+  white-space:normal;
+  max-width:100%;
+  margin:0!important;
+}
+.collection-index>span{
+  font-size:11px!important;
+  line-height:1.7!important;
+  font-weight:800;
+}
+.collection-index select{
+  min-height:43px;
+  width:100%;
+  margin:0!important;
+  padding:10px 12px;
+  font-size:12px;
+}
+.collection-index strong{
+  font-size:clamp(45px,5vw,70px)!important;
+  letter-spacing:-.055em!important;
+  line-height:1.25!important;
+  padding:0 0 .08em;
+  overflow:visible;
+}
+.collection-index>small{
+  font-size:10px!important;
+  line-height:1.6!important;
+  letter-spacing:.06em!important;
+}
+@media(max-width:850px){
+  .collection-intro{grid-template-columns:1fr;gap:22px}
+  .collection-index{max-width:360px;min-height:0}
+}
+@media(max-width:560px){
+  .collection-index{max-width:100%}
+}
+
+/* Element quick facts: reserve independent lines for label and bold number. */
+.element-quick-facts{
+  align-items:stretch;
+  grid-auto-rows:minmax(133px,auto);
+  overflow:visible;
+}
+.element-quick-fact,
+.element-quick-fact:first-child{
+  min-width:0;
+  box-sizing:border-box;
+  min-height:133px;
+  display:flex!important;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:15px;
+  padding:20px 18px!important;
+  overflow:visible;
+}
+.element-quick-fact span,
+.element-quick-fact strong{
+  display:block!important;
+  position:static!important;
+  top:auto!important;
+  left:auto!important;
+  float:none!important;
+  transform:none!important;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  margin:0!important;
+  padding:0!important;
+  text-align:left;
+  overflow-wrap:anywhere;
+}
+.element-quick-fact span{
+  font-size:11px!important;
+  line-height:1.8!important;
+  letter-spacing:0!important;
+  font-weight:750!important;
+}
+.element-quick-fact strong{
+  font-size:clamp(17px,1.6vw,22px)!important;
+  line-height:1.5!important;
+  letter-spacing:-.028em!important;
+  font-weight:850!important;
+}
+@media(max-width:720px){
+  .element-quick-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .element-quick-fact{min-height:116px}
+}
+@media(max-width:390px){
+  .element-quick-fact,.element-quick-fact:first-child{padding:16px 12px!important;gap:10px}
+  .element-quick-fact strong{font-size:16px!important}
+}
+
+/* Right click downloads Bohr/Orbital PNG on desktop; fallback button only for touch. */
+@media(hover:hover) and (pointer:fine){
+  .atom-lab__tools #lab-download{display:none!important}
+}
+.atom-lab__viewport canvas:focus-visible{
+  outline:2px solid #7eeaff;
+  outline-offset:-5px;
+}
