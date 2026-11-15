@@ -12,6 +12,7 @@ import './atlas.css';
 import './atlas-detail.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
+import './final-polish.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const symbol=new URLSearchParams(location.search).get('symbol')||'Ni';
