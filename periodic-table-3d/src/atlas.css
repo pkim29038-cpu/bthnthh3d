@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;600;700&display=swap');
 :root {
-  font-family:Manrope,system-ui,-apple-system,sans-serif;
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,sans-serif;
   color-scheme:light;
   --paper:#f5f2eb;--surface:#fffdfa;--soft:#eeeae1;--ink:#263032;--secondary:#637071;
   --muted:#87908c;--line:#d8d4c9;--line-strong:#a9aaa2;--bronze:#916c4b;--focus:#507884;
@@ -50,7 +50,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .atlas-board__heading h2{font-size:clamp(24px,3vw,36px);line-height:1.15;letter-spacing:-.05em;margin:10px 0 7px}
 .atlas-board__heading p{margin:0;font-size:12px;color:var(--secondary);line-height:1.8}
 .atlas-view-switch{display:flex;gap:0;border:1px solid var(--line);flex-shrink:0}
-.atlas-view-switch button{font:600 11px Manrope,sans-serif;background:var(--surface);color:var(--secondary);padding:13px 16px;border:0;border-right:1px solid var(--line)}
+.atlas-view-switch button{font:600 11px 'Be Vietnam Pro',sans-serif;background:var(--surface);color:var(--secondary);padding:13px 16px;border:0;border-right:1px solid var(--line)}
 .atlas-view-switch button:last-child{border-right:0;font-size:18px;padding:6px 12px}
 .atlas-view-switch button:hover{background:var(--soft)}
 .atlas-view-switch button.is-selected{background:var(--ink);color:var(--surface)}
