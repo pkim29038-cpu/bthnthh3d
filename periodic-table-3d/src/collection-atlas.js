@@ -2,8 +2,10 @@ import {elements} from './elements.js';
 import {atomicMass,categoryInfo,groupNames,periodNotes,groupElements,periodElements,locationFor} from './chemistry.js';
 import {renderSiteNav} from './site-nav.js';
 import {initTheme} from './theme.js';
+import {initMotion} from './motion.js';
 import './atlas.css';
 import './atlas-collection.css';
+import './neon-theme.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const group=document.body.dataset.page==='group';
@@ -38,3 +40,5 @@ root.innerHTML=
  '<footer class="atlas-footer"><span>ATLAS NGUYÊN TỐ · DANH MỤC HÓA HỌC</span><span>Tham khảo cách đánh số nhóm 1–18 theo IUPAC.</span></footer>';
 $('#collection-select').addEventListener('change',e=>{location.href='./'+(group?'group':'period')+'.html?n='+e.target.value;});
 document.title=title+' — Atlas Nguyên Tố';
+
+initMotion();
