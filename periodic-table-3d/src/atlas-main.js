@@ -9,6 +9,7 @@ import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
+import './final-polish.css';
 
 const $ = q => document.querySelector(q);
 const PALETTE = Object.fromEntries(Object.entries(categoryInfo).map(([key, value]) => [key, value.color]));
