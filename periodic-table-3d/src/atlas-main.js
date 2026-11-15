@@ -5,6 +5,7 @@ import { atomicMass, categoryInfo, locationFor } from './chemistry.js';
 import { renderSiteNav } from './site-nav.js';
 import { initTheme } from './theme.js';
 import './atlas.css';
+import './neon-theme.css';
 
 const $ = q => document.querySelector(q);
 const PALETTE = {
@@ -285,3 +286,5 @@ try {
 }
 setMode(!webglAvailable||matchMedia('(max-width: 630px)').matches?'2d':'3d');
 filter();
+
+initMotion();
