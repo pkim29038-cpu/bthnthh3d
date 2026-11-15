@@ -43,8 +43,43 @@
       </div>
     </div>
   </section>
+  <section class="element-chapter" id="mole">
+    <div class="chapter-intro">
+      <span class="atlas-eyebrow">03 / TRỰC QUAN HÓA 1 MOL</span>
+      <h2>1 mol có bao nhiêu hạt?</h2>
+      <p>Quan sát khối hộp 3D tự xoay, tính khối lượng từ số mol và so sánh với nguyên tố khác.</p>
+    </div>
+    <div class="chapter-main">
+      <div class="mole-lab">
+        <div class="mole-stage">
+          <div class="mole-stage__top"><span>3D · MÔ HÌNH SỐ MOL</span><span class="mole-stage__live"><i></i> ĐANG CHUYỂN ĐỘNG</span></div>
+          <canvas id="mol-canvas" aria-label="Khối lập phương mô phỏng số mol, tự quay trong không gian"></canvas>
+          <div class="mole-stage__foot"><span>6,02214076 × 10²³ hạt / mol</span><button id="mol-play" type="button" aria-label="Tạm dừng khối lập phương">Tạm dừng ⏸</button></div>
+        </div>
+        <div class="mole-dashboard">
+          <span class="science-label">KHỐI LƯỢNG TƯƠNG ỨNG</span>
+          <h3><span id="mol-current-value">1</span> mol <small id="mol-current-symbol">Ni</small></h3>
+          <div class="mole-primary-number"><strong id="mol-mass-value">58,693</strong><span>gam</span></div>
+          <p id="mol-mass-caption">Một mol nguyên tử niken có khối lượng xấp xỉ 58,693 gam.</p>
+          <label class="mole-amount-label" for="mol-amount"><span>Điều chỉnh lượng chất</span><output id="mol-amount-output">1,00 mol</output></label>
+          <input id="mol-amount" class="mole-slider" type="range" min="0.25" max="5" step="0.25" value="1" aria-label="Điều chỉnh số mol"/>
+          <div class="mole-data-grid">
+            <div><small>SỐ HẠT MINH HỌA</small><b id="mol-particles">6,022 × 10²³</b></div>
+            <div><small>THỂ TÍCH CHẤT RẮN (NẾU CÓ)</small><b id="mol-volume">Chưa có dữ liệu</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="mol-compare">
+        <div class="mol-compare__heading"><div><span class="science-label">ELEMENT VERSUS</span><h3>So sánh nguyên tố</h3></div><label>So với <select id="mol-compare-element" aria-label="Chọn nguyên tố để so sánh khối lượng mol"></select></label></div>
+        <div class="mol-compare__row"><span id="mol-a-name">Niken</span><strong id="mol-a-mass">58,693 g/mol</strong></div><div class="mol-bar-track"><span id="mol-bar-a"></span></div>
+        <div class="mol-compare__row"><span id="mol-b-name">Đồng</span><strong id="mol-b-mass">63,546 g/mol</strong></div><div class="mol-bar-track"><span id="mol-bar-b"></span></div>
+        <p id="mol-compare-summary"></p>
+      </div>
+      <p class="mole-notice">Khối hộp là <strong>mô hình tượng trưng</strong> cho lượng chất, không phải kích thước/thể tích thật của 1 mol ở mọi nguyên tố. Hằng số Avogadro theo SI: 6,02214076 × 10²³ mol⁻¹. <a href="https://www.nist.gov/si-redefinition/definitions-si-base-units" target="_blank" rel="noopener noreferrer">Nguồn NIST ↗</a></p>
+    </div>
+  </section>
   <section class="element-chapter" id="properties">
-    <div class="chapter-intro"><span class="atlas-eyebrow">03 / TÍNH CHẤT VÀ ỨNG DỤNG</span><h2>Từ dữ liệu đến đời sống</h2><p>Chỉ hiển thị thông tin có trong bộ dữ liệu biên soạn, không tự suy diễn các giá trị thiếu.</p></div>
+    <div class="chapter-intro"><span class="atlas-eyebrow">04 / TÍNH CHẤT VÀ ỨNG DỤNG</span><h2>Từ dữ liệu đến đời sống</h2><p>Chỉ hiển thị thông tin có trong bộ dữ liệu biên soạn, không tự suy diễn các giá trị thiếu.</p></div>
     <div class="chapter-main"><div class="science-details"><div><h3>Thông số</h3><dl class="science-property-list" id="property-list"></dl></div>
       <div><h3>Ứng dụng điển hình</h3><div id="element-uses"></div><div id="element-reaction"></div></div></div>
     </div>
