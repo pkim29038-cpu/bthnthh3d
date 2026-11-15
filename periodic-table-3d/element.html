@@ -1,14 +1,56 @@
 <!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f3f5f0" />
-  <meta name="description" content="Hồ sơ nguyên tố trong bảng tuần hoàn 3D. Tìm hiểu tính chất hóa học, cấu trúc electron và các nguyên tố liên quan." />
-  <title>Hồ sơ nguyên tố — Nguyên Tố 3D</title>
-</head>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#f5f2eb"/>
+<meta name="description" content="Hồ sơ nguyên tố hóa học: cấu hình electron, orbital ↑↓, mô hình nguyên tử và mẫu vật 3D minh họa."/>
+<title>Hồ sơ nguyên tố — Atlas Nguyên Tố</title></head>
 <body data-page="element">
-  <div id="explorer-app"></div>
-  <script type="module" src="/src/explorer.js"></script>
-</body>
-</html>
+<div id="site-header"></div>
+<main class="atlas-shell">
+  <div class="atlas-breadcrumb"><a href="./index.html">Bảng tuần hoàn</a><span>/</span><a id="crumb-period" href="./period.html?n=4">Chu kỳ 4</a><span>/</span><b id="crumb-name">Niken</b></div>
+  <section class="element-intro">
+    <div class="element-intro__copy">
+      <span class="atlas-eyebrow" id="element-numberline">HỒ SƠ NGUYÊN TỐ / 028</span>
+      <div class="element-headline"><div class="element-symbol-card"><span id="element-z">28</span><strong id="element-symbol">Ni</strong><small id="element-mass">58.693 u</small></div>
+      <div><p class="element-intro__overline" id="element-overline">NICKEL / KIM LOẠI CHUYỂN TIẾP</p><h1 id="element-title">Niken</h1><p id="element-summary"></p></div></div>
+      <div class="element-path"><a id="link-group" href="./group.html?n=10">Nhóm 10 ↗</a><a id="link-period" href="./period.html?n=4">Chu kỳ 4 ↗</a><a href="./index.html">Bảng tuần hoàn ↗</a></div>
+    </div>
+    <div class="element-intro__marker"><span>ATOMIC NUMBER</span><strong id="element-big-z">028</strong><p id="element-counter">NGUYÊN TỐ 028 / 118</p></div>
+  </section>
+  <div class="element-quick-facts" id="quick-facts"></div>
+  <section class="element-chapter" id="electrons">
+    <div class="chapter-intro"><span class="atlas-eyebrow">01 / CẤU TRÚC NGUYÊN TỬ</span><h2>Electron và orbital</h2><p>Bắt đầu từ cấu hình electron, rồi quan sát các ô orbital theo quy tắc điền electron.</p></div>
+    <div class="chapter-main">
+      <div class="electron-config-section"><span class="science-label">CẤU HÌNH ELECTRON · MINH HỌA TRẠNG THÁI CƠ BẢN</span><p class="electron-config-text" id="electron-config"></p><div class="electron-shell-row" id="electron-shells"></div></div>
+      <div class="electron-visual-grid">
+        <div class="orbital-sheet"><div class="science-section-title"><h3>Sơ đồ orbital</h3><span>↑ SPIN THUẬN · ↓ SPIN NGƯỢC</span></div>
+          <div id="orbital-diagram"></div>
+          <p class="chapter-disclaimer">Một ô đại diện một orbital. Electron chiếm các ô khác nhau trước khi ghép đôi (quy tắc Hund); tối đa hai electron spin đối nhau mỗi orbital. Một số nguyên tố nặng có ngoại lệ phức tạp cần kiểm chứng riêng.</p>
+        </div>
+        <div class="atom-visual"><div class="science-section-title"><h3>Mô hình nguyên tử 3D</h3><span>BOHR / KHÔNG GIAN</span></div>
+          <div class="science-canvas-wrap"><canvas id="atlas-atom" aria-label="Nguyên tử 3D dạng Bohr kéo xoay được"></canvas><span class="science-canvas-hint">KÉO XOAY · CUỘN PHÓNG TO</span></div>
+          <p class="chapter-disclaimer">Mô hình Bohr giúp hình dung lớp electron, không mô tả quỹ đạo thật theo cơ học lượng tử.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="element-chapter" id="material">
+    <div class="chapter-intro"><span class="atlas-eyebrow">02 / VẬT CHẤT QUAN SÁT ĐƯỢC</span><h2>Nguyên tố ngoài đời thực</h2><p>Thỏi kim loại, dây dẫn, tinh thể, chất lỏng, khí hoặc khoáng vật có hình thái khác nhau.</p></div>
+    <div class="chapter-main">
+      <div class="matter-layout">
+        <div class="matter-scene"><div class="matter-scene__top"><span>3D / MẪU VẬT MINH HỌA</span><span id="matter-state">RẮN</span></div><canvas id="atlas-material" aria-label="Mô hình 3D minh họa hình thái vật chất"></canvas><div class="science-canvas-hint">KÉO XOAY MẪU VẬT</div></div>
+        <div class="matter-description"><span class="science-label">HÌNH THÁI VẬT CHẤT</span><h3 id="matter-title">Mẫu kim loại</h3><p id="matter-description"></p><div class="matter-caution"><b id="matter-caution-title">MÔ HÌNH MINH HỌA</b><span>Mẫu 3D do phần mềm dựng theo hình dạng tiêu biểu, không phải ảnh chụp hoặc phép đo trực tiếp một mẫu nguyên tố thật.</span></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="element-chapter" id="properties">
+    <div class="chapter-intro"><span class="atlas-eyebrow">03 / TÍNH CHẤT VÀ ỨNG DỤNG</span><h2>Từ dữ liệu đến đời sống</h2><p>Chỉ hiển thị thông tin có trong bộ dữ liệu biên soạn, không tự suy diễn các giá trị thiếu.</p></div>
+    <div class="chapter-main"><div class="science-details"><div><h3>Thông số</h3><dl class="science-property-list" id="property-list"></dl></div>
+      <div><h3>Ứng dụng điển hình</h3><div id="element-uses"></div><div id="element-reaction"></div></div></div>
+    </div>
+  </section>
+  <div class="element-neighbors"><a id="element-previous" href="./index.html"></a><a id="element-next" href="./index.html"></a></div>
+  <footer class="atlas-footer"><span>ATLAS NGUYÊN TỐ · DỮ LIỆU PHỤC VỤ HỌC TẬP</span><a href="./index.html">Trở về bảng tuần hoàn ↑</a></footer>
+</main>
+<script type="module" src="/src/element-atlas.js"></script>
+</body></html>
