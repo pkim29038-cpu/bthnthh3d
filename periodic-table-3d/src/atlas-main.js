@@ -5,6 +5,7 @@ import { atomicMass, categoryInfo, locationFor, factsFor } from './chemistry.js'
 import { renderSiteNav } from './site-nav.js';
 import { initTheme } from './theme.js';
 import { initMotion } from './motion.js';
+import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
@@ -67,7 +68,7 @@ placeFlat();
 
 const stateFilter = $('#state-filter');
 const familyCards=$('#atlas-family-cards');
-familyCards.innerHTML=Object.entries(categoryInfo).map(([key,meta])=>{
+familyCards.innerHTML='<button type="button" class="family-color-card family-color-card--all is-active" data-category="all" aria-pressed="true"><span aria-hidden="true">◉</span><strong>Tất cả nguyên tố</strong><small>118</small></button>'+Object.entries(categoryInfo).map(([key,meta])=>{
   const count=elements.filter(el=>el.category===key).length;
   return '<button type="button" class="family-color-card" data-category="'+key+'" aria-pressed="false" style="--family:'+PALETTE[key]+'" title="Lọc '+meta.name+' — bấm lại để xem tất cả"><i class="family-color-card__swatch" aria-hidden="true"></i><div><strong>'+meta.name+'</strong><span>'+count+' nguyên tố</span></div></button>';
 }).join('');
@@ -355,3 +356,5 @@ setMode(!webglAvailable||matchMedia('(max-width: 630px)').matches?'2d':'3d');
 filter();
 
 initMotion();
+
+initQuiz();
