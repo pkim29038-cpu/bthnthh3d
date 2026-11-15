@@ -19,13 +19,15 @@ let mode = '3d';
 let viewer = null;
 let query = '';
 let selectedState = 'all';
+let selectedCategory = 'all';
 const flat = $('#table-flat');
 const stage = $('#table-webgl');
 const tooltip = $('#element-tooltip');
 const counter = $('#result-count');
 
 const makeLink = (el) => locationFor(el);
-const matches = el => (selectedState === 'all' || factsFor(el).state === selectedState) &&
+const matches = el => (selectedCategory === 'all' || el.category === selectedCategory) &&
+  (selectedState === 'all' || factsFor(el).state === selectedState) &&
   (!query || [el.symbol, el.name, String(el.number)].some(t=>t.toLocaleLowerCase('vi').includes(query)));
 
 function placeFlat() {
@@ -67,8 +69,19 @@ const stateFilter = $('#state-filter');
 const familyCards=$('#atlas-family-cards');
 familyCards.innerHTML=Object.entries(categoryInfo).map(([key,meta])=>{
   const count=elements.filter(el=>el.category===key).length;
-  return '<article class="family-color-card" style="--family:'+PALETTE[key]+'" title="'+meta.description+'"><i class="family-color-card__swatch" aria-hidden="true"></i><div><strong>'+meta.name+'</strong><span>'+count+' nguyên tố</span></div></article>';
+  return '<button type="button" class="family-color-card" data-category="'+key+'" aria-pressed="false" style="--family:'+PALETTE[key]+'" title="Lọc '+meta.name+' — bấm lại để xem tất cả"><i class="family-color-card__swatch" aria-hidden="true"></i><div><strong>'+meta.name+'</strong><span>'+count+' nguyên tố</span></div></button>';
 }).join('');
+familyCards.addEventListener('click',(event)=>{
+  const button=event.target.closest('button[data-category]');
+  if(!button)return;
+  selectedCategory=selectedCategory===button.dataset.category?'all':button.dataset.category;
+  familyCards.querySelectorAll('button[data-category]').forEach(b=>{
+    const active=b.dataset.category===selectedCategory;
+    b.classList.toggle('is-active',active);
+    b.setAttribute('aria-pressed',String(active));
+  });
+  filter();
+});
 function filter() {
   let count=0, first=null;
   for(const el of elements) {
