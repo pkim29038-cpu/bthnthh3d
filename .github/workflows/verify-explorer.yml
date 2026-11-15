@@ -1,0 +1,35 @@
+name: Verify periodic table explorer
+
+on:
+  pull_request:
+    paths:
+      - 'periodic-table-3d/**'
+      - '.github/workflows/verify-explorer.yml'
+  push:
+    branches:
+      - feature/period-group-element-explorer
+    paths:
+      - 'periodic-table-3d/**'
+      - '.github/workflows/verify-explorer.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: periodic-table-3d
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: periodic-table-3d/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Verify generated pages
+        run: |
+          test -f dist/index.html
+          test -f dist/element.html
+          test -f dist/group.html
+          test -f dist/period.html
