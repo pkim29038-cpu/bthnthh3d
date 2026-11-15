@@ -7,6 +7,7 @@ import { initTheme } from './theme.js';
 import { initMotion } from './motion.js';
 import './atlas.css';
 import './neon-theme.css';
+import './neon-enhancements.css';
 
 const $ = q => document.querySelector(q);
 const PALETTE = Object.fromEntries(Object.entries(categoryInfo).map(([key, value]) => [key, value.color]));
