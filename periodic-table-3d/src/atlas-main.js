@@ -5,9 +5,11 @@ import { atomicMass, categoryInfo, locationFor, factsFor } from './chemistry.js'
 import { renderSiteNav } from './site-nav.js';
 import { initTheme } from './theme.js';
 import { initMotion } from './motion.js';
+import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
+import './final-polish.css';
 
 const $ = q => document.querySelector(q);
 const PALETTE = Object.fromEntries(Object.entries(categoryInfo).map(([key, value]) => [key, value.color]));
@@ -67,7 +69,7 @@ placeFlat();
 
 const stateFilter = $('#state-filter');
 const familyCards=$('#atlas-family-cards');
-familyCards.innerHTML=Object.entries(categoryInfo).map(([key,meta])=>{
+familyCards.innerHTML='<button type="button" class="family-color-card family-color-card--all is-active" data-category="all" aria-pressed="true"><span aria-hidden="true">◉</span><strong>Tất cả nguyên tố</strong><small>118</small></button>'+Object.entries(categoryInfo).map(([key,meta])=>{
   const count=elements.filter(el=>el.category===key).length;
   return '<button type="button" class="family-color-card" data-category="'+key+'" aria-pressed="false" style="--family:'+PALETTE[key]+'" title="Lọc '+meta.name+' — bấm lại để xem tất cả"><i class="family-color-card__swatch" aria-hidden="true"></i><div><strong>'+meta.name+'</strong><span>'+count+' nguyên tố</span></div></button>';
 }).join('');
@@ -150,16 +152,16 @@ function faceTexture(el, light = false) {
   // High-contrast typography that is readable at an angle.
   const ink=light?'#101e3a':'#ffffff';
   const secondary=light?'#26476b':'#dbe8ff';
-  ctx.fillStyle=secondary;ctx.font='bold 49px Arial, sans-serif';
+  ctx.fillStyle=secondary;ctx.font='800 49px "Be Vietnam Pro", Arial, sans-serif';
   ctx.fillText(String(el.number).padStart(3,'0'),35,91);
   ctx.fillStyle=ink;
-  ctx.font='900 246px Arial, sans-serif';
+  ctx.font='900 242px "Be Vietnam Pro", Arial, sans-serif';
   ctx.fillText(el.symbol,30,329);
-  ctx.fillStyle=secondary;ctx.font='bold 43px Arial, sans-serif';
-  const name=el.name.length>15?el.name.slice(0,14)+'…':el.name;
-  ctx.fillText(name,36,408);
+  ctx.fillStyle=secondary;ctx.font='700 39px "Be Vietnam Pro", Arial, sans-serif';
+  const name=el.name;
+  ctx.fillText(name,36,408,448);
   ctx.lineWidth=2;ctx.strokeStyle=family;ctx.beginPath();ctx.moveTo(36,443);ctx.lineTo(475,443);ctx.stroke();
-  ctx.fillStyle=secondary;ctx.font='bold 31px ui-monospace,monospace';
+  ctx.fillStyle=secondary;ctx.font='700 31px "Be Vietnam Pro", Arial, sans-serif';
   ctx.fillText(String(atomicMass[el.symbol]||'—')+' u',36,498);
   const tex=new THREE.CanvasTexture(canvas);
   tex.colorSpace=THREE.SRGBColorSpace;
@@ -172,7 +174,7 @@ function axisTexture(value,light=true){
   const c=document.createElement('canvas');c.width=136;c.height=136;
   const ctx=c.getContext('2d');
   ctx.clearRect(0,0,136,136);
-  ctx.fillStyle=light?'#123761':'#dfeaff';ctx.font='bold 57px Arial';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle=light?'#123761':'#dfeaff';ctx.font='800 57px "Be Vietnam Pro", Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText(String(value),68,68);
   const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;return texture;
 }
@@ -355,3 +357,7 @@ setMode(!webglAvailable||matchMedia('(max-width: 630px)').matches?'2d':'3d');
 filter();
 
 initMotion();
+
+initQuiz();
+
+if(document.fonts?.load){document.fonts.load('700 16px "Be Vietnam Pro"').then(()=>viewer?.build()).catch(()=>{});}

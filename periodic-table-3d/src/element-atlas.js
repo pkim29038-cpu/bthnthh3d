@@ -4,13 +4,15 @@ import {drawOrbitalDiagram,validateOrbitalCount,electronDisplay} from './orbital
 import {MaterialViz,materialInfo} from './material-viz.js';
 import {renderSiteNav} from './site-nav.js';
 import {initTheme} from './theme.js';
-import {initElectronViz} from './electron-viz.js';
+import {initAtomLab} from './atom-lab.js';
 import {initMoleLab} from './mole-lab.js';
 import {initMotion} from './motion.js';
+import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './atlas-detail.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
+import './final-polish.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const symbol=new URLSearchParams(location.search).get('symbol')||'Ni';
@@ -78,7 +80,7 @@ for(const [id,e,caption,arrow] of [['element-previous',previous,'NGUYÊN TỐ TR
 document.title=el.name+' ('+el.symbol+') — Atlas Nguyên Tố';
 if(!validateOrbitalCount(el))console.warn('Cần kiểm tra cấu hình electron:',el.symbol);
 
-initElectronViz($('#atlas-atom'),el);
+initAtomLab(el);
 initMoleLab(el);
 try {new MaterialViz($('#atlas-material')).setElement(el);} catch(e) {
   console.warn('Material 3D unavailable',e);
@@ -86,3 +88,5 @@ try {new MaterialViz($('#atlas-material')).setElement(el);} catch(e) {
 }
 
 initMotion();
+
+initQuiz();

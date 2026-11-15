@@ -68,11 +68,11 @@ export class MoleCube {
     gradient.addColorStop(0,'#182849');gradient.addColorStop(.52,'#0f1938');gradient.addColorStop(1,'#261a56');
     ctx.fillStyle=gradient;ctx.fillRect(0,0,512,512);
     ctx.strokeStyle='#5de8ff';ctx.lineWidth=9;ctx.strokeRect(18,18,476,476);
-    ctx.fillStyle='#8cefff';ctx.font='bold 37px Arial';ctx.textAlign='center';
+    ctx.fillStyle='#8cefff';ctx.font='800 34px "Be Vietnam Pro", Arial, sans-serif';ctx.textAlign='center';
     ctx.fillText('TRỰC QUAN HÓA',256,93);
-    ctx.fillStyle='#f3faff';ctx.font='900 160px Arial';ctx.fillText(this.element.symbol,256,303);
-    ctx.fillStyle='#e5c4ff';ctx.font='bold 55px Arial';ctx.fillText(fmt(this.amount,2)+' mol',256,382);
-    ctx.fillStyle='#acd8ff';ctx.font='bold 25px Arial';ctx.fillText('6,022 × 10²³ hạt / mol',256,444);
+    ctx.fillStyle='#f3faff';ctx.font='900 150px "Be Vietnam Pro", Arial, sans-serif';ctx.fillText(this.element.symbol,256,303);
+    ctx.fillStyle='#e5c4ff';ctx.font='800 52px "Be Vietnam Pro", Arial, sans-serif';ctx.fillText(fmt(this.amount,2)+' mol',256,382);
+    ctx.fillStyle='#acd8ff';ctx.font='700 23px "Be Vietnam Pro", Arial, sans-serif';ctx.fillText('6,022 × 10²³ hạt / mol',256,444);
     this.labelTexture&&(this.labelTexture.needsUpdate=true);
   }
   _createCube(){
@@ -110,6 +110,24 @@ export class MoleCube {
       this.root.add(surface);
     }
     // Tiny symbolic particles suspended in the virtual sample.
+    // A distinctive "quantum observatory" cage around the mole sample:
+    // three independent circular measurement bands and subtle corner markers.
+    const ringMaterial=new THREE.MeshBasicMaterial({color:0x60edff,transparent:true,opacity:.55,depthWrite:false});
+    const violetMaterial=new THREE.MeshBasicMaterial({color:0xb88aff,transparent:true,opacity:.40,depthWrite:false});
+    const torusA=new THREE.Mesh(new THREE.TorusGeometry(2.12,.016,7,144),ringMaterial);
+    torusA.rotation.set(.65,.18,.23);this.root.add(torusA);
+    const torusB=new THREE.Mesh(new THREE.TorusGeometry(2.27,.012,6,140),violetMaterial);
+    torusB.rotation.set(1.15,.52,-.23);this.root.add(torusB);
+    const torusC=new THREE.Mesh(new THREE.TorusGeometry(2.00,.011,6,140),ringMaterial);
+    torusC.rotation.set(.18,.87,.54);this.root.add(torusC);
+    const beaconGeo=new THREE.OctahedronGeometry(.074,0);
+    const beaconMat=new THREE.MeshBasicMaterial({color:0x98faff});
+    for(const x of [-1.55,1.55])for(const y of [-1.55,1.55])for(const z of [-1.55,1.55]){
+      const beacon=new THREE.Mesh(beaconGeo,beaconMat);beacon.position.set(x,y,z);this.root.add(beacon);
+    }
+    const interior=new THREE.Mesh(new THREE.IcosahedronGeometry(.58,1),
+      new THREE.MeshBasicMaterial({color:0x93b3ff,wireframe:true,transparent:true,opacity:.17}));
+    this.root.add(interior);
     const count=96,g=new THREE.SphereGeometry(.035,8,7);
     const m=new THREE.MeshBasicMaterial({color:0x88f4ff,transparent:true,opacity:.68});
     const instanced=new THREE.InstancedMesh(g,m,count);

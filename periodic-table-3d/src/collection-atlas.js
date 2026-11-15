@@ -3,10 +3,12 @@ import {atomicMass,categoryInfo,groupNames,periodNotes,groupElements,periodEleme
 import {renderSiteNav} from './site-nav.js';
 import {initTheme} from './theme.js';
 import {initMotion} from './motion.js';
+import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './atlas-collection.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
+import './final-polish.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const group=document.body.dataset.page==='group';
@@ -55,3 +57,5 @@ $('#collection-select').addEventListener('change',e=>{location.href='./'+(group?
 document.title=title+' — Atlas Nguyên Tố';
 
 initMotion();
+
+initQuiz();

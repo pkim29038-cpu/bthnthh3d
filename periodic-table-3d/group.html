@@ -1,5 +1,17 @@
 <!doctype html>
 <html lang="vi"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#f5f2eb"/><meta name="description" content="Khám phá 18 nhóm của bảng tuần hoàn và truy cập hồ sơ chi tiết của từng nguyên tố."/>
-<title>Khám phá nhóm — Atlas Nguyên Tố</title></head>
+<title>Khám phá nhóm — Atlas Nguyên Tố</title><style>
+:root{color-scheme:dark;background:#080c1d}
+:root[data-theme="light"]{color-scheme:light;background:#eef4ff}
+html,body{min-height:100%;margin:0}
+body{background:#080c1d}
+:root[data-theme="light"] body{background:#eef4ff}
+</style>
+<script>
+(function(){try{var v=localStorage.getItem('atomic-atlas-theme');var theme=v==='light'?'light':'dark';
+document.documentElement.setAttribute('data-theme',theme);
+document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#eef4ff':'#080c1d');
+}catch(_){document.documentElement.setAttribute('data-theme','dark');}})();
+</script></head>
 <body data-page="group"><div id="site-header"></div><main id="collection-root" class="atlas-shell"></main><script type="module" src="/src/collection-atlas.js"></script></body></html>
