@@ -72,11 +72,26 @@ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme
     </div>
   </section>
   <section class="element-chapter" id="material">
-    <div class="chapter-intro"><span class="atlas-eyebrow">02 / VẬT CHẤT QUAN SÁT ĐƯỢC</span><h2>Nguyên tố ngoài đời thực</h2><p>Thỏi kim loại, dây dẫn, tinh thể, chất lỏng, khí hoặc khoáng vật có hình thái khác nhau.</p></div>
+    <div class="chapter-intro"><span class="atlas-eyebrow">02 / VẬT CHẤT QUAN SÁT ĐƯỢC</span><h2>Nguyên tố ngoài đời thực</h2><p>118 mẫu vật được dựng riêng theo tính chất và trạng thái của từng nguyên tố: kim loại tinh khiết, tinh thể, chất lỏng, khí và mẫu kín trong phòng thí nghiệm.</p></div>
     <div class="chapter-main">
       <div class="matter-layout">
-        <div class="matter-scene"><div class="matter-scene__top"><span>3D / MẪU VẬT MINH HỌA</span><span id="matter-state">RẮN</span></div><canvas id="atlas-material" aria-label="Mô hình 3D minh họa hình thái vật chất"></canvas><div class="science-canvas-hint">KÉO XOAY MẪU VẬT</div></div>
-        <div class="matter-description"><span class="science-label">HÌNH THÁI VẬT CHẤT</span><h3 id="matter-title">Mẫu kim loại</h3><p id="matter-description"></p><div class="matter-caution"><b id="matter-caution-title">MÔ HÌNH MINH HỌA</b><span>Mẫu 3D do phần mềm dựng theo hình dạng tiêu biểu, không phải ảnh chụp hoặc phép đo trực tiếp một mẫu nguyên tố thật.</span></div></div>
+        <div class="matter-scene">
+          <div class="matter-scene__top"><span>SPECIMEN LAB / 3D</span><span id="matter-state">RẮN</span></div>
+          <div class="matter-specimen-id" id="matter-specimen-id" aria-hidden="true">Z —</div>
+          <canvas id="atlas-material" aria-label="Mô hình 3D của mẫu vật nguyên tố tinh khiết, kéo để xoay, cuộn để phóng to"></canvas>
+          <div class="science-canvas-hint">KÉO XOAY · CUỘN ĐỂ PHÓNG TO</div>
+        </div>
+        <div class="matter-description">
+          <span class="science-label">MẪU VẬT NGUYÊN TỐ TINH KHIẾT</span>
+          <h3 id="matter-title">Mẫu vật hóa học</h3>
+          <div id="matter-specimen-tags" class="matter-specimen-tags" aria-label="Đặc điểm mẫu vật"></div>
+          <p id="matter-description"></p>
+          <div class="matter-specimen-facts">
+            <div><span>HÌNH THỨC</span><strong id="matter-specimen-shape">—</strong></div>
+            <div><span>ĐỘ TIN CẬY</span><strong id="matter-specimen-confidence">Mô phỏng</strong></div>
+          </div>
+          <div class="matter-caution"><b id="matter-caution-title">MÔ HÌNH MINH HỌA</b><span id="matter-caution-description">Mẫu 3D thể hiện một hình thái vật chất có thể gặp, không phải ảnh chụp hoặc hình dạng duy nhất của nguyên tố.</span></div>
+        </div>
       </div>
     </div>
   </section>
