@@ -2,12 +2,9 @@ import {elements} from './elements.js';
 import {atomicMass,categoryInfo,electronShells,electronConfig,factsFor,reactionExamples,locationFor} from './chemistry.js';
 import {drawOrbitalDiagram,validateOrbitalCount,electronDisplay} from './orbital-diagram.js';
 import {MaterialViz,materialInfo} from './material-viz.js';
-import {renderSiteNav} from './site-nav.js';
-import {initTheme} from './theme.js';
 import {initAtomLab} from './atom-lab.js';
 import {initMoleLab} from './mole-lab.js';
 import {initMotion} from './motion.js';
-import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './atlas-detail.css';
 import './neon-theme.css';
@@ -21,8 +18,6 @@ const facts=factsFor(el),material=materialInfo(el),shells=electronShells(el),rea
 const previous=elements[(el.number+116)%118],next=elements[el.number%118];
 const isF=['lanthanide','actinide'].includes(el.category)&&!['La','Ac'].includes(el.symbol);
 const classLabel=categoryInfo[el.category].name;
-$('#site-header').outerHTML=renderSiteNav('table',{group:el.group,period:el.period});
-initTheme();
 const z=String(el.number).padStart(3,'0');
 $('#element-numberline').textContent='HỒ SƠ NGUYÊN TỐ / '+z;
 $('#element-z').textContent=el.number;
@@ -88,5 +83,3 @@ try {new MaterialViz($('#atlas-material')).setElement(el);} catch(e) {
 }
 
 initMotion();
-
-initQuiz();
