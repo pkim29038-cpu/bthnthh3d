@@ -1,3 +1,5 @@
+import { IUPAC_ENGLISH_NAMES } from './element-names.js';
+
 export const elements = [
   {
     "number": 1,
@@ -1180,3 +1182,11 @@ export const elements = [
     "row": 7
   }
 ];
+
+// English IUPAC names are the primary labels across 2D, 3D, profiles and quiz.
+// Original Vietnamese names remain as search-only aliases for existing learners.
+if (IUPAC_ENGLISH_NAMES.length !== 118) throw new Error('Expected 118 IUPAC element names');
+for (const el of elements) {
+  el.viName = el.name;
+  el.name = IUPAC_ENGLISH_NAMES[el.number - 1];
+}
