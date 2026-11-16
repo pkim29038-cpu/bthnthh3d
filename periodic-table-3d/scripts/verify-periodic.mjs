@@ -31,14 +31,28 @@ assert.equal(electronDisplay(elements.find(e=>e.symbol==='Be')),'1s² 2s²');
 assert.equal(electronDisplay(elements.find(e=>e.symbol==='Ni')),'[Ar] 3d⁸ 4s²');
 assert.equal(electronDisplay(elements.find(e=>e.symbol==='Fe')),'[Ar] 3d⁶ 4s²');
 
-assert.equal(materialInfo(elements.find(e=>e.symbol==='Fe')).kind,'i-beam');
-assert.equal(materialInfo(elements.find(e=>e.symbol==='Cu')).kind,'coil');
-assert.equal(materialInfo(elements.find(e=>e.symbol==='Au')).kind,'ingot');
-assert.equal(materialInfo(elements.find(e=>e.symbol==='Hg')).kind,'mercury');
-assert.equal(materialInfo(elements.find(e=>e.symbol==='O')).kind,'gas-molecule');
-assert.equal(materialInfo(elements.find(e=>e.symbol==='U')).kind,'ore');
-assert.equal(materialInfo(elements.find(e=>e.symbol==='Og')).kind,'unknown');
+// Each of the 118 elements has a unique specimen recipe (shape + seed),
+ // not an inherited single cylinder whose material color is merely swapped.
+const specimens=elements.map(materialInfo);
+assert.equal(specimens.length,118);
+assert.equal(new Set(specimens.map(s=>s.z)).size,118,'All atomic numbers have a profile');
+assert.equal(new Set(specimens.map(s=>s.seed)).size,118,'Procedural shapes use an element-unique seed');
+assert.ok(new Set(specimens.map(s=>s.kind)).size>=18,'Provide many geometry families, not one generic shape');
+assert.ok(specimens.every(s=>s.tint&&s.title&&s.description&&s.confidence),'Each sample needs its own presentation and scientific caution');
+assert.ok(specimens.every(s=>s.title.length>8&&s.description.length>55));
+assert.equal(materialInfo(elements.find(e=>e.symbol==='Fe')).kind,'metal-rough');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='Cu')).kind,'metal-nugget');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='Au')).kind,'metal-nugget');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='Hg')).kind,'liquid-droplet');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='O')).kind,'gas-vessel');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='Br')).kind,'liquid-vial');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='S')).kind,'crystal-cluster');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='C')).kind,'layered');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='U')).kind,'sealed');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='Og')).kind,'unobserved');
+assert.equal(materialInfo(elements.find(e=>e.symbol==='At')).kind,'unobserved');
 assert.ok(materialInfo(elements.find(e=>e.symbol==='Og')).speculative);
+assert.ok(!materialInfo(elements.find(e=>e.symbol==='O')).description.includes('phát sáng'), 'Ordinary oxygen gas must not be shown as naturally luminous');
 
 for(const current of ['table','group','period']){
  const nav=renderSiteNav(current);
@@ -201,4 +215,12 @@ assert.ok(file('src/quiz.js').includes('el.name'),'Quiz questions must use the s
 assert.ok(file('src/collection-atlas.js').includes('e.name'),'Group/period cards must use the same English names');
 assert.ok(file('src/element-atlas.js').includes("textContent=el.name"),'Element profile must use the same English names');
 assert.ok(file('src/atlas-main.js').includes('ctx.fillText(name,36,408,448)'),'3D textures must use the shared element name');
+assert.ok(file('src/material-viz.js').includes("specimen-renderer.js"),'Viewer should use dedicated specimen geometry library');
+const specimenRenderer=file('src/specimen-renderer.js');
+assert.ok(specimenRenderer.includes("case 'metal-nugget'")&&specimenRenderer.includes("case 'crystal-shard'")&&specimenRenderer.includes("case 'sealed'"),
+  'Geometry must change between pure metal nuggets, crystals and sealed samples');
+assert.ok(specimenRenderer.includes("case 'unobserved'"),'Unobserved elements must not be drawn as fake macroscopic chunks');
+assert.ok(file('element.html').includes('id="matter-specimen-tags"'),'Element detail should show the sample labels');
+assert.ok(file('element.html').includes('id="matter-specimen-confidence"'),'Sample confidence should be transparent');
+assert.ok(file('src/element-atlas.js').includes("import './specimen-lab.css'"),'Specimen gallery CSS should load');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
