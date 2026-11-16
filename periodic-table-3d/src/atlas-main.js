@@ -27,7 +27,7 @@ const counter = $('#result-count');
 const makeLink = (el) => locationFor(el);
 const matches = el => (selectedCategory === 'all' || el.category === selectedCategory) &&
   (selectedState === 'all' || factsFor(el).state === selectedState) &&
-  (!query || [el.symbol, el.name, String(el.number)].some(t=>t.toLocaleLowerCase('vi').includes(query)));
+  (!query || [el.symbol, el.name, el.viName, String(el.number)].some(t=>t.toLocaleLowerCase('vi').includes(query)));
 
 function placeFlat() {
   const grid = document.createElement('div');

@@ -26,13 +26,13 @@ export const atomicMass = {
   Md:'[258]', No:'[259]', Lr:'[266]', Rf:'[267]', Db:'[268]', Sg:'[269]', Bh:'[270]', Hs:'[277]', Mt:'[278]', Ds:'[281]',
   Rg:'[282]', Cn:'[285]', Nh:'[286]', Fl:'[289]', Mc:'[290]', Lv:'[293]', Ts:'[294]', Og:'[294]'
 };
-export const groupNames = {1:'Kim loại kiềm',2:'Kim loại kiềm thổ',3:'Nhóm Scandi',4:'Nhóm Titan',5:'Nhóm Vanadi',6:'Nhóm Crom',7:'Nhóm Mangan',8:'Nhóm Sắt',9:'Nhóm Coban',10:'Nhóm Niken',11:'Nhóm Đồng',12:'Nhóm Kẽm',13:'Nhóm Bo',14:'Nhóm Cacbon',15:'Nhóm Nitơ',16:'Nhóm Oxy',17:'Halogen',18:'Khí hiếm'};
+export const groupNames = {1:'Kim loại kiềm',2:'Kim loại kiềm thổ',3:'Nhóm Scandium',4:'Nhóm Titanium',5:'Nhóm Vanadium',6:'Nhóm Chromium',7:'Nhóm Manganese',8:'Nhóm Iron',9:'Nhóm Cobalt',10:'Nhóm Nickel',11:'Nhóm Copper',12:'Nhóm Zinc',13:'Nhóm Boron',14:'Nhóm Carbon',15:'Nhóm Nitrogen',16:'Nhóm Oxygen',17:'Halogen',18:'Khí hiếm'};
 export const periodNotes = {
   1:'Chỉ có 2 nguyên tố. Lớp electron thứ nhất bắt đầu được lấp đầy.',
-  2:'Từ Liti đến Neon. Các nguyên tố khối s và p bắt đầu thể hiện xu hướng tuần hoàn rõ rệt.',
-  3:'Từ Natri đến Argon. Nhiều nguyên tố quen thuộc trong đời sống xuất hiện ở chu kỳ này.',
-  4:'Từ Kali đến Krypton. Chu kỳ đầu tiên có đầy đủ dãy kim loại chuyển tiếp.',
-  5:'Từ Rubidi đến Xenon, bao gồm các nguyên tố quan trọng trong luyện kim và điện tử.',
+  2:'Từ Lithium đến Neon. Các nguyên tố khối s và p bắt đầu thể hiện xu hướng tuần hoàn rõ rệt.',
+  3:'Từ Sodium đến Argon. Nhiều nguyên tố quen thuộc trong đời sống xuất hiện ở chu kỳ này.',
+  4:'Từ Potassium đến Krypton. Chu kỳ đầu tiên có đầy đủ dãy kim loại chuyển tiếp.',
+  5:'Từ Rubidium đến Xenon, bao gồm các nguyên tố quan trọng trong luyện kim và điện tử.',
   6:'Gồm 32 nguyên tố, trong đó có dãy Lantan được đặt thành hàng riêng để dễ theo dõi.',
   7:'Gồm 32 nguyên tố, bao gồm dãy Actini và nhiều nguyên tố tổng hợp siêu nặng.'
 };
@@ -42,7 +42,7 @@ export const elementFacts = {
   O:{en:'Oxygen',summary:'Phi kim cần thiết cho quá trình hô hấp của đa số sinh vật.',uses:['Y tế','Luyện thép','Công nghiệp hóa học'],state:'Khí',electro:'3,44'},
   Al:{en:'Aluminium',summary:'Kim loại nhẹ, tạo lớp oxit bảo vệ nên chống ăn mòn khá tốt.',uses:['Hàng không','Bao bì','Vật liệu xây dựng'],state:'Rắn',density:'2,70 g/cm³',melting:'660,3 °C',oxidation:'+3'},
   Fe:{en:'Iron',summary:'Kim loại được sử dụng rộng rãi trong thép, cơ khí và xây dựng.',uses:['Sản xuất thép','Kết cấu xây dựng','Thiết bị cơ khí'],state:'Rắn',density:'7,87 g/cm³',melting:'1.538 °C',boiling:'2.862 °C',electro:'1,83',oxidation:'+2, +3',discovery:'Được sử dụng từ thời cổ đại',oxide:'Fe₂O₃',hydroxide:'Fe(OH)₃'},
-  Ni:{en:'Nickel',summary:'Kim loại bền, chống ăn mòn, được dùng trong thép không gỉ, pin và xúc tác. Một số hợp chất niken có thể gây dị ứng.',uses:['Luyện kim & hợp kim','Pin sạc và điện cực','Xúc tác công nghiệp'],state:'Rắn',density:'8,908 g/cm³',melting:'1.455 °C',boiling:'2.730 °C',electro:'1,91',radius:'135 pm',oxidation:'+2, +3',discovery:'Axel Fredrik Cronstedt · 1751',oxide:'NiO',hydroxide:'Ni(OH)₂'},
+  Ni:{en:'Nickel',summary:'Kim loại bền, chống ăn mòn, được dùng trong thép không gỉ, pin và xúc tác. Một số hợp chất Nickel có thể gây dị ứng.',uses:['Luyện kim & hợp kim','Pin sạc và điện cực','Xúc tác công nghiệp'],state:'Rắn',density:'8,908 g/cm³',melting:'1.455 °C',boiling:'2.730 °C',electro:'1,91',radius:'135 pm',oxidation:'+2, +3',discovery:'Axel Fredrik Cronstedt · 1751',oxide:'NiO',hydroxide:'Ni(OH)₂'},
   Cu:{en:'Copper',summary:'Kim loại dẫn điện, dẫn nhiệt tốt, thường dùng trong dây dẫn và hợp kim.',uses:['Dây dẫn điện','Đường ống','Hợp kim đồng'],state:'Rắn',density:'8,96 g/cm³',melting:'1.084,6 °C',boiling:'2.562 °C',electro:'1,90',oxidation:'+1, +2',oxide:'CuO',hydroxide:'Cu(OH)₂'},
   Zn:{en:'Zinc',summary:'Kim loại thường dùng để mạ chống gỉ và chế tạo hợp kim.',uses:['Mạ kẽm','Chế tạo đồng thau','Pin'],state:'Rắn',density:'7,14 g/cm³',melting:'419,5 °C',boiling:'907 °C',oxidation:'+2'},
   Ag:{en:'Silver',summary:'Kim loại quý có khả năng dẫn điện rất cao.',uses:['Tiếp điểm điện','Trang sức','Vật liệu quang học'],state:'Rắn',density:'10,49 g/cm³',oxidation:'+1'},
@@ -52,11 +52,11 @@ export const elementFacts = {
   Mg:{en:'Magnesium',summary:'Kim loại nhẹ, có vai trò trong hợp kim và sinh học.',uses:['Hợp kim nhẹ','Vật liệu cơ khí','Hóa học'],state:'Rắn',density:'1,74 g/cm³',oxidation:'+2'}
 };
 export const reactionExamples = {
-  Ni:{label:'Niken với axit clohiđric',equation:'Ni + 2HCl → NiCl₂ + H₂↑',note:'Ví dụ phản ứng oxi hóa–khử; tốc độ thực tế phụ thuộc điều kiện và bề mặt kim loại.',oxidation:'Ni → Ni²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
-  Fe:{label:'Sắt với axit clohiđric',equation:'Fe + 2HCl → FeCl₂ + H₂↑',note:'Phản ứng minh họa sự tạo muối sắt(II) và giải phóng khí hiđro.',oxidation:'Fe → Fe²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
-  Zn:{label:'Kẽm với axit clohiđric',equation:'Zn + 2HCl → ZnCl₂ + H₂↑',note:'Phản ứng thường dùng để minh họa tính khử của kim loại.',oxidation:'Zn → Zn²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
-  Mg:{label:'Magie với axit clohiđric',equation:'Mg + 2HCl → MgCl₂ + H₂↑',note:'Phản ứng minh họa việc tạo muối và khí hiđro.',oxidation:'Mg → Mg²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
-  Al:{label:'Nhôm với axit clohiđric',equation:'2Al + 6HCl → 2AlCl₃ + 3H₂↑',note:'Lớp oxit thụ động trên bề mặt có thể làm thay đổi diễn biến phản ứng.',oxidation:'Al → Al³⁺ + 3e⁻',reduction:'2H⁺ + 2e⁻ → H₂'}
+  Ni:{label:'Nickel với axit clohiđric',equation:'Ni + 2HCl → NiCl₂ + H₂↑',note:'Ví dụ phản ứng oxi hóa–khử; tốc độ thực tế phụ thuộc điều kiện và bề mặt kim loại.',oxidation:'Ni → Ni²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
+  Fe:{label:'Iron với axit clohiđric',equation:'Fe + 2HCl → FeCl₂ + H₂↑',note:'Phản ứng minh họa sự tạo muối sắt(II) và giải phóng khí hiđro.',oxidation:'Fe → Fe²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
+  Zn:{label:'Zinc với axit clohiđric',equation:'Zn + 2HCl → ZnCl₂ + H₂↑',note:'Phản ứng thường dùng để minh họa tính khử của kim loại.',oxidation:'Zn → Zn²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
+  Mg:{label:'Magnesium với axit clohiđric',equation:'Mg + 2HCl → MgCl₂ + H₂↑',note:'Phản ứng minh họa việc tạo muối và khí hiđro.',oxidation:'Mg → Mg²⁺ + 2e⁻',reduction:'2H⁺ + 2e⁻ → H₂'},
+  Al:{label:'Aluminium với axit clohiđric',equation:'2Al + 6HCl → 2AlCl₃ + 3H₂↑',note:'Lớp oxit thụ động trên bề mặt có thể làm thay đổi diễn biến phản ứng.',oxidation:'Al → Al³⁺ + 3e⁻',reduction:'2H⁺ + 2e⁻ → H₂'}
 };
 const order=[['1s',2],['2s',2],['2p',6],['3s',2],['3p',6],['4s',2],['3d',10],['4p',6],['5s',2],['4d',10],['5p',6],['6s',2],['4f',14],['5d',10],['6p',6],['7s',2],['5f',14],['6d',10],['7p',6]];
 const exceptions={Cr:{'4s':1,'3d':5},Cu:{'4s':1,'3d':10},Nb:{'5s':1,'4d':4},Mo:{'5s':1,'4d':5},Ru:{'5s':1,'4d':7},Rh:{'5s':1,'4d':8},Pd:{'5s':0,'4d':10},Ag:{'5s':1,'4d':10},Pt:{'6s':1,'5d':9},Au:{'6s':1,'5d':10}};
