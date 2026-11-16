@@ -2,10 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { elements } from './elements.js';
 import { atomicMass, categoryInfo, locationFor, factsFor } from './chemistry.js';
-import { renderSiteNav } from './site-nav.js';
-import { initTheme } from './theme.js';
 import { initMotion } from './motion.js';
-import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
@@ -14,11 +11,11 @@ import './final-polish.css';
 const $ = q => document.querySelector(q);
 const PALETTE = Object.fromEntries(Object.entries(categoryInfo).map(([key, value]) => [key, value.color]));
 const doc = document.documentElement;
-$('#site-header').outerHTML = renderSiteNav('table');
-initTheme();
 
 let mode = '3d';
 let viewer = null;
+let viewerPromise = null;
+let webglFailed = false;
 let query = '';
 let selectedState = 'all';
 let selectedCategory = 'all';
@@ -123,9 +120,12 @@ function setMode(next) {
   $('#reset-table').hidden=next!=='3d';
   $('#zoom-in').hidden=next!=='3d';
   $('#zoom-out').hidden=next!=='3d';
-  $('#viewport-status').textContent=next==='3d'?'MÔ HÌNH KHỐI / CÓ THỂ XOAY':'MẶT PHẲNG / DỄ ĐỌC';
+  $('#viewport-status').textContent=next==='3d'?(viewer?'MÔ HÌNH KHỐI / CÓ THỂ XOAY':'ĐANG TẢI MÔ HÌNH 3D'):'MẶT PHẲNG / DỄ ĐỌC';
   $('#viewport-hint').textContent=next==='3d'?'KÉO XOAY · LĂN ĐỂ ZOOM · BẤM ĐỂ KHÁM PHÁ':'CUỘN NGANG ĐỂ XEM ĐỦ 18 NHÓM';
-  if(next==='3d'){viewer?.resize();viewer?.renderOnce();}
+  if(next==='3d'){
+    if(viewer){viewer.resize();viewer.renderOnce();}
+    else if(!webglFailed)prepare3D();
+  }
 }
 $('#reset-table').addEventListener('click',()=>viewer?.reset());
 $('#zoom-in').addEventListener('click',()=>viewer?.zoomBy(.72));
@@ -375,20 +375,40 @@ class PeriodicSculpture {
     this.renderer.render(this.scene,this.camera);
   }
 }
-let webglAvailable=false;
-try {
-  viewer=new PeriodicSculpture(stage);
-  webglAvailable=true;
-  $('#viewport-status').textContent='MÔ HÌNH KHỐI / CÓ THỂ XOAY';
-} catch(error) {
-  console.warn('WebGL unavailable. Showing accessible flat table.',error);
-  document.querySelector('[data-table-mode="3d"]').disabled=true;
+/**
+ * Defer the expensive 118-texture Three.js scene until after the header and
+ * first frame have painted. Load the Vietnamese display font BEFORE the board
+ * once, instead of rebuilding the whole board as soon as Google Fonts resolves.
+ * Tablets and phones start in lightweight 2D until visitors opt into 3D.
+ */
+function prepare3D(){
+  if(viewerPromise||webglFailed)return viewerPromise;
+  viewerPromise=new Promise(resolve=>{
+    requestAnimationFrame(()=>requestAnimationFrame(resolve));
+  }).then(async()=>{
+    const fontLoad=document.fonts?.load
+      ?document.fonts.load('700 16px "Be Vietnam Pro"').catch(()=>{})
+      :Promise.resolve();
+    await Promise.race([fontLoad,new Promise(resolve=>setTimeout(resolve,1400))]);
+    try {
+      viewer=new PeriodicSculpture(stage);
+      $('#viewport-status').textContent=mode==='3d'?'MÔ HÌNH KHỐI / CÓ THỂ XOAY':'MẶT PHẲNG / DỄ ĐỌC';
+      $('#table-loading')?.remove();
+      for(const id of ['zoom-in','zoom-out','reset-table'])$('#'+id).disabled=false;
+      viewer.filter(matches);
+      if(mode==='3d'){viewer.resize();viewer.renderOnce();}
+    }catch(error){
+      webglFailed=true;
+      console.warn('WebGL unavailable. Showing accessible flat table.',error);
+      document.querySelector('[data-table-mode="3d"]').disabled=true;
+      $('#table-loading')?.remove();
+      stage.querySelector('canvas')?.remove();
+      setMode('2d');
+    }
+  });
+  return viewerPromise;
 }
-setMode(!webglAvailable||matchMedia('(max-width: 630px)').matches?'2d':'3d');
+for(const id of ['zoom-in','zoom-out','reset-table'])$('#'+id).disabled=true;
+setMode(matchMedia('(max-width: 630px)').matches?'2d':'3d');
 filter();
-
 initMotion();
-
-initQuiz();
-
-if(document.fonts?.load){document.fonts.load('700 16px "Be Vietnam Pro"').then(()=>viewer?.build()).catch(()=>{});}

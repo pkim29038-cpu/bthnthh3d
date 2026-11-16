@@ -112,9 +112,19 @@ for(const page of allSitePages){
   assert.ok(html.includes("localStorage.getItem('atomic-atlas-theme')"),page+' should apply saved theme BEFORE module JS');
 }
 assert.ok(file('src/site-nav.js').includes('data-quiz-open'),'Header quiz launch is missing');
+const navBootstrap=file('src/nav-bootstrap.js');
+assert.ok(navBootstrap.includes('renderSiteNav('),'Lightweight bootstrap must create the navbar');
+assert.ok(navBootstrap.includes('initTheme()')&&navBootstrap.includes('initQuiz()'),'Theme and quiz must work without waiting for 3D');
+for(const page of allSitePages){
+  const html=file(page+'.html');
+  assert.ok(html.includes('href="/nav-critical.css"'),page+' must load header CSS before WebGL');
+  assert.ok(html.includes('src="/src/nav-bootstrap.js"'),page+' must use lightweight navbar entry');
+  assert.ok(html.indexOf('src="/src/nav-bootstrap.js"')<html.indexOf('</head>'),page+' must initialize the navbar before page bundles');
+}
 for(const entry of ['atlas-main.js','element-atlas.js','collection-atlas.js']){
-  assert.ok(file('src/'+entry).includes('initQuiz()'),entry+' should activate quiz');
-  assert.ok(file('src/'+entry).includes("import './final-polish.css'"),entry+' should load final responsive layout');
+  const js=file('src/'+entry);
+  assert.ok(!js.includes('renderSiteNav(')&&!js.includes('initTheme()')&&!js.includes('initQuiz()'),entry+' must not rerender navbar or register duplicate click handlers');
+  assert.ok(js.includes("import './final-polish.css'"),entry+' should load final responsive layout');
 }
 for(let i=0;i<80;i++){
   const q=generateQuizQuestion();
@@ -168,4 +178,14 @@ assert.ok(rangeJS.includes('canvas.width=512;canvas.height=512'),'Range label te
 assert.ok(rangeJS.includes('ctx.fillText(text,256,249,458)'),'Range labels must scale to fit within the placeholder');
 assert.ok(rangeJS.includes('const texture=rangeTexture(text,'),'3D placeholder must use fitted texture, not generic axis label');
 assert.ok(file('src/final-polish.css').includes('.atlas-flat-range{'),'2D placeholder must get a legible style');
+// Performance regression: heavy 3D setup must never delay the cross-page navbar.
+const mainCode=file('src/atlas-main.js');
+assert.ok(mainCode.includes('requestAnimationFrame(()=>requestAnimationFrame(resolve))'),
+ '118 3D tiles should start after the navbar has had time to paint');
+assert.ok(mainCode.includes('let viewerPromise = null;'),'Only one 3D initialization may run');
+assert.ok(mainCode.includes('if(viewerPromise||webglFailed)'),'Prevent duplicate WebGL initialization');
+assert.ok(mainCode.includes("matchMedia('(max-width: 630px)').matches?'2d':'3d'"),'Phones should start in 2D');
+assert.ok(!mainCode.includes('then(()=>viewer?.build())'),'Font loading must not trigger a second expensive texture rebuild');
+assert.ok(file('index.html').includes('id="table-loading"'),'3D loading feedback should be visible');
+assert.ok(file('public/nav-critical.css').includes('.atlas-nav__tabs'),'Critical navbar styles must be standalone');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');

@@ -19,6 +19,8 @@ document.documentElement.setAttribute('data-theme',theme);
 document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#eef4ff':'#080c1d');
 }catch(_){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>  <link rel="icon" type="image/svg+xml" sizes="any" href="./atomic-atlas-logo.svg?v=3" />
+  <link rel="stylesheet" href="/nav-critical.css" />
+  <script type="module" src="/src/nav-bootstrap.js"></script>
 </head>
 <body data-page="table">
   <div id="site-header"></div>
@@ -54,7 +56,7 @@ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme
       </div>
       <div class="atlas-family-cards" id="atlas-family-cards" aria-label="Chú giải phân loại nguyên tố theo màu"></div>
       <div class="atlas-viewport" id="atlas-viewport">
-        <div id="table-webgl" class="atlas-viewport__canvas" role="img" aria-label="Mô hình bảng tuần hoàn hình hộp có thể kéo xoay. Nhấn nguyên tố để mở hồ sơ."></div>
+        <div id="table-webgl" class="atlas-viewport__canvas" role="img" aria-label="Mô hình bảng tuần hoàn hình hộp có thể kéo xoay. Nhấn nguyên tố để mở hồ sơ."><div class="atlas-board-loading" id="table-loading" role="status" aria-live="polite"><span class="atlas-board-loading__spinner" aria-hidden="true"></span><strong>Đang dựng bảng tuần hoàn 3D</strong><small>Bạn vẫn có thể xem bảng mặt phẳng trong lúc tải.</small></div></div>
         <div id="table-flat" class="atlas-viewport__flat" hidden></div>
         <div class="atlas-viewport__corner"><span class="status-dot"></span> <span id="viewport-status">MÔ HÌNH 3D / ĐANG HOẠT ĐỘNG</span></div>
         <div class="atlas-viewport__hint" id="viewport-hint">KÉO XOAY · ＋/－ PHÓNG TO · CHUỘT PHẢI ĐỂ DI CHUYỂN</div>
