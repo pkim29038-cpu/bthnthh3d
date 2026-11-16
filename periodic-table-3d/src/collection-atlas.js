@@ -1,9 +1,6 @@
 import {elements} from './elements.js';
 import {atomicMass,categoryInfo,groupNames,periodNotes,groupElements,periodElements,locationFor,factsFor} from './chemistry.js';
-import {renderSiteNav} from './site-nav.js';
-import {initTheme} from './theme.js';
 import {initMotion} from './motion.js';
-import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './atlas-collection.css';
 import './neon-theme.css';
@@ -21,8 +18,6 @@ const explanation=group?
   'Nhóm là cột đứng trong bảng tuần hoàn. Các nguyên tố cùng nhóm thường có nét tương tự về electron hóa trị và tính chất. Nhóm 3 có nhiều cách quy ước về sự tiếp nối của khối f.':
   periodNotes[n];
 const palette=Object.fromEntries(Object.entries(categoryInfo).map(([key,meta])=>[key,meta.color]));
-$('#site-header').outerHTML=renderSiteNav(group?'group':'period');
-initTheme();
 const root=$('#collection-root');
 const options=Array.from({length:max},(_,i)=>'<option value="'+(i+1)+'" '+(i+1===n?'selected':'')+'>'+(group?'Nhóm ':'Chu kỳ ')+(i+1)+'</option>').join('');
 const states=members.reduce((map,e)=>{const x=factsFor(e).state;map[x]=(map[x]||0)+1;return map;},{});
@@ -57,5 +52,3 @@ $('#collection-select').addEventListener('change',e=>{location.href='./'+(group?
 document.title=title+' — Atlas Nguyên Tố';
 
 initMotion();
-
-initQuiz();
