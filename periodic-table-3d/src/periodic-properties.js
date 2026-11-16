@@ -1811,9 +1811,9 @@ export function fullElectronConfiguration(element){
     if(!m)break;
     const core=Object.entries(periodicProperties).find(([sym])=>sym===m[1]);
     if(!core?.[1]?.config)break;
-    expanded=expanded.replace(m[0],core[1].config);
+    expanded=expanded.replace(m[0],core[1].config+' ');
   }
-  return parseConfigText(expanded);
+  return parseConfigText(expanded.replace(/\s+/g,' ').trim());
 }
 export function compactElectronConfiguration(element){return parseConfigText(propertyFor(element).config);}
 export function standardStateName(element){
