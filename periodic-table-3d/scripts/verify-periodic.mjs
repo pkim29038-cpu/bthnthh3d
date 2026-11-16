@@ -188,4 +188,17 @@ assert.ok(mainCode.includes("matchMedia('(max-width: 630px)').matches?'2d':'3d'"
 assert.ok(!mainCode.includes('then(()=>viewer?.build())'),'Font loading must not trigger a second expensive texture rebuild');
 assert.ok(file('index.html').includes('id="table-loading"'),'3D loading feedback should be visible');
 assert.ok(file('public/nav-critical.css').includes('.atlas-nav__tabs'),'Critical navbar styles must be standalone');
+// Regression: internationally standard English element names across every view.
+assert.equal(elements.length,118);
+assert.equal(new Set(elements.map(e=>e.name)).size,118,'Every element must have a distinct English name');
+assert.ok(elements.every(e=>/^[A-Z][a-z]+$/.test(e.name)),'Primary labels must use English element names, not Vietnamese transcriptions');
+for(const [symbol,name] of Object.entries({H:'Hydrogen',He:'Helium',O:'Oxygen',N:'Nitrogen',Fe:'Iron',Cu:'Copper',Ni:'Nickel',Al:'Aluminium',Cs:'Caesium',S:'Sulfur',W:'Tungsten',Au:'Gold',Og:'Oganesson'})){
+  assert.equal(elements.find(e=>e.symbol===symbol)?.name,name,symbol+' must use the IUPAC English name');
+}
+assert.ok(elements.every(e=>typeof e.viName==='string'&&e.viName.length>0),'Keep old Vietnamese spellings only as search aliases');
+assert.ok(file('src/atlas-main.js').includes('el.viName'),'Search must recognize Vietnamese aliases as well as English');
+assert.ok(file('src/quiz.js').includes('el.name'),'Quiz questions must use the same English names');
+assert.ok(file('src/collection-atlas.js').includes('e.name'),'Group/period cards must use the same English names');
+assert.ok(file('src/element-atlas.js').includes("textContent=el.name"),'Element profile must use the same English names');
+assert.ok(file('src/atlas-main.js').includes('ctx.fillText(name,36,408,448)'),'3D textures must use the shared element name');
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
