@@ -10,6 +10,7 @@ import './atlas-detail.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
 import './final-polish.css';
+import './specimen-lab.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const symbol=new URLSearchParams(location.search).get('symbol')||'Ni';
@@ -41,10 +42,29 @@ $('#quick-facts').innerHTML=kFacts.map(([k,v])=>'<div class="element-quick-fact"
 $('#electron-config').textContent=electronDisplay(el);
 $('#electron-shells').innerHTML=shells.map((n,i)=>'<span><small>LỚP '+(i+1)+'</small><b>'+n+'e⁻</b></span>').join('');
 $('#orbital-diagram').innerHTML=drawOrbitalDiagram(el);
-$('#matter-state').textContent=facts.state.toUpperCase();
+$('#matter-state').textContent=material.state.toUpperCase();
 $('#matter-title').textContent=material.title;
 $('#matter-description').textContent=material.description;
-$('#matter-caution-title').textContent=material.speculative?'CHƯA CÓ MẪU VẬT VĨ MÔ ĐỂ QUAN SÁT':'MÔ HÌNH MINH HỌA';
+$('#matter-specimen-id').textContent='Z '+z+' / '+el.symbol;
+$('#matter-specimen-tags').innerHTML=(material.labels||[]).map(label=>'<span class="matter-specimen-tag">'+esc(label)+'</span>').join('');
+const formNames={
+  'metal-nugget':'Cục kim loại', 'metal-beads':'Hạt kim loại', 'metal-crystal':'Tinh thể kim loại',
+  'metal-rough':'Khối kim loại thô', 'metal-faceted':'Kim loại đa diện',
+  'metal-chip':'Mảnh kim loại', 'metal-cut':'Kim loại mới cắt',
+  'metal-ingot':'Thỏi kim loại', 'metal-foil':'Lá kim loại', 'metal-strip':'Dải kim loại',
+  'crystal-shard':'Mảnh tinh thể', 'crystal-facets':'Tinh thể đa diện',
+  'crystal-cluster':'Cụm tinh thể', 'layered':'Rắn phân lớp',
+  'glassy':'Vật chất dạng thủy tinh', 'powder':'Mẫu hạt rắn',
+  'gas-vessel':'Bình khí kín', 'discharge-tube':'Ống phóng điện',
+  'liquid-vial':'Lọ chất lỏng', 'liquid-droplet':'Giọt chất lỏng',
+  'sealed':'Mẫu trong buồng bảo vệ', 'unobserved':'Chưa có mẫu khối'
+};
+$('#matter-specimen-shape').textContent=formNames[material.kind]||material.kind;
+$('#matter-specimen-confidence').textContent=material.confidence;
+$('#matter-caution-title').textContent=material.speculative?'CHƯA CÓ MẪU VẬT VĨ MÔ ĐƯỢC XÁC NHẬN':'MÔ HÌNH MẪU VẬT MINH HỌA';
+$('#matter-caution-description').textContent=material.speculative
+  ?'Nguyên tố này chưa có mẫu khối được xác nhận để quan sát trực tiếp. Hình 3D chỉ là biểu tượng trừu tượng, tuyệt đối không khẳng định hình dạng thật.'
+  :'Mẫu 3D do phần mềm dựng từ đặc điểm vật lý đã biết, không phải ảnh chụp. Chất tinh khiết không có một hình dạng khối duy nhất; sắc độ, dạng mẫu và độ bóng thay đổi theo điều kiện.';
 const props=[
  ['Trạng thái ở điều kiện thường',facts.state],
  ['Khối lượng riêng',facts.density],
