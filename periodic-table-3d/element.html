@@ -131,9 +131,12 @@ document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme
     </div>
   </section>
   <section class="element-chapter" id="properties">
-    <div class="chapter-intro"><span class="atlas-eyebrow">04 / TÍNH CHẤT VÀ ỨNG DỤNG</span><h2>Từ dữ liệu đến đời sống</h2><p>Chỉ hiển thị thông tin có trong bộ dữ liệu biên soạn, không tự suy diễn các giá trị thiếu.</p></div>
-    <div class="chapter-main"><div class="science-details"><div><h3>Thông số</h3><dl class="science-property-list" id="property-list"></dl></div>
-      <div><h3>Ứng dụng điển hình</h3><div id="element-uses"></div><div id="element-reaction"></div></div></div>
+    <div class="chapter-intro"><span class="atlas-eyebrow">04 / THÔNG SỐ & TÍNH CHẤT</span><h2>Hồ sơ dữ liệu đầy đủ</h2><p>Tất cả các trường thông số đều được hiển thị. Dữ liệu chưa được xác nhận sẽ ghi <strong>---</strong> thay vì bỏ qua hoặc tự suy đoán.</p></div>
+    <div class="chapter-main">
+      <div class="science-property-heading"><div><span class="science-label">DỮ LIỆU NGUYÊN TỐ / 118</span><h3 id="property-heading">Thông số nguyên tố</h3></div><span class="property-reference-badge" id="property-reference-badge">DỮ LIỆU THAM KHẢO</span></div>
+      <div class="science-property-list science-property-catalog" id="property-list" aria-label="Toàn bộ thông số nguyên tố"></div>
+      <p class="property-source-note">Nguồn dữ liệu: <a href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/" target="_blank" rel="noopener noreferrer">PubChem (NLM/NCBI)</a> và <a href="https://github.com/Bowserinator/Periodic-Table-JSON" target="_blank" rel="noopener noreferrer">Periodic-Table-JSON</a> (CC BY-SA 3.0); chú giải lịch sử Rhenium từ <a href="https://periodic-table.rsc.org/element/75/rhenium" target="_blank" rel="noopener noreferrer">Royal Society of Chemistry</a>. Nhiệt độ được quy đổi từ Kelvin; bán kính theo quy ước của nguồn PubChem, có thể khác giá trị bán kính thực nghiệm/cộng hóa trị ở nguồn khác. Dữ liệu một số nguyên tố siêu nặng có thể là dự đoán.</p>
+      <div class="science-application-panel"><div><span class="science-label">ỨNG DỤNG</span><h3>Ứng dụng điển hình</h3><div id="element-uses"></div></div><div id="element-reaction"></div></div>
       <div class="knowledge-section" id="knowledge-section">
         <span class="science-label">TÌM HIỂU SÂU HƠN</span>
         <h3>Đọc hiểu nguyên tố này</h3>

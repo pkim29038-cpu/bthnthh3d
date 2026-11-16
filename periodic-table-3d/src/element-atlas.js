@@ -5,12 +5,14 @@ import {MaterialViz,materialInfo} from './material-viz.js';
 import {initAtomLab} from './atom-lab.js';
 import {initMoleLab} from './mole-lab.js';
 import {initMotion} from './motion.js';
+import {propertySheet,EMPTY_PROPERTY} from './element-property-sheet.js';
 import './atlas.css';
 import './atlas-detail.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
 import './final-polish.css';
 import './specimen-lab.css';
+import './property-catalog.css';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const symbol=new URLSearchParams(location.search).get('symbol')||'Ni';
@@ -65,17 +67,17 @@ $('#matter-caution-title').textContent=material.speculative?'CHƯA CÓ MẪU V�
 $('#matter-caution-description').textContent=material.speculative
   ?'Nguyên tố này chưa có mẫu khối được xác nhận để quan sát trực tiếp. Hình 3D chỉ là biểu tượng trừu tượng, tuyệt đối không khẳng định hình dạng thật.'
   :'Mẫu 3D do phần mềm dựng từ đặc điểm vật lý đã biết, không phải ảnh chụp. Chất tinh khiết không có một hình dạng khối duy nhất; sắc độ, dạng mẫu và độ bóng thay đổi theo điều kiện.';
-const props=[
- ['Trạng thái ở điều kiện thường',facts.state],
- ['Khối lượng riêng',facts.density],
- ['Độ âm điện (Pauling)',facts.electro],
- ['Bán kính nguyên tử',facts.radius],
- ['Nhiệt độ nóng chảy',facts.melting],
- ['Nhiệt độ sôi',facts.boiling],
- ['Số oxi hóa thường gặp',facts.oxidation],
- ['Phát hiện',facts.discovery]
-].filter(([,v],i)=>i===0||Boolean(v));
-$('#property-list').innerHTML=props.map(([k,v])=>'<div class="science-property"><dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd></div>').join('');
+const sheet=propertySheet(el);
+$('#property-heading').textContent='Thông số '+el.name+' ('+el.symbol+')';
+$('#property-reference-badge').textContent='Z '+String(el.number).padStart(3,'0')+' / 118';
+$('#property-list').innerHTML=sheet.groups.map(group=>
+  '<section class="property-catalog-group" aria-label="'+esc(group.title)+'">'+
+   '<header class="property-catalog-group__header"><div><span class="science-label">'+esc(group.subtitle)+'</span><h4>'+esc(group.title)+'</h4></div><span>'+group.entries.length+' thông số</span></header>'+
+   '<dl class="property-catalog-rows">'+
+   group.entries.map(field=>'<div class="property-catalog-row'+(field.missing?' is-missing':'')+'"><dt>'+esc(field.label)+'</dt><dd>'+esc(field.value)+'</dd></div>').join('')+
+   '</dl>'+
+  '</section>'
+).join('');
 const info=[
   ['Phân loại',categoryInfo[el.category].description],
   ['Cấu trúc hạt','Nguyên tử trung hòa của '+el.name+' có '+el.number+' proton trong hạt nhân và '+el.number+' electron xung quanh. Số neutron phụ thuộc đồng vị cụ thể.'],
@@ -83,7 +85,7 @@ const info=[
   ['Lớp electron ngoài cùng','Trong cách phân bố electron đang dùng, lớp ngoài cùng có '+shells.at(-1)+' electron. Với kim loại chuyển tiếp và các nguyên tố nặng, không nên đồng nhất số này với mọi hóa trị.']
 ];
 $('#element-knowledge').innerHTML=info.map(([title,text])=>'<article class="knowledge-item"><strong>'+esc(title)+'</strong><p>'+esc(text)+'</p></article>').join('');
-$('#element-uses').innerHTML=(facts.uses&&facts.uses.length)?'<ul class="science-uses">'+facts.uses.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p class="science-empty">Chưa có ứng dụng riêng đã được biên soạn cho nguyên tố này.</p>';
+$('#element-uses').innerHTML=sheet.uses.length?'<ul class="science-uses">'+sheet.uses.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p class="science-empty">'+EMPTY_PROPERTY+'</p>';
 if(reaction){
   $('#element-reaction').innerHTML='<div class="science-reaction"><span class="science-label">PHƯƠNG TRÌNH VÍ DỤ (LÝ THUYẾT)</span><div class="reaction-animated"><div class="reaction-beaker" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><div><strong>'+esc(reaction.equation)+'</strong><p>'+esc(reaction.note)+'</p></div></div>'+
     (reaction.oxidation&&reaction.reduction?'<div class="redox-equations"><div><small>QUÁ TRÌNH OXI HÓA</small><b>'+esc(reaction.oxidation)+'</b></div><div><small>QUÁ TRÌNH KHỬ</small><b>'+esc(reaction.reduction)+'</b></div></div>':'')+'</div>';
