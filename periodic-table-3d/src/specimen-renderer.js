@@ -229,7 +229,7 @@ export class MaterialViz {
       opacity:discharge?.54:.28,depthWrite:false
     });
     const particles=[];
-    for(let i=0;i<discharge?44:34;i++){
+    for(let i=0;i<(discharge?44:34);i++){
       const angle=r()*Math.PI*2,rr=Math.sqrt(r())*1.05;
       const p=this.add(new THREE.SphereGeometry(.025+r()*.035,9,7),faint,Math.cos(angle)*rr,-.94+r()*2.04,Math.sin(angle)*rr);
       particles.push({p,y:p.position.y,speed:.23+r()*.35,phase:r()*Math.PI*2});
