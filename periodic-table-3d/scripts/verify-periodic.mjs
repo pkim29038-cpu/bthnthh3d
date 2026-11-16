@@ -9,6 +9,8 @@ import {generateQuizQuestion} from '../src/quiz.js';
 import {orbitalOptions,orbitalPoint} from '../src/orbital-cloud.js';
 import {AVOGADRO,molarWeight,massFromMoles,countParticles,sampleVolume,scientificCount} from '../src/mole-lab.js';
 import {categoryInfo,factsFor} from '../src/chemistry.js';
+import {propertySheet,EMPTY_PROPERTY} from '../src/element-property-sheet.js';
+import {periodicProperties,fullElectronConfiguration,compactElectronConfiguration,standardStateName} from '../src/periodic-properties.js';
 const file=path=>readFileSync(new URL('../'+path,import.meta.url),'utf8');
 
 assert.equal(elements.length,118);
@@ -223,4 +225,46 @@ assert.ok(specimenRenderer.includes("case 'unobserved'"),'Unobserved elements mu
 assert.ok(file('element.html').includes('id="matter-specimen-tags"'),'Element detail should show the sample labels');
 assert.ok(file('element.html').includes('id="matter-specimen-confidence"'),'Sample confidence should be transparent');
 assert.ok(file('src/element-atlas.js').includes("import './specimen-lab.css'"),'Specimen gallery CSS should load');
+// Every one of the 118 elements must render EVERY reference property field.
+assert.equal(Object.keys(periodicProperties).length,118);
+const allSheets=elements.map(propertySheet);
+assert.ok(allSheets.every(sheet=>sheet.groups.length===4));
+const counts=allSheets.map(sheet=>sheet.groups.reduce((sum,g)=>sum+g.entries.length,0));
+assert.ok(counts.every(c=>c===27),'Property sections must always show 27 fields, even when values are missing');
+assert.ok(allSheets.every(sheet=>sheet.groups.every(g=>g.entries.every(e=>typeof e.value==='string'&&e.value.length>0))),
+  'Never omit or empty any property value');
+assert.ok(allSheets.every(sheet=>sheet.groups.every(g=>g.entries.every(e=>!e.missing||e.value===EMPTY_PROPERTY))),
+  'Unavailable data must appear exactly as ---');
+const re=allSheets.find(sheet=>sheet.symbol==='Re');
+const reValues=Object.fromEntries(re.groups.flatMap(g=>g.entries.map(e=>[e.label,e.value])));
+assert.equal(reValues['Số hiệu nguyên tử (Z)'],'75');
+assert.equal(reValues['Ký hiệu hóa học'],'Re');
+assert.equal(reValues['Tên quốc tế (IUPAC)'],'Rhenium');
+assert.equal(reValues['Độ âm điện (Pauling)'],'1,9');
+assert.equal(reValues['Trạng thái ở điều kiện thường'],'Rắn');
+assert.equal(reValues['Số lớp electron'],'6');
+assert.equal(reValues['Khối lượng riêng'],'20,8 g/cm³');
+assert.equal(reValues['Oxit tiêu biểu'],'Re₂O₇');
+assert.equal(reValues['Hydroxide tiêu biểu'],EMPTY_PROPERTY,'HReO4 is an oxoacid, not a hydroxide');
+assert.equal(reValues['Axit oxo tương ứng'],'HReO₄');
+assert.ok(reValues['Cấu hình electron rút gọn'].includes('[Xe]'));
+assert.ok(reValues['Cấu hình electron đầy đủ'].includes('1s²'));
+assert.ok(re.uses.length>0,'Rhenium should have sourced uses');
+assert.equal(standardStateName(elements.find(e=>e.symbol==='Og')),null,
+  'A predicted gas state is not a verified standard state');
+const og=allSheets.find(sheet=>sheet.symbol==='Og');
+const ogFields=Object.fromEntries(og.groups.flatMap(g=>g.entries.map(e=>[e.label,e.value])));
+assert.equal(ogFields['Khối lượng riêng'],EMPTY_PROPERTY);
+assert.equal(ogFields['Bán kính nguyên tử (PubChem)'],EMPTY_PROPERTY);
+assert.equal(ogFields['Nhiệt độ nóng chảy'],EMPTY_PROPERTY);
+assert.equal(ogFields['Độ âm điện (Pauling)'],EMPTY_PROPERTY);
+const h=allSheets.find(sheet=>sheet.symbol==='H');
+const hFields=Object.fromEntries(h.groups.flatMap(g=>g.entries.map(e=>[e.label,e.value])));
+assert.equal(hFields['Khối lượng riêng'],'0,08988 g/L');
+assert.ok(file('src/element-atlas.js').includes('sheet.groups.map(group=>'));
+assert.ok(file('element.html').includes('id="property-list"'));
+assert.ok(file('src/element-atlas.js').includes("import './property-catalog.css'"));
+assert.ok(!file('src/element-atlas.js').includes("].filter(([,v],i)=>i===0||Boolean(v))"),
+  'Never filter missing properties out of the UI');
+
 console.log('✓ 118 elements · 18 groups · 7 periods · box orbitals · 3D samples · single nav · light/dark');
