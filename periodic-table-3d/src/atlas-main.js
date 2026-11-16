@@ -2,10 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { elements } from './elements.js';
 import { atomicMass, categoryInfo, locationFor, factsFor } from './chemistry.js';
-import { renderSiteNav } from './site-nav.js';
-import { initTheme } from './theme.js';
 import { initMotion } from './motion.js';
-import {initQuiz} from './quiz.js';
 import './atlas.css';
 import './neon-theme.css';
 import './neon-enhancements.css';
@@ -14,8 +11,6 @@ import './final-polish.css';
 const $ = q => document.querySelector(q);
 const PALETTE = Object.fromEntries(Object.entries(categoryInfo).map(([key, value]) => [key, value.color]));
 const doc = document.documentElement;
-$('#site-header').outerHTML = renderSiteNav('table');
-initTheme();
 
 let mode = '3d';
 let viewer = null;
@@ -388,7 +383,5 @@ setMode(!webglAvailable||matchMedia('(max-width: 630px)').matches?'2d':'3d');
 filter();
 
 initMotion();
-
-initQuiz();
 
 if(document.fonts?.load){document.fonts.load('700 16px "Be Vietnam Pro"').then(()=>viewer?.build()).catch(()=>{});}
